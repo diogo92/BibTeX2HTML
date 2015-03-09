@@ -6,6 +6,9 @@ A tool to parse bibtex files and output the bibliographical entries in HTML
   
 ## Important links
 
-*  [Bib files definition](http://nwalsh.com/tex/texhelp/bibtx-4.html)  
+*  [Bib files definition](http://nwalsh.com/tex/texhelp/bibtx-4.html)
+*  Bib files examples
+   *  [Example 1 (template)](http://www.math.duke.edu/computing/tex/templates/template.bib)
+   *  [Example 2](http://www.math.duke.edu/computing/tex/templates/database.bib)
 *  [FreeMarker](http://freemarker.org/)
 *  [FreeMarker Programmer's Guide ](http://freemarker.org/docs/pgui.html)

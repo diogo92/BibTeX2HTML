@@ -1,10 +1,12 @@
 /**
  * JJTree template file created by SF JavaCC plugin 1.5.28+ wizard for JavaCC 1.5.0+
- */options{  static = true;}PARSER_BEGIN(BibParser)package parser;
+ */options{  static = true;
+  IGNORE_CASE = true;}PARSER_BEGIN(BibParser)package parser;
 
 public class BibParser{  public static void main(String args [])  {    System.out.println("Reading from standard input.");    System.out.print("» ");    new BibParser(System.in);    try    {      SimpleNode n = BibParser.Start();      n.dump("");      System.out.println("Expression accepted.");    }    catch (Exception e)    {      System.out.println("Error.");      System.out.println(e.getMessage());    }  }}PARSER_END(BibParser)SKIP :{  " "| "\t"| "\r"}TOKEN :{
   < INTEGER : < DIGIT >(< DIGIT >)* >
 | < #DIGIT : ["0"-"9"] >
 | < WORD : < LETTER >(< LETTER > | < INTEGER >)* >
 | < #LETTER : ["a"-"z","A"-"Z"] >
-| < LF : "\n" >}SimpleNode Start() :{}{  ("@" Expression())+ < LF >  {    return jjtThis;  }}void Expression() :{}{  < WORD >"{"  "}"}
+| < LF : "\n" >
+| < STRING : "STRING" >}SimpleNode Start() :{}{  ("@" Command())+ < LF >  {    return jjtThis;  }}void Command() :{}{  < WORD >"{"  "}"}

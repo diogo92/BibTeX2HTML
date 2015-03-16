@@ -3,10 +3,56 @@
  */options{  static = true;
   IGNORE_CASE = true;}PARSER_BEGIN(BibParser)package parser;
 
-public class BibParser{  public static void main(String args [])  {    System.out.println("Reading from standard input.");    System.out.print("» ");    new BibParser(System.in);    try    {      SimpleNode n = BibParser.Start();      n.dump("");      System.out.println("Expression accepted.");    }    catch (Exception e)    {      System.out.println("Error.");      System.out.println(e.getMessage());    }  }}PARSER_END(BibParser)SKIP :{  " "| "\t"| "\r"}TOKEN :{
-  < INTEGER : < DIGIT >(< DIGIT >)* >
+public class BibParser{  public static void main(String args [])  {    System.out.println("Reading from standard input.");    System.out.print("» ");    new BibParser(System.in);    try    {      SimpleNode n = BibParser.Start();      n.dump("");    }    catch (Exception e)    {      System.out.println("Error.");      System.out.println(e.getMessage());    }  }}PARSER_END(BibParser)SKIP :{  " "| "\t"| "\r"
+| "\n"}
+
+// WARNING!
+// Token < TYPE > must come before than token < WORD >
+TOKEN :{
+ < TYPE : < STRING > | < ARTICLE > | < BOOK > | < BOOKLET >
+ 		| < CONFERENCE > | < INBOOK > | < INCOLLECTION >
+ 		| < INPROCEEDINGS > | < MANUAL > | < MASTERTHESIS >
+ 		| < MISC > | < PHDTHESIS > | < PROCEEDINGS >
+ 		| < TECHREPORT > | < UNPUBLISHED >
+ >
+| < STRING : "STRING" >
+| < ARTICLE : "ARTICLE" >
+| < BOOK : "BOOK" >
+| < BOOKLET : "BOOKLET" >
+| < CONFERENCE : "CONFERENCE" >
+| < INBOOK : "INBOOK" >
+| < INCOLLECTION : "INCOLLECTION" >
+| < INPROCEEDINGS : "INPROCEEDINGS" >
+| < MANUAL : "MANUAL" >
+| < MASTERTHESIS : "MASTERTHESIS" >
+| < MISC : "MISC" >
+| < PHDTHESIS : "PHDTHESIS" >
+| < PROCEEDINGS : "PROCEEDINGS" >
+| < TECHREPORT : "TECHREPORT" >
+| < UNPUBLISHED : "UNPUBLISHED" >
+| < INTEGER : < DIGIT >(< DIGIT >)* >
 | < #DIGIT : ["0"-"9"] >
 | < WORD : < LETTER >(< LETTER > | < INTEGER >)* >
 | < #LETTER : ["a"-"z","A"-"Z"] >
-| < LF : "\n" >
-| < STRING : "STRING" >}SimpleNode Start() :{}{  ("@" Command())+ < LF >  {    return jjtThis;  }}void Command() :{}{  < WORD >"{"  "}"}
+}SimpleNode Start() :{}{  ("@" Command())+ ";" // ";" Temporary, just for testing purposes  {    return jjtThis;  }}void Command() :{
+  Token type;
+}{  type = < TYPE >  {
+    try    {		switch(type.image.toString().toLowerCase())		{			case "book":
+				BookData();
+			break;
+			default:
+				throw new TokenException("TOKEN " + type.image.toString().toLowerCase() + " not defined");
+			break;
+		}
+	}
+	catch(Exception e)
+    {
+      System.out.println("Error.");
+      System.out.println(e.getMessage());
+    }
+  }}
+
+void BookData() :{}
+{ "{"
+ 
+ "}"}

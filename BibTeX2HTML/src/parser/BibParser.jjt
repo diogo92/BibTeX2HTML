@@ -3,7 +3,7 @@
  */options{  static = true;
   IGNORE_CASE = true;}PARSER_BEGIN(BibParser)package parser;
 
-public class BibParser{  public static void main(String args [])  {    System.out.println("Reading from standard input.");    System.out.print("» ");    new BibParser(System.in);    try    {      SimpleNode n = BibParser.Start();      n.dump("");    }    catch (Exception e)    {      System.out.println("Error.");      System.out.println(e.getMessage());    }  }}PARSER_END(BibParser)SKIP :{  " "| "\t"| "\r"
+public class BibParser{  public static void main(String args [])  {    System.out.println("Reading from standard input.");    System.out.print("» ");    new BibParser(System.in);    try    {      SimpleNode n = BibParser.Start();      n.dump("");    }    catch (Exception e)    {      System.out.println("Error: " + e.getMessage());    }  }}PARSER_END(BibParser)SKIP :{  " "| "\t"| "\r"
 | "\n"}
 
 // WARNING!
@@ -15,33 +15,40 @@ public class BibParser{  public static void main(String args [])  {    Syste
  		| < MISC > | < PHDTHESIS > | < PROCEEDINGS >
  		| < TECHREPORT > | < UNPUBLISHED >
  >
-| < STRING : "STRING" >
-| < ARTICLE : "ARTICLE" >
-| < BOOK : "BOOK" >
-| < BOOKLET : "BOOKLET" >
-| < CONFERENCE : "CONFERENCE" >
-| < INBOOK : "INBOOK" >
-| < INCOLLECTION : "INCOLLECTION" >
-| < INPROCEEDINGS : "INPROCEEDINGS" >
-| < MANUAL : "MANUAL" >
-| < MASTERTHESIS : "MASTERTHESIS" >
-| < MISC : "MISC" >
-| < PHDTHESIS : "PHDTHESIS" >
-| < PROCEEDINGS : "PROCEEDINGS" >
-| < TECHREPORT : "TECHREPORT" >
-| < UNPUBLISHED : "UNPUBLISHED" >
+| < #STRING : "STRING" >
+| < #ARTICLE : "ARTICLE" >
+| < #BOOK : "BOOK" >
+| < #BOOKLET : "BOOKLET" >
+| < #CONFERENCE : "CONFERENCE" >
+| < #INBOOK : "INBOOK" >
+| < #INCOLLECTION : "INCOLLECTION" >
+| < #INPROCEEDINGS : "INPROCEEDINGS" >
+| < #MANUAL : "MANUAL" >
+| < #MASTERTHESIS : "MASTERTHESIS" >
+| < #MISC : "MISC" >
+| < #PHDTHESIS : "PHDTHESIS" >
+| < #PROCEEDINGS : "PROCEEDINGS" >
+| < #TECHREPORT : "TECHREPORT" >
+| < #UNPUBLISHED : "UNPUBLISHED" >
+| < AUTHOR : "AUTHOR" >
+| < TITLE : "TITLE" >
+| < JOURNAL : "JOURNAL" >
+| < YEAR : "YEAR" >
 | < INTEGER : < DIGIT >(< DIGIT >)* >
 | < #DIGIT : ["0"-"9"] >
 | < WORD : < LETTER >(< LETTER > | < INTEGER >)* >
 | < #LETTER : ["a"-"z","A"-"Z"] >
 }SimpleNode Start() :{}{  ("@" Command())+ ";" // ";" Temporary, just for testing purposes  {    return jjtThis;  }}void Command() :{
   Token type;
-}{  type = < TYPE >  {
-    try    {		switch(type.image.toString().toLowerCase())		{			case "book":
-				BookData();
+}{  type = < TYPE > "{"      {
+    try    {		switch(type.image.toString().toLowerCase())		{
+		  case "article":
+		  	ArticleData();
+			break;		  case "book":
+			//BookData();
 			break;
-			default:
-				throw new TokenException("TOKEN " + type.image.toString().toLowerCase() + " not defined");
+		  default:
+			throw new TokenException("TOKEN " + type.image.toString().toLowerCase() + " not defined");
 			break;
 		}
 	}
@@ -50,9 +57,42 @@ public class BibParser{  public static void main(String args [])  {    Syste
       System.out.println("Error.");
       System.out.println(e.getMessage());
     }
-  }}
+  }
+  "}"}
 
-void BookData() :{}
-{ "{"
- 
- "}"}
+
+void ArticleData() :
+{
+  Token citation_key = null;
+  Token author = null;
+  Token title = null;
+  Token journal = null;
+  Token year = null;
+  Token volume = null;
+  Token number = null;
+  Token pages = null;
+  Token month = null;
+  Token note = null;
+  Token key = null;
+}
+{
+  < WORD > ("," (< AUTHOR > "=" author = < WORD > | < TITLE > "=" title = < WORD > | < JOURNAL > "=" journal = < WORD > | < YEAR > "=" year = < INTEGER >))+
+  {
+    try    {
+	    if(author == null || title == null || journal == null || year == null)	    {
+	      throw new TokenException("AUTHOR, TITLE, JOURNAL and YEAR are mandatory in @ARTICLE entry");
+	    }
+	    else	    {
+	      
+	    }
+	}
+	catch(Exception e)
+    {
+      System.out.println("Error: " + e.getMessage());
+    }
+  }
+}
+
+/*void BookData() :{}
+{}
+*/

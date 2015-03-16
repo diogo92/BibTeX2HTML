@@ -1,7 +1,12 @@
 package parser;
 
 public class TokenException extends Exception {
-    public TokenException(String msg) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7634946815029774901L;
+
+	public TokenException(String msg) {
         super(msg);
     }
 }

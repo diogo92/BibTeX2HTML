@@ -11,11 +11,11 @@ import data.ArticleData;
 import reader.FileReader;
 
 public class BibParser{
-  public Vector< BibData > data;  public static void main(String args [])  {    System.out.println("File to be parsed:");    System.out.print("» ");
+  public Vector< BibData > data;  public static void main(String args [])  {    System.out.println("File to be parsed:");    System.out.print(">> ");
     Scanner sc = new Scanner(System.in);
     String file = sc.nextLine();
         try    {
-      new BibParser(FileReader.getFile(file));      SimpleNode n = BibParser.Start();      n.dump("» ");    }    catch (Exception e)    {      System.out.println("Error: " + e.getMessage());    }  }}PARSER_END(BibParser)SKIP :{  " "| "\t"| "\r"
+      new BibParser(FileReader.getFile(file));      SimpleNode n = BibParser.Start();      n.dump(">>  ");    }    catch (Exception e)    {      System.out.println("Error: " + e.getMessage());    }  }}PARSER_END(BibParser)SKIP :{  " "| "\t"| "\r"
 | "\n"}
 
 // WARNING!

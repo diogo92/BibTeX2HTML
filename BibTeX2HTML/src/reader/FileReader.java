@@ -20,14 +20,12 @@ public class FileReader {
 		else return true;
 		
 	}
-	public static InputStream getFile(String file) throws FileNotFoundException{
+	public static InputStream getFile(String file) throws FileNotFoundException,FileException{
 		if (file==""){
-			System.out.println("File name error");
-			System.exit(-1);
+			throw new FileException("Empty filename");
 		}
 		if (!checkExtension(file)){
-			System.out.println("Please select a file with the .bib extension");
-			System.exit(-1);
+			throw new FileException("Please select a file with the .bib extension");
 		}
 		return new FileInputStream(new File(file));
 	}

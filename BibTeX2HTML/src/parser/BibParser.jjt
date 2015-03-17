@@ -4,11 +4,18 @@
   IGNORE_CASE = true;}PARSER_BEGIN(BibParser)package parser;
 
 import java.util.Vector;
+import java.util.Scanner;
+
 import data.BibData;
 import data.ArticleData;
+import reader.FileReader;
 
 public class BibParser{
-  public Vector< BibData > data;  public static void main(String args [])  {    System.out.println("Reading from standard input.");    System.out.print("» ");    new BibParser(System.in);    try    {      SimpleNode n = BibParser.Start();      n.dump("");    }    catch (Exception e)    {      System.out.println("Error: " + e.getMessage());    }  }}PARSER_END(BibParser)SKIP :{  " "| "\t"| "\r"
+  public Vector< BibData > data;  public static void main(String args [])  {    System.out.println("File to be parsed:");    System.out.print("» ");
+    Scanner sc = new Scanner(System.in);
+    String file = sc.nextLine();
+        try    {
+      new BibParser(FileReader.getFile(file));      SimpleNode n = BibParser.Start();      n.dump("» ");    }    catch (Exception e)    {      System.out.println("Error: " + e.getMessage());    }  }}PARSER_END(BibParser)SKIP :{  " "| "\t"| "\r"
 | "\n"}
 
 // WARNING!
@@ -51,7 +58,7 @@ public class BibParser{
 | < QUOTED_TEXT : "\""(" " | < WORD >)+"\"" > 
 | < WORD : < LETTER >(< LETTER > | < INTEGER >)* >
 | < #LETTER : ["a"-"z","A"-"Z"] >
-}SimpleNode Start() :{}{  ("@" Command())+ ";" // ";" Temporary, just for testing purposes  {    return jjtThis;  }}void Command() :{
+}SimpleNode Start() :{}{  ("@" Command())+ < EOF >  {    return jjtThis;  }}void Command() :{
   Token type;
 }{  type = < TYPE > "{"      {
     try    {		switch(type.image.toString().toLowerCase())		{

@@ -11,14 +11,22 @@ public class FileReader {
 	static ArrayList <String> entry = new ArrayList<String>();
 	static String current;
 	
-	
-	public boolean checkExtension(String file){
-		String bibExt = file.substring(file.lastIndexOf(".") + 1, file.length());
-		return false;
+	public static boolean checkExtension(String file){
+		String bibExt = "bib";
+		String ext = file.substring(file.lastIndexOf(".") + 1, file.length());
+		if(!bibExt.equals(ext)){
+			return false;
+		}
+		else return true;
+		
 	}
 	public static InputStream getFile(String file) throws FileNotFoundException{
 		if (file==""){
 			System.out.println("File name error");
+			System.exit(-1);
+		}
+		if (!checkExtension(file)){
+			System.out.println("Please select a file with the .bib extension");
 			System.exit(-1);
 		}
 		return new FileInputStream(new File(file));

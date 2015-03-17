@@ -3,7 +3,12 @@
  */options{  static = true;
   IGNORE_CASE = true;}PARSER_BEGIN(BibParser)package parser;
 
-public class BibParser{  public static void main(String args [])  {    System.out.println("Reading from standard input.");    System.out.print("» ");    new BibParser(System.in);    try    {      SimpleNode n = BibParser.Start();      n.dump("");    }    catch (Exception e)    {      System.out.println("Error: " + e.getMessage());    }  }}PARSER_END(BibParser)SKIP :{  " "| "\t"| "\r"
+import java.util.Vector;
+import data.BibData;
+import data.ArticleData;
+
+public class BibParser{
+  public Vector< BibData > data;  public static void main(String args [])  {    System.out.println("Reading from standard input.");    System.out.print("» ");    new BibParser(System.in);    try    {      SimpleNode n = BibParser.Start();      n.dump("");    }    catch (Exception e)    {      System.out.println("Error: " + e.getMessage());    }  }}PARSER_END(BibParser)SKIP :{  " "| "\t"| "\r"
 | "\n"}
 
 // WARNING!
@@ -34,6 +39,13 @@ public class BibParser{  public static void main(String args [])  {    Syste
 | < TITLE : "TITLE" >
 | < JOURNAL : "JOURNAL" >
 | < YEAR : "YEAR" >
+| < VOLUME : "VOLUME" >
+| < NUMBER : "NUMBER" >
+| < PAGES : "PAGES" >
+| < PAGES_V : < INTEGER > "-" < INTEGER > | < INTEGER > "--" < INTEGER > >
+| < MONTH : "MONTH" >
+| < NOTE : "NOTE" >
+| < KEY : "KEY" >
 | < INTEGER : < DIGIT >(< DIGIT >)* >
 | < #DIGIT : ["0"-"9"] >
 | < WORD : < LETTER >(< LETTER > | < INTEGER >)* >
@@ -54,8 +66,7 @@ public class BibParser{  public static void main(String args [])  {    Syste
 	}
 	catch(Exception e)
     {
-      System.out.println("Error.");
-      System.out.println(e.getMessage());
+      System.out.println("Error: " + e.getMessage());
     }
   }
   "}"}
@@ -76,14 +87,32 @@ void ArticleData() :
   Token key = null;
 }
 {
-  < WORD > ("," (< AUTHOR > "=" author = < WORD > | < TITLE > "=" title = < WORD > | < JOURNAL > "=" journal = < WORD > | < YEAR > "=" year = < INTEGER >))+
+  citation_key = < WORD > ("," (< AUTHOR > "=" author = < WORD > | < TITLE > "=" title = < WORD > | < JOURNAL > "=" journal = < WORD > | < YEAR > "=" year = < INTEGER >))+ ("," (< VOLUME > "=" volume = < INTEGER > | < NUMBER > "=" number = < WORD > | < PAGES > "=" pages = < PAGES_V > | < MONTH > "=" month = < WORD > | < NOTE > "=" note = < WORD > | < KEY > "=" key = < WORD >))*
   {
     try    {
 	    if(author == null || title == null || journal == null || year == null)	    {
 	      throw new TokenException("AUTHOR, TITLE, JOURNAL and YEAR are mandatory in @ARTICLE entry");
 	    }
 	    else	    {
-	      
+	      ArticleData art = new ArticleData();
+	      art.citationKey = citation_key.image;
+	      art.author = author.image;
+	      art.title = title.image;
+	      art.journal = journal.image;
+	      art.year = Integer.valueOf(year.image);
+	      if(volume != null)
+	      	art.volume = Integer.valueOf(volume.image);
+	      if(number != null)
+	      	art.number = Integer.valueOf(number.image);
+	      if(pages != null)
+	      	art.pages = pages.image;
+	      if(month != null)
+	      	art.month = month.image;
+	      if(note != null)
+	      	art.note = note.image;
+	      if(key != null)
+	      	art.key = key.image;
+	      System.out.println(art.toString());
 	    }
 	}
 	catch(Exception e)

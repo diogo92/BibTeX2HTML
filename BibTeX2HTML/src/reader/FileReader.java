@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class FileReader {
@@ -13,6 +12,10 @@ public class FileReader {
 	static String current;
 	
 	
+	public boolean checkExtension(String file){
+		String bibExt = file.substring(file.lastIndexOf(".") + 1, file.length());
+		return false;
+	}
 	public static InputStream getFile(String file) throws FileNotFoundException{
 		if (file==""){
 			System.out.println("File name error");

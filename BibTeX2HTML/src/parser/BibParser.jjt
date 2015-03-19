@@ -11,7 +11,9 @@ import data.ArticleData;
 import reader.FileReader;
 
 public class BibParser{
-  public Vector< BibData > data;  public static void main(String args [])  {    System.out.println("File to be parsed:");    System.out.print(">> ");
+  public Vector< BibData > data;
+  public static void main(String args [])  {	start(args);
+  }  public static void start(String args [])  {    System.out.println("File to be parsed:");    System.out.print(">> ");
     Scanner sc = new Scanner(System.in);
     String file = sc.nextLine();
         try    {

@@ -37,12 +37,16 @@ public class HTMLWriter {
 	    // Set what to write on $title tags
 	    input.put("title", "Bibliographic References");
 	    
-	    // Set what to write on $data tags
-	    ArticleData d1 = new ArticleData("chave", "Joao", "Titulo Com Espacos", "Journal Com Espacos", 1993);
-	    input.put("ArticleData", d1);
+	    //TODO: Take data into consideration
+	    //TODO: Make versions for other types
 	    
-	    //TODO: Parsing for Generic data structure
-	    //TODO: -> Requires data storage done
+	    // Set what to write on $ArticleData tags
+	    List<ArticleData> ArticleList = new ArrayList<ArticleData>();
+	    ArticleList.add(new ArticleData("chave", "Joao", "Titulo Com Espacos", "Journal Com Espacos", 1993));
+	    ArticleList.add(new ArticleData("chave", "Joao", "Titulo Com Espacos", "Journal Com Espacos", 1993));
+	    ArticleList.add(new ArticleData("chave", "Joao", "Titulo Com Espacos", "Journal Com Espacos", 1993));
+	    ArticleList.add(new ArticleData("chave", "Joao", "Titulo Com Espacos", "Journal Com Espacos", 1993));
+	    input.put("ArticleList", ArticleList);
 	    
 	    // Write output to Console
 	    Writer consoleWriter = new OutputStreamWriter(System.out);

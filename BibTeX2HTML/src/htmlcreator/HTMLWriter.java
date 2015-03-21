@@ -29,7 +29,7 @@ public class HTMLWriter {
 		cfg.setClassForTemplateLoading(HTMLWriter.class, "templates");
 		
 		// Choose Template
-	    Template currentTemplate = cfg.getTemplate("Basic.ftl");
+	    Template currentTemplate = cfg.getTemplate("Article.ftl");
 	    
 	    // Template Input Example
 	    Map<String, Object> input = new HashMap<String, Object>();

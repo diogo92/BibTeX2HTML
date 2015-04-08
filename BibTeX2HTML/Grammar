@@ -2,7 +2,7 @@ Start -> "@" Command
 
 Command -> TYPE "{" Content "}"
 
-Content -> C1 Content
+Content -> C1 "," Content
 	| C1
 
 C1 -> AUTHOR

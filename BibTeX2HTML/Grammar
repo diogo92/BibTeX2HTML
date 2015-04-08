@@ -1,0 +1,18 @@
+Start -> "@" Command
+
+Command -> TYPE "{" Content "}"
+
+Content -> C1 Content
+	| C1
+
+C1 -> AUTHOR
+	| TITLE
+	| JOURNAL
+	| YEAR
+	| VOLUME
+	| NUMBER
+	| PAGES
+	| PAGES_V
+	| MONTH
+	| NOTE
+	| KEY

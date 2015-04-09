@@ -37,15 +37,15 @@ public class BookletData extends BibData {
 	}
 	
 	// Full Data Constructor
-	public BookletData(String ck, String a, String t, String j, 
+	public BookletData(String ck, String a, String t, String hp, 
 			Integer y,
-			String pa, String mo, String no, String k){
+			String ad, String mo, String no, String k){
 		citationKey = ck;
 		author = a;
 		title = t;
-		howpublished = j;
+		howpublished = hp;
 		year = y;
-		address = pa;
+		address = ad;
 		month = mo;
 		note = no;
 		key = k;

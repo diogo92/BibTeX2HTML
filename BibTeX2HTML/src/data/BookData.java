@@ -32,12 +32,12 @@ public class BookData extends BibData {
 	}
 	
 	// Required Data Constructor
-	public BookData(String ck, String a, String t, String j, 
+	public BookData(String ck, String a, String t, String p, 
 			Integer y){
 		citationKey = ck;
 		author = a;
 		title = t;
-		publisher = j;
+		publisher = p;
 		year = y;
 		volume = null;
 		number = null;
@@ -50,19 +50,19 @@ public class BookData extends BibData {
 	}
 	
 	// Full Data Constructor
-	public BookData(String ck, String a, String t, String j, 
+	public BookData(String ck, String a, String t, String p, 
 			Integer y, Integer v, Integer n, Integer ed, String ser,
-			String pa, String mo, String no, String k){
+			String ad, String mo, String no, String k){
 		citationKey = ck;
 		author = a;
 		title = t;
-		publisher = j;
+		publisher = p;
 		year = y;
 		volume = v;
 		number = n;
 		edition = ed;
 		series = ser;
-		address = pa;
+		address = ad;
 		month = mo;
 		note = no;
 		key = k;

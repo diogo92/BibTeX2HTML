@@ -7,8 +7,7 @@
 import java.util.Vector;
 import java.util.Scanner;
 
-import data.BibData;
-import data.ArticleData;
+import data.*;
 import reader.FileReader;
 
 public class BibParser{
@@ -51,6 +50,11 @@ public class BibParser{
 | < YEAR : "YEAR" >
 | < VOLUME : "VOLUME" >
 | < NUMBER : "NUMBER" >
+| < ADDRESS : "ADDRESS" >
+| < HOWPUBLISHED : "HOWPUBLISHED" >
+| < PUBLISHER : "PUBLISHER" >
+| < SERIES : "SERIES" >
+| < EDITION: "EDITION" >
 | < PAGES : "PAGES" >
 | < PAGES_V : "\""< INTEGER > "-" < INTEGER >"\"" | "\""< INTEGER > "--" < INTEGER >"\"" >
 | < MONTH : "MONTH" >
@@ -119,13 +123,50 @@ public class BibParser{
 ] >
 }SimpleNode Start() :{}{  ("@" Command())+ < EOF >  {    return jjtThis;  }}void Command() :{
   Token type;
-}{  type = < TYPE > "{"      {
+}{
+ type = < TYPE > "{"      {
     try    {		switch(type.image.toString().toLowerCase())		{
 		  case "article":
 		  	ArticleData();
 			break;		  case "book":
-			//BookData();
+			BookData();
 			break;
+		  case "booklet":
+		  	BookletData();
+		    break;
+/*		  case "conference":
+		  	BookletData();
+		  	break;
+		  case "inbook":
+		  	BookletData();
+		  	break;
+		  case "incollection":
+		  	BookletData();
+		  	break;
+		  case "inproceedings":
+		  	BookletData();
+		  	break;
+		  case "manual":
+		  	BookletData();
+		  	break;
+		  case "mastersthesis":
+		  	BookletData();
+		  	break;
+		  case "misc":
+		  	BookletData();
+		  	break;
+		  case "phdthesis":
+		  	BookletData();
+		  	break;
+		  case "proceedings":
+		  	BookletData();
+		  	break;
+		  case "techreport":
+		  	BookletData();
+		  	break;
+		  case "unpublished":
+		  	BookletData();
+		  	break;*/
 		  default:
 			throw new TokenException("TOKEN " + type.image.toString().toLowerCase() + " not defined");
 			break;
@@ -189,6 +230,106 @@ void ArticleData() :
   }
 }
 
-/*void BookData() :{}
-{}
-*/
+void BookData() :{
+  Token citation_key = null;
+  Token author = null;
+  Token title = null;
+  Token publisher = null;
+  Token year = null;
+  Token volume = null;
+  Token number = null;
+  Token series = null;
+  Token address = null;
+  Token edition = null;
+  Token month = null;
+  Token note = null;
+  Token key = null;}
+{
+  citation_key = < WORD > ("," (< AUTHOR > "=" author = < QUOTED_TEXT > | < TITLE > "=" title = < QUOTED_TEXT > | < PUBLISHER > "=" publisher = < QUOTED_TEXT > | < YEAR > "=" year = < INTEGER >))+ ("," (< VOLUME > "=" volume = < INTEGER > | < NUMBER > "=" number = < INTEGER > | < SERIES > "=" series = <QUOTED_TEXT> | < ADDRESS > "=" address = <QUOTED_TEXT> | < EDITION > "=" edition = <INTEGER> | < MONTH > "=" month = < QUOTED_TEXT > | < NOTE > "=" note = < QUOTED_TEXT > | < KEY > "=" key = < QUOTED_TEXT >))*
+  {     try
+    {
+	    if(author == null || title == null || publisher == null || year == null)
+	    {
+	      throw new TokenException("AUTHOR, TITLE, publisher and YEAR are mandatory in @BOOK entry");
+	    }
+	    else
+	    {
+	      BookData book = new BookData();
+	      book.author = author.image;
+	      book.title = title.image;
+	      book.publisher = publisher.image;
+	      book.year = Integer.valueOf(year.image);
+	      if(volume != null)
+	      	book.volume = Integer.valueOf(volume.image);
+	      if(number != null)
+	      	book.number = Integer.valueOf(number.image);
+	      if(series != null)
+	      	book.series = series.image;
+	      if(address != null)
+	      	book.address = address.image;
+	      if(edition != null)
+	      	book.edition = Integer.valueOf(edition.image);
+	      if(month != null)
+	      	book.month = month.image;
+	      if(note != null)
+	      	book.note = note.image;
+	      if(key != null)
+	      	book.key = key.image;
+	      System.out.println(book.toString());
+	    }
+	}
+	catch(Exception e)
+    {
+      System.out.println("Error: " + e.getMessage());
+    }
+  }
+}
+
+void BookletData() :
+{
+  Token citation_key = null;
+  Token author = null;
+  Token title = null;
+  Token howpublished = null;
+  Token year = null;
+  Token address = null;
+  Token month = null;
+  Token note = null;
+  Token key = null;
+}
+{
+  citation_key = < WORD > ("," (< AUTHOR > "=" author = < QUOTED_TEXT > | < TITLE > "=" title = < QUOTED_TEXT > | < HOWPUBLISHED > "=" howpublished = < QUOTED_TEXT > | < YEAR > "=" year = < INTEGER >))+ ("," (< ADDRESS > "=" address = < QUOTED_TEXT > | < MONTH > "=" month = < QUOTED_TEXT > | < NOTE > "=" note = < QUOTED_TEXT > | < KEY > "=" key = < QUOTED_TEXT >))*
+  {
+   try
+    {
+	    if(title == null)
+	    {
+	      throw new TokenException("TITLE is mandatory in @BOOKLET entry");
+	    }
+	    else
+	    {
+	      BookletData booklet = new BookletData();
+	      booklet.title = title.image;
+	      if(author != null)
+	      	booklet.author = author.image;
+	      if(howpublished != null)
+	      	booklet.howpublished =howpublished.image;
+	      if(year != null)
+	      	booklet.year = Integer.valueOf(year.image);
+	      if(address != null)
+	      	booklet.address = address.image;
+	      if(month != null)
+	      	booklet.month = month.image;
+	      if(note != null)
+	      	booklet.note = note.image;
+	      if(key != null)
+	      	booklet.key = key.image;
+	      System.out.println(booklet.toString());
+	    }
+	}
+	catch(Exception e)
+    {
+      System.out.println("Error: " + e.getMessage());
+    }
+  }
+}

@@ -1,26 +1,10 @@
 package data;
 
 public class BookletData extends BibData {
-	public String author;
-	public String title;
-	public String howpublished;
-	public Integer year;
-	public String address;
-	public String month;
-	public String note;
-	public String key;
 	
 	// Standard Constructor
 	public BookletData(){
-		citationKey = null;
-		author = null;
-		title = null;
-		howpublished = null;
-		year = null;
-		address = null;
-		month = null;
-		note = null;
-		key = null;
+		super();
 	}
 	
 	// Required Data Constructor

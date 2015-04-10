@@ -1,34 +1,11 @@
 package data;
 
 public class BookData extends BibData {
-	public String author;
-	public String title;
-	public String publisher;
-	public Integer year;
-	public Integer volume;
-	public Integer number;
-	public Integer edition;
-	public String series;
-	public String address;
-	public String month;
-	public String note;
-	public String key;
+
 	
 	// Standard Constructor
 	public BookData(){
-		citationKey = null;
-		author = null;
-		title = null;
-		publisher = null;
-		year = null;
-		volume = null;
-		number = null;
-		series = null;
-		edition = null;
-		address = null;
-		month = null;
-		note = null;
-		key = null;
+		super();
 	}
 	
 	// Required Data Constructor
@@ -51,7 +28,7 @@ public class BookData extends BibData {
 	
 	// Full Data Constructor
 	public BookData(String ck, String a, String t, String p, 
-			Integer y, Integer v, Integer n, Integer ed, String ser,
+			Integer y, Integer v, Integer n, String ed, String ser,
 			String ad, String mo, String no, String k){
 		citationKey = ck;
 		author = a;

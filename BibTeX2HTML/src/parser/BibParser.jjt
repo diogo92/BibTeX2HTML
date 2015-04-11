@@ -159,7 +159,7 @@ public class BibParser{
 		  	ManualData();
 		  	break;
 		  case "mastersthesis":
-		  	MasterthesisData();
+		  	MastersthesisData();
 		  	break;
 		  case "misc":
 		  	MiscData();
@@ -500,7 +500,7 @@ void IncollectionData() :
   Token key = null;
 }
 {
-  citation_key = < WORD > ("," (< AUTHOR > "=" author = < QUOTED_TEXT > | < TITLE > "=" title = < QUOTED_TEXT > | < YEAR > "=" year = < INTEGER > |< BOOKTITLE > "=" booktitle = < QUOTED_TEXT > |< PUBLISHER > "=" publisher = < QUOTED_TEXT >))+  ("," ( < REP_TYPE > "=" type = < QUOTED_TEXT >  | < EDITOR > "=" editor = < QUOTED_TEXT >  | < EDITION > "=" edition = < QUOTED_TEXT >  | < PAGES > "=" pages = < PAGES_V >   | < VOLUME > "=" volume = <INTEGER >  | < CHAPTER > "=" chapter = <INTEGER >  | < EDITION > "=" edition = < INTEGER >  | < SERIES > "=" series = < QUOTED_TEXT >  | < ADDRESS > "=" pages = < QUOTED_TEXT >  | < MONTH > "=" month = < QUOTED_TEXT >  | < NOTE > "=" note = < QUOTED_TEXT >  | < KEY > "=" key = < QUOTED_TEXT >))*
+  citation_key = < WORD > ("," (< AUTHOR > "=" author = < QUOTED_TEXT > | < TITLE > "=" title = < QUOTED_TEXT > | < YEAR > "=" year = < INTEGER > |< BOOKTITLE > "=" booktitle = < QUOTED_TEXT > |< PUBLISHER > "=" publisher = < QUOTED_TEXT >))+  ("," ( < REP_TYPE > "=" type = < QUOTED_TEXT >  | < EDITOR > "=" editor = < QUOTED_TEXT > | < PAGES > "=" pages = < PAGES_V >   | < VOLUME > "=" volume = <INTEGER >  | < CHAPTER > "=" chapter = <INTEGER >  | < EDITION > "=" edition = < INTEGER >  | < SERIES > "=" series = < QUOTED_TEXT >  | < ADDRESS > "=" pages = < QUOTED_TEXT >  | < MONTH > "=" month = < QUOTED_TEXT >  | < NOTE > "=" note = < QUOTED_TEXT >  | < KEY > "=" key = < QUOTED_TEXT >))*
   {
    try
     {
@@ -667,7 +667,7 @@ void ManualData() :
   }
 }
 
-void MasterthesisData() :
+void MastersthesisData() :
 {
   Token citation_key = null;
   Token author = null;
@@ -692,22 +692,22 @@ void MasterthesisData() :
 	    }
 	    else
 	    {
-	      MasterthesisData masterthesis = new MasterthesisData();
-	      masterthesis.school = school.title;
-	      masterthesis.title = title.image;
-	      masterthesis.year = Integer.valueOf(year.image);
-	      masterthesis.author = author.image;
+	      MastersthesisData mastersthesis = new MastersthesisData();
+	      mastersthesis.school = school.image;
+	      mastersthesis.title = title.image;
+	      mastersthesis.year = Integer.valueOf(year.image);
+	      mastersthesis.author = author.image;
 	      if(type != null)
-	      	masterthesis.type = type.image;
+	      	mastersthesis.type = type.image;
 	      if(address != null)
-	      	masterthesis.address = address.image;
+	      	mastersthesis.address = address.image;
 	      if(month != null)
-	      	masterthesis.month = month.image;
+	      	mastersthesis.month = month.image;
 	      if(note != null)
-	      	masterthesis.note = note.image;
+	      	mastersthesis.note = note.image;
 	      if(key != null)
-	      	masterthesis.key = key.image;
-	      System.out.println(masterthesis.toString());
+	      	mastersthesis.key = key.image;
+	      System.out.println(mastersthesis.toString());
 	    }
 	}
 	catch(Exception e)
@@ -735,14 +735,14 @@ void MiscData() :
    try
     {
       MiscData misc = new MiscData();
-      if(auhtor !=null)
+      if(author !=null)
 		misc.author = author.image;
 	  if(title != null)
 	  	misc.title = title.image;
 	  if(howpublished != null)
 	  	misc.howpublished = howpublished.image;
 	  if(year != null)
-	  	misc.year = year.image;
+	  	misc.year = Integer.valueOf(year.image);
 	  if(month != null)
 	  	misc.month = month.image;
 	  if(note != null)
@@ -785,7 +785,7 @@ void PhdthesisData() :
 	    else
 	    {
 	      PhdthesisData phdthesis = new PhdthesisData();
-	      phdthesis.school = school.title;
+	      phdthesis.school = school.image;
 	      phdthesis.title = title.image;
 	      phdthesis.year = Integer.valueOf(year.image);
 	      phdthesis.author = author.image;
@@ -878,7 +878,7 @@ void TechreportData() :
   Token citation_key = null;
   Token author = null;
   Token title = null;
-  Token insitution = null;
+  Token institution = null;
   Token year = null;
   
   Token type = null;
@@ -902,10 +902,10 @@ void TechreportData() :
 	      TechreportData techreport = new TechreportData();
 	      techreport.title = title.image;
 	      techreport.author = author.image;
-	      techreport.institution =booktitle.image;
+	      techreport.institution = institution.image;
 	      techreport.year = Integer.valueOf(year.image);
 	      if(type != null)
-	      	techreport.editor = editor.image;
+	      	techreport.type = type.image;
 	      if(number != null)
 	      	techreport.number = Integer.valueOf(number.image);
 	      if(address != null)

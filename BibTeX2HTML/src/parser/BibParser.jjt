@@ -11,7 +11,7 @@ import data.*;
 import reader.FileReader;
 
 public class BibParser{
-  public Vector< BibData > data;
+  public static Vector< BibData > data;
   public static void main(String args [])  {	start(args);
   }  public static void start(String args [])  {    System.out.println("File to be parsed:");    System.out.print(">> ");
     Scanner sc = new Scanner(System.in);
@@ -229,6 +229,9 @@ void ArticleData() :
 	      	art.note = note.image;
 	      if(key != null)
 	      	art.key = key.image;
+
+	      data.add(art);
+	      	
 	      System.out.println(art.toString());
 	    }
 	}
@@ -285,6 +288,9 @@ void BookData() :{
 	      	book.note = note.image;
 	      if(key != null)
 	      	book.key = key.image;
+
+	      data.add(book);
+	      
 	      System.out.println(book.toString());
 	    }
 	}
@@ -335,6 +341,9 @@ void BookletData() :
 	      	booklet.note = note.image;
 	      if(key != null)
 	      	booklet.key = key.image;
+
+	      data.add(booklet);
+	      
 	      System.out.println(booklet.toString());
 	    }
 	}
@@ -404,6 +413,9 @@ void ConferenceData() :
 	      	conference.note = note.image;
 	      if(key != null)
 	      	conference.key = key.image;
+
+	      data.add(conference);
+	      
 	      System.out.println(conference.toString());
 	    }
 	}
@@ -471,6 +483,9 @@ void InbookData() :
 	      	inbook.note = note.image;
 	      if(key != null)
 	      	inbook.key = key.image;
+
+	      data.add(inbook);
+	      
 	      System.out.println(inbook.toString());
 	    }
 	}
@@ -541,6 +556,9 @@ void IncollectionData() :
 	      	incollection.note = note.image;
 	      if(key != null)
 	      	incollection.key = key.image;
+
+	      data.add(incollection);
+	      
 	      System.out.println(incollection.toString());
 	    }
 	}
@@ -610,6 +628,9 @@ void InproceedingsData() :
 	      	inproceedings.note = note.image;
 	      if(key != null)
 	      	inproceedings.key = key.image;
+
+		  data.add(inproceedings);	
+	      
 	      System.out.println(inproceedings.toString());
 	    }
 	}
@@ -664,6 +685,9 @@ void ManualData() :
 	      	manual.note = note.image;
 	      if(key != null)
 	      	manual.key = key.image;
+
+	      data.add(manual);
+	      
 	      System.out.println(manual.toString());
 	    }
 	}
@@ -715,6 +739,9 @@ void MastersthesisData() :
 	      	mastersthesis.note = note.image;
 	      if(key != null)
 	      	mastersthesis.key = key.image;
+
+	      data.add(mastersthesis);
+	      
 	      System.out.println(mastersthesis.toString());
 	    }
 	}
@@ -758,6 +785,9 @@ void MiscData() :
 	  	misc.note = note.image;
 	  if(key != null)
 	    misc.key = key.image;
+
+	  data.add(misc);
+	  
 	  System.out.println(misc.toString());
 	    
 	}
@@ -809,6 +839,9 @@ void PhdthesisData() :
 	      	phdthesis.note = note.image;
 	      if(key != null)
 	      	phdthesis.key = key.image;
+
+	      data.add(phdthesis);
+	      
 	      System.out.println(phdthesis.toString());
 	    }
 	}
@@ -874,6 +907,9 @@ void ProceedingsData() :
 	      	proceedings.note = note.image;
 	      if(key != null)
 	      	proceedings.key = key.image;
+
+	      data.add(proceedings);
+	      
 	      System.out.println(proceedings.toString());
 	    }
 	}
@@ -928,6 +964,9 @@ void TechreportData() :
 	      	techreport.note = note.image;
 	      if(key != null)
 	      	techreport.key = key.image;
+
+	      data.add(techreport);
+	      
 	      System.out.println(techreport.toString());
 	    }
 	}
@@ -971,6 +1010,9 @@ void UnpublishedData() :
 	      	unpublished.month = month.image;
 	      if(key != null)
 	      	unpublished.key = key.image;
+
+	      data.add(unpublished);
+	      
 	      System.out.println(unpublished.toString());
 	    }
 	}

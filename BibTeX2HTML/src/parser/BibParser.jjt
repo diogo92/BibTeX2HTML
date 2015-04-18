@@ -2,7 +2,8 @@
  * JJTree template file created by SF JavaCC plugin 1.5.28+ wizard for JavaCC 1.5.0+
  */options{  static = true;
   IGNORE_CASE = true;
-  UNICODE_INPUT = true;}PARSER_BEGIN(BibParser)package parser;
+  UNICODE_INPUT = true;
+  lookahead = 2;}PARSER_BEGIN(BibParser)package parser;
 
 import java.util.Vector;
 import java.util.Scanner;
@@ -72,549 +73,64 @@ public class BibParser{
 | < #DIGIT : ["0"-"9"] >
 | < QUOTED_TEXT : < DOUBLE_MARKS > (< INTEGER > | < LETTER > | < SPECIAL > | "\\" (< SINGLE_MARKS >| < DOUBLE_MARKS >) | < SINGLE_MARKS >)*< DOUBLE_MARKS > | < SINGLE_MARKS >(< INTEGER > | < LETTER > | < SPECIAL > | "\\" (< SINGLE_MARKS >| < DOUBLE_MARKS >)| < DOUBLE_MARKS >)*< SINGLE_MARKS > > 
 | < WORD : < LETTER >(< LETTER > | < INTEGER >)* >
+| < TEXT : (< LETTER > | < INTEGER >)+ >
 | < #SPECIAL : ["\r","\n","\u0020"-"\u0021","\u0023"-"\u0026","\u0028"-"\u002f",
 				"\u003a"-"\u0040" ,"\u005b"-"\u0060","\u0020"-"\u0021","\u007b"-"\u007e"
 				] >
 | < #LETTER : ["\u0041"-"\u007A" ] >
-}SimpleNode Start() :{}{  (< ARROBA > Command())+ < EOF >  {    return jjtThis;  }}void Command() :{
-  Token t = getNextToken();
-  Token key;
-}{
-  < BRACKET_START > ( key = < WORD > < COMMA >)?
-  { 
-    try    {
-            switch(t.kind){
-              case BibParserConstants.ARTICLE:
-			  	ArticleData();
-			  	break;
-			  case BibParserConstants.BOOK:
-				BookData();
-				break;
-			  case BibParserConstants.BOOKLET:
-			  	BookletData();
-			  	break;
-			  case BibParserConstants.CONFERENCE:
-			  	ConferenceData();
-			  	break;
-			  case BibParserConstants.INBOOK:
-			  	InbookData();
-			  	break;
-			  case BibParserConstants.INCOLLECTION:
-			  	IncollectionData();
-			  	break;
-			  case BibParserConstants.INPROCEEDINGS:
-			  	InproceedingsData();
-			  	break;
-			  case BibParserConstants.MANUAL:
-			  	ManualData();
-			  	break;
-			  case BibParserConstants.MASTERTHESIS:
-			  	MastersthesisData();
-			  	break;
-			  case BibParserConstants.MISC:
-			  	MiscData();
-			  	break;
-			  case BibParserConstants.PHDTHESIS:
-			  	PhdthesisData();
-			  	break;
-			  case BibParserConstants.PROCEEDINGS:
-			  	ProceedingsData();
-			  	break;
-			  case BibParserConstants.TECHREPORT:
-			  	TechreportData();
-			  	break;
-			  case BibParserConstants.UNPUBLISHED:
-			  	UnpublishedData();
-			  	break;
-			  default:
-			  	throw new TokenException("Not expecting token " + t);
-			    break;
-		}
-	}
-	catch(Exception e)
-    {
-      System.out.println("Error: " + e.getMessage());
-    }
-  }
-  < BRACKET_END >
+}SimpleNode Start() :{
+}{  (    Arroba() Type() < BRACKET_START > Data() < BRACKET_END >
+  )*  {    return jjtThis;  }}
+
+void Arroba() :
+{}
+{	< ARROBA >
 }
 
-
-
-void ArticleData() :
-{}
+void Data() :
+{}
 {
-  (
-    Attribute(BibParserConstants.ARTICLE)
-    (		< COMMA > Attribute(BibParserConstants.ARTICLE)
-    )*
-  )?
+  Key() (Attribute() (< COMMA > Attribute() )*)? }
+
+void Key() :
+{
+  Token key = null;}
+{	(key = < WORD > < COMMA >)?
+
+	{
+	  if(key == null)
+	  {		System.out.println("Empty key");
+	  }
+	}}
+
+void Equal() :{}
+{
+  < EQUAL >}
+
+void Type() :
+{
+	Token value;
+}
+{
+	< WORD > | < TEXT > | < CONFERENCE > | < ARTICLE > | < BOOK >
+	| < BOOKLET > | < INBOOK > | < INCOLLECTION > | < PAGES >
+	| < INPROCEEDINGS > | < MANUAL > | < MASTERTHESIS > | < MISC >
+	| < PHDTHESIS > | < PROCEEDINGS > | < TECHREPORT > | < UNPUBLISHED >
+	| < AUTHOR > | < ANNOTE > | < BOOKTITLE > | < CHAPTER >
+	| < CROSSREF > | < EDITOR > | < INSTITUTION > | < ORGANIZATION >
+	| < SCHOOL > | < JOURNAL > | < TITLE > | < YEAR > | < VOLUME >
+	| < NUMBER > | < ADDRESS > | < HOWPUBLISHED > | < PUBLISHER >
+	| < SERIES > | < EDITION > | < NOTE > | < MONTH >
 }
 
-void BookData() :
-{}
+void Value() :
+{}{
+  < WORD > | < QUOTED_TEXT > | < INTEGER > | < PAGES_V >}
+void Attribute():
 {
-  (
-    Attribute(BibParserConstants.BOOK)
-    (
-		< COMMA > Attribute(BibParserConstants.BOOK)
-    )*
-  )?
-}
-
-void BookletData() :
-{}
-{
-  (
-    Attribute(BibParserConstants.BOOKLET)
-    (
-		< COMMA > Attribute(BibParserConstants.BOOKLET)
-    )*
-  )?
-}
-
-void ConferenceData() :
-{}
-{
-  (
-    Attribute(BibParserConstants.CONFERENCE)
-    (
-		< COMMA > Attribute(BibParserConstants.CONFERENCE)
-    )*
-  )?
-}
-
-void InbookData() :
-{}
-{
-  (
-    Attribute(BibParserConstants.INBOOK)
-    (
-		< COMMA > Attribute(BibParserConstants.INBOOK)
-    )*
-  )?
-}
-
-void IncollectionData() :
-{}
-{
-  (
-    Attribute(BibParserConstants.INCOLLECTION)
-    (
-		< COMMA > Attribute(BibParserConstants.INCOLLECTION)
-    )*
-  )?
-}
-
-void InproceedingsData() :
-{}
-{
-  (
-    Attribute(BibParserConstants.INPROCEEDINGS)
-    (
-		< COMMA > Attribute(BibParserConstants.INPROCEEDINGS)
-    )*
-  )?
-}
-
-void ManualData() :
-{}
-{
-  (
-    Attribute(BibParserConstants.MANUAL)
-    (
-		< COMMA > Attribute(BibParserConstants.MANUAL)
-    )*
-  )?
-}
-
-void MastersthesisData() :
-{}
-{
-  (
-    Attribute(BibParserConstants.MASTERTHESIS)
-    (
-		< COMMA > Attribute(BibParserConstants.MASTERTHESIS)
-    )*
-  )?
-}
-
-void MiscData() :
-{}
-{
-  (
-    Attribute(BibParserConstants.MISC)
-    (
-		< COMMA > Attribute(BibParserConstants.MISC)
-    )*
-  )?
-}
-
-void PhdthesisData() :
-{}
-{
-  (
-    Attribute(BibParserConstants.PHDTHESIS)
-    (
-		< COMMA > Attribute(BibParserConstants.PHDTHESIS)
-    )*
-  )?
-}
-
-void ProceedingsData() :
-{}
-{
-  (
-    Attribute(BibParserConstants.PROCEEDINGS)
-    (
-		< COMMA > Attribute(BibParserConstants.PROCEEDINGS)
-    )*
-  )?
-}
-
-void TechreportData() :
-{}
-{
-  (
-    Attribute(BibParserConstants.TECHREPORT)
-    (
-		< COMMA > Attribute(BibParserConstants.TECHREPORT)
-    )*
-  )?
-}
-
-void UnpublishedData() :
-{}
-{
-  (
-    Attribute(BibParserConstants.UNPUBLISHED)
-    (
-		< COMMA > Attribute(BibParserConstants.UNPUBLISHED)
-    )*
-  )?
-}
-
-void Attribute(int kind):
-{
-  Token field;
-  Token value;
 }
 {
   (
-  		field = < WORD > < EQUAL > (value = < WORD >| value = < QUOTED_TEXT >)
- 	|	field = < AUTHOR > < EQUAL > (value = < WORD >| value = < QUOTED_TEXT >)
- 	|	field = < TITLE > < EQUAL > (value = < WORD >| value = < QUOTED_TEXT >)
- 	|	field = < JOURNAL > < EQUAL > (value = < WORD >| value = < QUOTED_TEXT >) 
- 	|	field = < YEAR > < EQUAL > (value = < INTEGER > | value = < QUOTED_TEXT > | value = < PAGES_V >) 
- 	|	field = < VOLUME > < EQUAL > (value = < INTEGER > | value = < PAGES_V >) 
- 	|	field = < NUMBER > < EQUAL > (value = < INTEGER >) 
- 	|	field = < PAGES > < EQUAL > (value = < PAGES_V >)
- 	|	field = < MONTH > < EQUAL > (value = < QUOTED_TEXT >)  
- 	|	field = < NOTE > < EQUAL > (value = < QUOTED_TEXT >)  
- 	|	field = < KEY > < EQUAL > (value = < QUOTED_TEXT >)  
- 	|	field = < PUBLISHER > < EQUAL > (value = < QUOTED_TEXT >)
- 	|	field = < SERIES > < EQUAL > (value = < QUOTED_TEXT >)
- 	|	field = < ADDRESS > < EQUAL > (value = < QUOTED_TEXT >)
- 	|	field = < EDITION > < EQUAL > (value = < QUOTED_TEXT >)
- 	| 	field = < BOOKTITLE > < EQUAL > (value = < QUOTED_TEXT >)
- 	|	field = < CHAPTER > < EQUAL > (value = < INTEGER >)
- 	|   field = < CROSSREF > < EQUAL > (value = < WORD >)
- 	|   field = < EDITOR > < EQUAL > (value = < QUOTED_TEXT >)
- 	|   field = < INSTITUTION > < EQUAL > (value = < QUOTED_TEXT >)
- 	|   field = < ORGANIZATION > < EQUAL > (value = < QUOTED_TEXT >)
- 	|   field = < SCHOOL > < EQUAL > (value = < QUOTED_TEXT >)
- 	|   field = < HOWPUBLISHED > < EQUAL > (value = < QUOTED_TEXT >)
+  		Type() Equal() Value()
   )
-  {
-    try
-    {		switch(kind)
-		{
-			case BibParserConstants.ARTICLE:
-				switch(field.kind)
-				{
-					case BibParserConstants.AUTHOR:
-					case BibParserConstants.TITLE:
-					case BibParserConstants.JOURNAL:
-					case BibParserConstants.YEAR:
-					case BibParserConstants.VOLUME:
-					case BibParserConstants.NUMBER:
-					case BibParserConstants.PAGES:
-					case BibParserConstants.MONTH:
-					case BibParserConstants.NOTE:
-					case BibParserConstants.KEY:
-						break;
-					default:
-						throw new SintaxException("Field " + field.image + " not expected: line " + field.beginLine + ", column " + field.beginColumn);
-						break;
-				}
-				break;
-			case BibParserConstants.BOOK:
-				switch(field.kind)
-				{
-					case BibParserConstants.AUTHOR:
-					case BibParserConstants.TITLE:
-					case BibParserConstants.PUBLISHER:
-					case BibParserConstants.YEAR:
-					case BibParserConstants.VOLUME:
-					case BibParserConstants.NUMBER:
-					case BibParserConstants.SERIES:
-					case BibParserConstants.ADDRESS:
-					case BibParserConstants.EDITION:
-					case BibParserConstants.MONTH:
-					case BibParserConstants.NOTE:
-					case BibParserConstants.KEY:
-						break;
-					default:
-						throw new SintaxException("Field " + field.image + " not expected: line " + field.beginLine + ", column " + field.beginColumn);
-						break;
-				}
-				break;
-			case BibParserConstants.BOOKLET:
-				switch(field.kind)
-				{
-					case BibParserConstants.AUTHOR:
-					case BibParserConstants.TITLE:
-					case BibParserConstants.HOWPUBLISHED:
-					case BibParserConstants.YEAR:
-					case BibParserConstants.ADDRESS:
-					case BibParserConstants.MONTH:
-					case BibParserConstants.NOTE:
-					case BibParserConstants.KEY:
-						break;
-					default:
-						throw new SintaxException("Field " + field.image + " not expected: line " + field.beginLine + ", column " + field.beginColumn);
-						break;
-				}
-				break;
-			case BibParserConstants.CONFERENCE:
-				switch(field.kind)
-				{
-					case BibParserConstants.AUTHOR:
-					case BibParserConstants.BOOKTITLE:
-					case BibParserConstants.TITLE:
-					case BibParserConstants.EDITOR:
-					case BibParserConstants.PUBLISHER:
-					case BibParserConstants.YEAR:
-					case BibParserConstants.VOLUME:
-					case BibParserConstants.NUMBER:
-					case BibParserConstants.SERIES:
-					case BibParserConstants.PAGES:
-					case BibParserConstants.ADDRESS:
-					case BibParserConstants.EDITION:
-					case BibParserConstants.MONTH:
-					case BibParserConstants.NOTE:
-					case BibParserConstants.KEY:
-						break;
-					case BibParserConstants.ORGANIZATION:
-						break;
-					default:
-						throw new SintaxException("Field " + field.image + " not expected: line " + field.beginLine + ", column " + field.beginColumn);
-						break;
-				}
-				break;
-			case BibParserConstants.INBOOK:
-				switch(field.kind)
-				{
-					case BibParserConstants.AUTHOR:
-					case BibParserConstants.TITLE:
-					case BibParserConstants.PUBLISHER:
-					case BibParserConstants.CHAPTER:
-					case BibParserConstants.PAGES:
-					case BibParserConstants.YEAR:
-					case BibParserConstants.VOLUME:
-					case BibParserConstants.REP_TYPE:
-					case BibParserConstants.SERIES:
-					case BibParserConstants.ADDRESS:
-					case BibParserConstants.EDITION:
-					case BibParserConstants.MONTH:
-					case BibParserConstants.NOTE:
-					case BibParserConstants.KEY:
-						break;
-					default:
-						throw new SintaxException("Field " + field.image + " not expected: line " + field.beginLine + ", column " + field.beginColumn);
-						break;
-				}
-				break;
-			case BibParserConstants.INCOLLECTION:
-				switch(field.kind)
-				{
-					case BibParserConstants.AUTHOR:
-					case BibParserConstants.TITLE:
-					case BibParserConstants.BOOKTITLE:
-					case BibParserConstants.PUBLISHER:
-					case BibParserConstants.YEAR:
-					case BibParserConstants.VOLUME:
-					case BibParserConstants.SERIES:
-					case BibParserConstants.REP_TYPE:
-					case BibParserConstants.CHAPTER:
-					case BibParserConstants.PAGES:
-					case BibParserConstants.ADDRESS:
-					case BibParserConstants.EDITION:
-					case BibParserConstants.EDITOR:
-					case BibParserConstants.MONTH:
-					case BibParserConstants.NOTE:
-					case BibParserConstants.KEY:
-						break;
-					default:
-						throw new SintaxException("Field " + field.image + " not expected: line " + field.beginLine + ", column " + field.beginColumn);
-						break;
-				}
-				break;
-			case BibParserConstants.INPROCEEDINGS:
-				switch(field.kind)
-				{
-					case BibParserConstants.AUTHOR:
-					case BibParserConstants.TITLE:
-					case BibParserConstants.BOOKTITLE:
-					case BibParserConstants.PUBLISHER:
-					case BibParserConstants.YEAR:
-					case BibParserConstants.VOLUME:
-					case BibParserConstants.NUMBER:
-					case BibParserConstants.SERIES:
-					case BibParserConstants.ORGANIZATION:
-					case BibParserConstants.PAGES:
-					case BibParserConstants.ADDRESS:
-					case BibParserConstants.EDITOR:
-					case BibParserConstants.MONTH:
-					case BibParserConstants.NOTE:
-					case BibParserConstants.KEY:
-						break;
-					default:
-						throw new SintaxException("Field " + field.image + " not expected: line " + field.beginLine + ", column " + field.beginColumn);
-						break;
-				}
-				break;
-			case BibParserConstants.MANUAL:
-				switch(field.kind)
-				{
-					case BibParserConstants.AUTHOR:
-					case BibParserConstants.TITLE:
-					case BibParserConstants.YEAR:
-					case BibParserConstants.ORGANIZATION:
-					case BibParserConstants.ADDRESS:
-					case BibParserConstants.EDITION:
-					case BibParserConstants.MONTH:
-					case BibParserConstants.NOTE:
-					case BibParserConstants.KEY:
-						break;
-					default:
-						throw new SintaxException("Field " + field.image + " not expected: line " + field.beginLine + ", column " + field.beginColumn);
-						break;
-				}
-				break;
-			case BibParserConstants.MASTERTHESIS:
-				switch(field.kind)
-				{
-					case BibParserConstants.AUTHOR:
-					case BibParserConstants.TITLE:
-					case BibParserConstants.SCHOOL:
-					case BibParserConstants.YEAR:
-					case BibParserConstants.REP_TYPE:
-					case BibParserConstants.ADDRESS:
-					case BibParserConstants.MONTH:
-					case BibParserConstants.NOTE:
-					case BibParserConstants.KEY:
-						break;
-					default:
-						throw new SintaxException("Field " + field.image + " not expected: line " + field.beginLine + ", column " + field.beginColumn);
-						break;
-				}
-				break;
-			case BibParserConstants.MISC:
-				switch(field.kind)
-				{
-					case BibParserConstants.AUTHOR:
-					case BibParserConstants.TITLE:
-					case BibParserConstants.HOWPUBLISHED:
-					case BibParserConstants.YEAR:
-					case BibParserConstants.MONTH:
-					case BibParserConstants.NOTE:
-					case BibParserConstants.KEY:
-						break;
-					default:
-						throw new SintaxException("Field " + field.image + " not expected: line " + field.beginLine + ", column " + field.beginColumn);
-						break;
-				}
-				break;
-			case BibParserConstants.PHDTHESIS:
-				switch(field.kind)
-				{
-					case BibParserConstants.AUTHOR:
-					case BibParserConstants.TITLE:
-					case BibParserConstants.SCHOOL:
-					case BibParserConstants.YEAR:
-					case BibParserConstants.REP_TYPE:
-					case BibParserConstants.ADDRESS:
-					case BibParserConstants.MONTH:
-					case BibParserConstants.NOTE:
-					case BibParserConstants.KEY:
-						break;
-					default:
-						throw new SintaxException("Field " + field.image + " not expected: line " + field.beginLine + ", column " + field.beginColumn);
-						break;
-				}
-				break;
-			case BibParserConstants.PROCEEDINGS:
-				switch(field.kind)
-				{
-					case BibParserConstants.TITLE:
-					case BibParserConstants.PUBLISHER:
-					case BibParserConstants.YEAR:
-					case BibParserConstants.EDITOR:
-					case BibParserConstants.VOLUME:
-					case BibParserConstants.NUMBER:
-					case BibParserConstants.SERIES:
-					case BibParserConstants.PAGES:
-					case BibParserConstants.ADDRESS:
-					case BibParserConstants.ORGANIZATION:
-					case BibParserConstants.MONTH:
-					case BibParserConstants.NOTE:
-					case BibParserConstants.KEY:
-						break;
-					default:
-						throw new SintaxException("Field " + field.image + " not expected: line " + field.beginLine + ", column " + field.beginColumn);
-						break;
-				}
-				break;
-			case BibParserConstants.TECHREPORT:
-				switch(field.kind)
-				{
-					case BibParserConstants.TITLE:
-					case BibParserConstants.AUTHOR:
-					case BibParserConstants.YEAR:
-					case BibParserConstants.INSTITUTION:
-					case BibParserConstants.REP_TYPE:
-					case BibParserConstants.NUMBER:
-					case BibParserConstants.ADDRESS:
-					case BibParserConstants.MONTH:
-					case BibParserConstants.NOTE:
-					case BibParserConstants.KEY:
-						break;
-					default:
-						throw new SintaxException("Field " + field.image + " not expected: line " + field.beginLine + ", column " + field.beginColumn);
-						break;
-				}
-				break;
-			case BibParserConstants.UNPUBLISHED:
-				switch(field.kind)
-				{
-					case BibParserConstants.TITLE:
-					case BibParserConstants.AUTHOR:
-					case BibParserConstants.YEAR:
-					case BibParserConstants.MONTH:
-					case BibParserConstants.NOTE:
-					case BibParserConstants.KEY:
-						break;
-					default:
-						throw new SintaxException("Field " + field.image + " not expected: line " + field.beginLine + ", column " + field.beginColumn);
-						break;
-				}
-				break;
-			default:
-				break;
-		}
-    }
-    catch(SintaxException e)    {	  System.out.println(e.toString());
-    } 	
-  }
 }

@@ -26,6 +26,8 @@ public class BibParser{
 | < BRACKET_END : "}" >
 | < COMMA : "," >
 | < EQUAL : "=" >
+| < DOUBLE_MARKS :"\"" >
+| < SINGLE_MARKS :"'" >
 | < STRING : "STRING" >
 | < ARTICLE : "ARTICLE" >
 | < BOOK : "BOOK" >
@@ -61,14 +63,14 @@ public class BibParser{
 | < SERIES : "SERIES" >
 | < EDITION: "EDITION" >
 | < PAGES : "PAGES" >
-| < PAGES_V : "\""< INTEGER > "-" < INTEGER >"\"" | "\""< INTEGER > "--" < INTEGER >"\"" >
+| < PAGES_V : "\""< INTEGER > ("-"|"--") < INTEGER >"\"" >
 | < MONTH : "MONTH" >
 | < NOTE : "NOTE" >
 | < KEY : "KEY" >
 | < REP_TYPE : "REP_TYPE" >
 | < INTEGER : < DIGIT >(< DIGIT >)* >
 | < #DIGIT : ["0"-"9"] >
-| < QUOTED_TEXT : "\""(< SPECIAL >| "\\\"" | " " | < WORD > (","|"\\"|"'"|"\'")?)+"\"" | "'"("." | "\r" | "\n" | "{" | "}" | "\\\'" | "\""" | " | < WORD > (","|"\\"|"'"|"\'")?)+"'" > 
+| < QUOTED_TEXT : < DOUBLE_MARKS > (< INTEGER > | < LETTER > | < SPECIAL > | "\\" (< SINGLE_MARKS >| < DOUBLE_MARKS >) | < SINGLE_MARKS >)*< DOUBLE_MARKS > | < SINGLE_MARKS >(< INTEGER > | < LETTER > | < SPECIAL > | "\\" (< SINGLE_MARKS >| < DOUBLE_MARKS >)| < DOUBLE_MARKS >)*< SINGLE_MARKS > > 
 | < WORD : < LETTER >(< LETTER > | < INTEGER >)* >
 | < #SPECIAL : ["\r","\n","\u0020"-"\u0021","\u0023"-"\u0026","\u0028"-"\u002f",
 				"\u003a"-"\u0040" ,"\u005b"-"\u0060","\u0020"-"\u0021","\u007b"-"\u007e"
@@ -303,8 +305,8 @@ void Attribute(int kind):
  	|	field = < AUTHOR > < EQUAL > (value = < WORD >| value = < QUOTED_TEXT >)
  	|	field = < TITLE > < EQUAL > (value = < WORD >| value = < QUOTED_TEXT >)
  	|	field = < JOURNAL > < EQUAL > (value = < WORD >| value = < QUOTED_TEXT >) 
- 	|	field = < YEAR > < EQUAL > (value = < INTEGER >) 
- 	|	field = < VOLUME > < EQUAL > (value = < INTEGER >) 
+ 	|	field = < YEAR > < EQUAL > (value = < INTEGER > | value = < QUOTED_TEXT > | value = < PAGES_V >) 
+ 	|	field = < VOLUME > < EQUAL > (value = < INTEGER > | value = < PAGES_V >) 
  	|	field = < NUMBER > < EQUAL > (value = < INTEGER >) 
  	|	field = < PAGES > < EQUAL > (value = < PAGES_V >)
  	|	field = < MONTH > < EQUAL > (value = < QUOTED_TEXT >)  

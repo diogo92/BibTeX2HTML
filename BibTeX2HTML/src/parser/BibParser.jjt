@@ -17,33 +17,30 @@ public class BibParser{
     Scanner sc = new Scanner(System.in);
     String file = sc.nextLine();
         try    {
-      new BibParser(FileReader.getFile(file));      SimpleNode n = BibParser.Start();      n.dump(">>  ");    }    catch (Exception e)    {      System.out.println("Error: " + e.getMessage());    }  }}PARSER_END(BibParser)SKIP :{  " "| "\t"| "\r"
-| "\n"}
-
-// WARNING!
-// Token < TYPE > must come before than token < WORD >
+      new BibParser(FileReader.getFile(file));      SimpleNode n = BibParser.Start();      n.dump(">>  ");    }    catch (Exception e)    {      System.out.println("Error: " + e.getMessage());    }
+    sc.close();  }}PARSER_END(BibParser)SKIP :{  " "| "\t"| "\r"
+| "\n"}
 TOKEN :{
- < TYPE : < STRING > | < ARTICLE > | < BOOK > | < BOOKLET >
- 		| < CONFERENCE > | < INBOOK > | < INCOLLECTION >
- 		| < INPROCEEDINGS > | < MANUAL > | < MASTERTHESIS >
- 		| < MISC > | < PHDTHESIS > | < PROCEEDINGS >
- 		| < TECHREPORT > | < UNPUBLISHED >
- >
-| < #STRING : "STRING" >
-| < #ARTICLE : "ARTICLE" >
-| < #BOOK : "BOOK" >
-| < #BOOKLET : "BOOKLET" >
-| < #CONFERENCE : "CONFERENCE" >
-| < #INBOOK : "INBOOK" >
-| < #INCOLLECTION : "INCOLLECTION" >
-| < #INPROCEEDINGS : "INPROCEEDINGS" >
-| < #MANUAL : "MANUAL" >
-| < #MASTERTHESIS : "MASTERTHESIS" >
-| < #MISC : "MISC" >
-| < #PHDTHESIS : "PHDTHESIS" >
-| < #PROCEEDINGS : "PROCEEDINGS" >
-| < #TECHREPORT : "TECHREPORT" >
-| < #UNPUBLISHED : "UNPUBLISHED" >
+  < ARROBA : "@" >
+| < BRACKET_START : "{" >
+| < BRACKET_END : "}" >
+| < COMMA : "," >
+| < EQUAL : "=" >
+| < STRING : "STRING" >
+| < ARTICLE : "ARTICLE" >
+| < BOOK : "BOOK" >
+| < BOOKLET : "BOOKLET" >
+| < CONFERENCE : "CONFERENCE" >
+| < INBOOK : "INBOOK" >
+| < INCOLLECTION : "INCOLLECTION" >
+| < INPROCEEDINGS : "INPROCEEDINGS" >
+| < MANUAL : "MANUAL" >
+| < MASTERTHESIS : "MASTERTHESIS" >
+| < MISC : "MISC" >
+| < PHDTHESIS : "PHDTHESIS" >
+| < PROCEEDINGS : "PROCEEDINGS" >
+| < TECHREPORT : "TECHREPORT" >
+| < UNPUBLISHED : "UNPUBLISHED" >
 | < AUTHOR : "AUTHOR" >
 | < ANNOTE : "ANNOTE" >
 | < BOOKTITLE : "BOOKTITLE" >
@@ -71,114 +68,65 @@ public class BibParser{
 | < REP_TYPE : "REP_TYPE" >
 | < INTEGER : < DIGIT >(< DIGIT >)* >
 | < #DIGIT : ["0"-"9"] >
-| < QUOTED_TEXT : "\""(" " | < WORD > (","|"\\"|"'"|"\'")?)+"\"" | "'"(" " | < WORD > (","|"\\"|"'"|"\'")?)+"'" > 
+| < QUOTED_TEXT : "\""(< SPECIAL >| "\\\"" | " " | < WORD > (","|"\\"|"'"|"\'")?)+"\"" | "'"("." | "\r" | "\n" | "{" | "}" | "\\\'" | "\""" | " | < WORD > (","|"\\"|"'"|"\'")?)+"'" > 
 | < WORD : < LETTER >(< LETTER > | < INTEGER >)* >
-| < #LETTER : [ "\u0041"-"\u005a", "\u0061"-"\u007a", "\u00aa"-"\u00aa", "\u00b5"-"\u00b5", "\u00ba"-"\u00ba",
-    "\u00c0"-"\u00d6", "\u00d8"-"\u00f6", "\u00f8"-"\u0236", "\u0250"-"\u02c1", "\u02c6"-"\u02d1",
-    "\u02e0"-"\u02e4", "\u02ee"-"\u02ee", "\u037a"-"\u037a", "\u0386"-"\u0386", "\u0388"-"\u038a",
-    "\u038c"-"\u038c", "\u038e"-"\u03a1", "\u03a3"-"\u03ce", "\u03d0"-"\u03f5", "\u03f7"-"\u03fb",
-    "\u0400"-"\u0481", "\u048a"-"\u04ce", "\u04d0"-"\u04f5", "\u04f8"-"\u04f9", "\u0500"-"\u050f",
-    "\u0531"-"\u0556", "\u0559"-"\u0559", "\u0561"-"\u0587", "\u05d0"-"\u05ea", "\u05f0"-"\u05f2",
-    "\u0621"-"\u063a", "\u0640"-"\u064a", "\u066e"-"\u066f", "\u0671"-"\u06d3", "\u06d5"-"\u06d5",
-    "\u06e5"-"\u06e6", "\u06ee"-"\u06ef", "\u06fa"-"\u06fc", "\u06ff"-"\u06ff", "\u0710"-"\u0710",
-    "\u0712"-"\u072f", "\u074d"-"\u074f", "\u0780"-"\u07a5", "\u07b1"-"\u07b1", "\u0904"-"\u0939",
-    "\u093d"-"\u093d", "\u0950"-"\u0950", "\u0958"-"\u0961", "\u0985"-"\u098c", "\u098f"-"\u0990",
-    "\u0993"-"\u09a8", "\u09aa"-"\u09b0", "\u09b2"-"\u09b2", "\u09b6"-"\u09b9", "\u09bd"-"\u09bd",
-    "\u09dc"-"\u09dd", "\u09df"-"\u09e1", "\u09f0"-"\u09f1", "\u0a05"-"\u0a0a", "\u0a0f"-"\u0a10",
-    "\u0a13"-"\u0a28", "\u0a2a"-"\u0a30", "\u0a32"-"\u0a33", "\u0a35"-"\u0a36", "\u0a38"-"\u0a39",
-    "\u0a59"-"\u0a5c", "\u0a5e"-"\u0a5e", "\u0a72"-"\u0a74", "\u0a85"-"\u0a8d", "\u0a8f"-"\u0a91",
-    "\u0a93"-"\u0aa8", "\u0aaa"-"\u0ab0", "\u0ab2"-"\u0ab3", "\u0ab5"-"\u0ab9", "\u0abd"-"\u0abd",
-    "\u0ad0"-"\u0ad0", "\u0ae0"-"\u0ae1", "\u0b05"-"\u0b0c", "\u0b0f"-"\u0b10", "\u0b13"-"\u0b28",
-    "\u0b2a"-"\u0b30", "\u0b32"-"\u0b33", "\u0b35"-"\u0b39", "\u0b3d"-"\u0b3d", "\u0b5c"-"\u0b5d",
-    "\u0b5f"-"\u0b61", "\u0b71"-"\u0b71", "\u0b83"-"\u0b83", "\u0b85"-"\u0b8a", "\u0b8e"-"\u0b90",
-    "\u0b92"-"\u0b95", "\u0b99"-"\u0b9a", "\u0b9c"-"\u0b9c", "\u0b9e"-"\u0b9f", "\u0ba3"-"\u0ba4",
-    "\u0ba8"-"\u0baa", "\u0bae"-"\u0bb5", "\u0bb7"-"\u0bb9", "\u0c05"-"\u0c0c", "\u0c0e"-"\u0c10",
-    "\u0c12"-"\u0c28", "\u0c2a"-"\u0c33", "\u0c35"-"\u0c39", "\u0c60"-"\u0c61", "\u0c85"-"\u0c8c",
-    "\u0c8e"-"\u0c90", "\u0c92"-"\u0ca8", "\u0caa"-"\u0cb3", "\u0cb5"-"\u0cb9", "\u0cbd"-"\u0cbd",
-    "\u0cde"-"\u0cde", "\u0ce0"-"\u0ce1", "\u0d05"-"\u0d0c", "\u0d0e"-"\u0d10", "\u0d12"-"\u0d28",
-    "\u0d2a"-"\u0d39", "\u0d60"-"\u0d61", "\u0d85"-"\u0d96", "\u0d9a"-"\u0db1", "\u0db3"-"\u0dbb",
-    "\u0dbd"-"\u0dbd", "\u0dc0"-"\u0dc6", "\u0e01"-"\u0e30", "\u0e32"-"\u0e33", "\u0e40"-"\u0e46",
-    "\u0e81"-"\u0e82", "\u0e84"-"\u0e84", "\u0e87"-"\u0e88", "\u0e8a"-"\u0e8a", "\u0e8d"-"\u0e8d",
-    "\u0e94"-"\u0e97", "\u0e99"-"\u0e9f", "\u0ea1"-"\u0ea3", "\u0ea5"-"\u0ea5", "\u0ea7"-"\u0ea7",
-    "\u0eaa"-"\u0eab", "\u0ead"-"\u0eb0", "\u0eb2"-"\u0eb3", "\u0ebd"-"\u0ebd", "\u0ec0"-"\u0ec4",
-    "\u0ec6"-"\u0ec6", "\u0edc"-"\u0edd", "\u0f00"-"\u0f00", "\u0f40"-"\u0f47", "\u0f49"-"\u0f6a",
-    "\u0f88"-"\u0f8b", "\u1000"-"\u1021", "\u1023"-"\u1027", "\u1029"-"\u102a", "\u1050"-"\u1055",
-    "\u10a0"-"\u10c5", "\u10d0"-"\u10f8", "\u1100"-"\u1159", "\u115f"-"\u11a2", "\u11a8"-"\u11f9",
-    "\u1200"-"\u1206", "\u1208"-"\u1246", "\u1248"-"\u1248", "\u124a"-"\u124d", "\u1250"-"\u1256",
-    "\u1258"-"\u1258", "\u125a"-"\u125d", "\u1260"-"\u1286", "\u1288"-"\u1288", "\u128a"-"\u128d",
-    "\u1290"-"\u12ae", "\u12b0"-"\u12b0", "\u12b2"-"\u12b5", "\u12b8"-"\u12be", "\u12c0"-"\u12c0",
-    "\u12c2"-"\u12c5", "\u12c8"-"\u12ce", "\u12d0"-"\u12d6", "\u12d8"-"\u12ee", "\u12f0"-"\u130e",
-    "\u1310"-"\u1310", "\u1312"-"\u1315", "\u1318"-"\u131e", "\u1320"-"\u1346", "\u1348"-"\u135a",
-    "\u13a0"-"\u13f4", "\u1401"-"\u166c", "\u166f"-"\u1676", "\u1681"-"\u169a", "\u16a0"-"\u16ea",
-    "\u1700"-"\u170c", "\u170e"-"\u1711", "\u1720"-"\u1731", "\u1740"-"\u1751", "\u1760"-"\u176c",
-    "\u176e"-"\u1770", "\u1780"-"\u17b3", "\u17d7"-"\u17d7", "\u17dc"-"\u17dc", "\u1820"-"\u1877",
-    "\u1880"-"\u18a8", "\u1900"-"\u191c", "\u1950"-"\u196d", "\u1970"-"\u1974", "\u1d00"-"\u1d6b",
-    "\u1e00"-"\u1e9b", "\u1ea0"-"\u1ef9", "\u1f00"-"\u1f15", "\u1f18"-"\u1f1d", "\u1f20"-"\u1f45",
-    "\u1f48"-"\u1f4d", "\u1f50"-"\u1f57", "\u1f59"-"\u1f59", "\u1f5b"-"\u1f5b", "\u1f5d"-"\u1f5d",
-    "\u1f5f"-"\u1f7d", "\u1f80"-"\u1fb4", "\u1fb6"-"\u1fbc", "\u1fbe"-"\u1fbe", "\u1fc2"-"\u1fc4",
-    "\u1fc6"-"\u1fcc", "\u1fd0"-"\u1fd3", "\u1fd6"-"\u1fdb", "\u1fe0"-"\u1fec", "\u1ff2"-"\u1ff4",
-    "\u1ff6"-"\u1ffc", "\u2071"-"\u2071", "\u207f"-"\u207f", "\u2102"-"\u2102", "\u2107"-"\u2107",
-    "\u210a"-"\u2113", "\u2115"-"\u2115", "\u2119"-"\u211d", "\u2124"-"\u2124", "\u2126"-"\u2126",
-    "\u2128"-"\u2128", "\u212a"-"\u212d", "\u212f"-"\u2131", "\u2133"-"\u2139", "\u213d"-"\u213f",
-    "\u2145"-"\u2149", "\u3005"-"\u3006", "\u3031"-"\u3035", "\u303b"-"\u303c", "\u3041"-"\u3096",
-    "\u309d"-"\u309f", "\u30a1"-"\u30fa", "\u30fc"-"\u30ff", "\u3105"-"\u312c", "\u3131"-"\u318e",
-    "\u31a0"-"\u31b7", "\u31f0"-"\u31ff", "\u3400"-"\u4db5", "\u4e00"-"\u9fa5", "\ua000"-"\ua48c",
-    "\uac00"-"\ud7a3", "\uf900"-"\ufa2d", "\ufa30"-"\ufa6a", "\ufb00"-"\ufb06", "\ufb13"-"\ufb17",
-    "\ufb1d"-"\ufb1d", "\ufb1f"-"\ufb28", "\ufb2a"-"\ufb36", "\ufb38"-"\ufb3c", "\ufb3e"-"\ufb3e",
-    "\ufb40"-"\ufb41", "\ufb43"-"\ufb44", "\ufb46"-"\ufbb1", "\ufbd3"-"\ufd3d", "\ufd50"-"\ufd8f",
-    "\ufd92"-"\ufdc7", "\ufdf0"-"\ufdfb", "\ufe70"-"\ufe74", "\ufe76"-"\ufefc", "\uff21"-"\uff3a",
-    "\uff41"-"\uff5a", "\uff66"-"\uffbe", "\uffc2"-"\uffc7", "\uffca"-"\uffcf", "\uffd2"-"\uffd7",
-    "\uffda"-"\uffdc"
-] >
-}SimpleNode Start() :{}{  ("@" Command())+ < EOF >  {    return jjtThis;  }}void Command() :{
-  Token type;
+| < #SPECIAL : ["\r","\n","\u0020"-"\u0021","\u0023"-"\u0026","\u0028"-"\u002f",
+				"\u003a"-"\u0040" ,"\u005b"-"\u0060","\u0020"-"\u0021","\u007b"-"\u007e"
+				] >
+| < #LETTER : ["\u0041"-"\u007A" ] >
+}SimpleNode Start() :{}{  (< ARROBA > Command())+ < EOF >  {    return jjtThis;  }}void Command() :{
+  Token t = getNextToken();
+  Token key;
 }{
- type = < TYPE > "{"      {
-    try    {		switch(type.image.toString().toLowerCase())		{
-		  case "article":
-		  	ArticleData();
-			break;		  case "book":
-			BookData();
-			break;
-		  case "booklet":
-		  	BookletData();
-		    break;
-		  case "conference":
-		  	ConferenceData();
-		  	break;
-		  case "inbook":
-		  	InbookData();
-		  	break;
-		  case "incollection":
-		  	IncollectionData();
-		  	break;
-		  case "inproceedings":
-		  	InproceedingsData();
-		  	break;
-		  case "manual":
-		  	ManualData();
-		  	break;
-		  case "mastersthesis":
-		  	MastersthesisData();
-		  	break;
-		  case "misc":
-		  	MiscData();
-		  	break;
-		  case "phdthesis":
-		  	PhdthesisData();
-		  	break;
-		  case "proceedings":
-		  	ProceedingsData();
-		  	break;
-		  case "techreport":
-		  	TechreportData();
-		  	break;
-		  case "unpublished":
-		  	UnpublishedData();
-		  	break;
-		  default:
-			throw new TokenException("TOKEN " + type.image.toString().toLowerCase() + " not defined");
-			break;
+  < BRACKET_START > ( key = < WORD > < COMMA >)?
+  { 
+    try    {
+            switch(t.kind){
+              case BibParserConstants.ARTICLE:
+			  	ArticleData();
+			  	break;
+			  case BibParserConstants.BOOK:
+				BookData();
+				break;
+			  case BibParserConstants.BOOKLET:
+			  	BookletData();
+			  	break;
+			  case BibParserConstants.CONFERENCE:
+			  	ConferenceData();
+			  	break;
+			  case BibParserConstants.INBOOK:
+			  	InbookData();
+			  	break;
+			  case BibParserConstants.INCOLLECTION:
+			  	IncollectionData();
+			  	break;
+			  case BibParserConstants.INPROCEEDINGS:
+			  	InproceedingsData();
+			  	break;
+			  case BibParserConstants.MANUAL:
+			  	ManualData();
+			  	break;
+			  case BibParserConstants.MASTERTHESIS:
+			  	MastersthesisData();
+			  	break;
+			  case BibParserConstants.MISC:
+			  	MiscData();
+			  	break;
+			  case BibParserConstants.PHDTHESIS:
+			  	PhdthesisData();
+			  	break;
+			  case BibParserConstants.PROCEEDINGS:
+			  	ProceedingsData();
+			  	break;
+			  case BibParserConstants.TECHREPORT:
+			  	TechreportData();
+			  	break;
+			  case BibParserConstants.UNPUBLISHED:
+			  	UnpublishedData();
+			  	break;
+			  default:
+			  	throw new TokenException("Not expecting token " + t);
+			    break;
 		}
 	}
 	catch(Exception e)
@@ -186,839 +134,257 @@ public class BibParser{
       System.out.println("Error: " + e.getMessage());
     }
   }
-  "}"}
+  < BRACKET_END >
+}
+
 
 
 void ArticleData() :
+{}
 {
-  Token citation_key = null;
-  Token author = null;
-  Token title = null;
-  Token journal = null;
-  Token year = null;
-  Token volume = null;
-  Token number = null;
-  Token pages = null;
-  Token month = null;
-  Token note = null;
-  Token key = null;
-}
-{
-  citation_key = < WORD > ("," (< AUTHOR > "=" author = < QUOTED_TEXT > | < TITLE > "=" title = < QUOTED_TEXT > | < JOURNAL > "=" journal = < QUOTED_TEXT > | < YEAR > "=" year = < INTEGER > | < VOLUME > "=" volume = < INTEGER > | < NUMBER > "=" number = < INTEGER > | < PAGES > "=" pages = < PAGES_V > | < MONTH > "=" month = < QUOTED_TEXT > | < NOTE > "=" note = < QUOTED_TEXT > | < KEY > "=" key = < QUOTED_TEXT >))*
-  {
-    try    {
-	    if(author == null || title == null || journal == null || year == null)	    {
-	      throw new TokenException("AUTHOR, TITLE, JOURNAL and YEAR are mandatory in @ARTICLE entry");
-	    }
-	    else	    {
-	      ArticleData art = new ArticleData();
-	      art.citationKey = citation_key.image;
-	      art.author = author.image;
-	      art.title = title.image;
-	      art.journal = journal.image;
-	      art.year = Integer.valueOf(year.image);
-	      if(volume != null)
-	      	art.volume = Integer.valueOf(volume.image);
-	      if(number != null)
-	      	art.number = Integer.valueOf(number.image);
-	      if(pages != null)
-	      	art.pages = pages.image;
-	      if(month != null)
-	      	art.month = month.image;
-	      if(note != null)
-	      	art.note = note.image;
-	      if(key != null)
-	      	art.key = key.image;
-
-	      data.add(art);
-	      	
-	      System.out.println(art.toString());
-	    }
-	}
-	catch(Exception e)
-    {
-      System.out.println("Error: " + e.getMessage());
-    }
-  }
+  (
+    Attribute(BibParserConstants.ARTICLE)
+    (		< COMMA > Attribute(BibParserConstants.ARTICLE)
+    )*
+  )?
 }
 
-void BookData() :{
-  Token citation_key = null;
-  Token author = null;
-  Token title = null;
-  Token publisher = null;
-  Token year = null;
-  Token volume = null;
-  Token number = null;
-  Token series = null;
-  Token address = null;
-  Token edition = null;
-  Token month = null;
-  Token note = null;
-  Token key = null;}
+void BookData() :
+{}
 {
-  citation_key = < WORD > ("," (< AUTHOR > "=" author = < QUOTED_TEXT > | < TITLE > "=" title = < QUOTED_TEXT > | < PUBLISHER > "=" publisher = < QUOTED_TEXT > | < YEAR > "=" year = < INTEGER > | <  VOLUME > "=" volume = < INTEGER > | < NUMBER > "=" number = < INTEGER > | < SERIES > "=" series = <QUOTED_TEXT> | < ADDRESS > "=" address = <QUOTED_TEXT> | < EDITION > "=" edition = <QUOTED_TEXT> | < MONTH > "=" month = < QUOTED_TEXT > | < NOTE > "=" note = < QUOTED_TEXT > | < KEY > "=" key = < QUOTED_TEXT >))*
-  {     try
-    {
-	    if(author == null || title == null || publisher == null || year == null)
-	    {
-	      throw new TokenException("AUTHOR, TITLE, publisher and YEAR are mandatory in @BOOK entry");
-	    }
-	    else
-	    {
-	      BookData book = new BookData();
-	      book.citationKey = citation_key.image;
-	      book.author = author.image;
-	      book.title = title.image;
-	      book.publisher = publisher.image;
-	      book.year = Integer.valueOf(year.image);
-	      if(volume != null)
-	      	book.volume = Integer.valueOf(volume.image);
-	      if(number != null)
-	      	book.number = Integer.valueOf(number.image);
-	      if(series != null)
-	      	book.series = series.image;
-	      if(address != null)
-	      	book.address = address.image;
-	      if(edition != null)
-	      	book.edition = edition.image;
-	      if(month != null)
-	      	book.month = month.image;
-	      if(note != null)
-	      	book.note = note.image;
-	      if(key != null)
-	      	book.key = key.image;
-
-	      data.add(book);
-	      
-	      System.out.println(book.toString());
-	    }
-	}
-	catch(Exception e)
-    {
-      System.out.println("Error: " + e.getMessage());
-    }
-  }
+  (
+    Attribute(BibParserConstants.BOOK)
+    (
+		< COMMA > Attribute(BibParserConstants.BOOK)
+    )*
+  )?
 }
 
 void BookletData() :
+{}
 {
-  Token citation_key = null;
-  Token author = null;
-  Token title = null;
-  Token howpublished = null;
-  Token year = null;
-  Token address = null;
-  Token month = null;
-  Token note = null;
-  Token key = null;
-}
-{
-  citation_key = < WORD > ("," (< TITLE > "=" title = < QUOTED_TEXT > | < AUTHOR > "=" author = < QUOTED_TEXT > | < HOWPUBLISHED > "=" howpublished = < QUOTED_TEXT > | < YEAR > "=" year = < INTEGER > | < ADDRESS > "=" address = < QUOTED_TEXT > | < MONTH > "=" month = < QUOTED_TEXT > | < NOTE > "=" note = < QUOTED_TEXT > | < KEY > "=" key = < QUOTED_TEXT >))*
-  {
-   try
-    {
-	    if(title == null)
-	    {
-	      throw new TokenException("TITLE is mandatory in @BOOKLET entry");
-	    }
-	    else
-	    {
-	      BookletData booklet = new BookletData();
-	      booklet.citationKey = citation_key.image;
-	      booklet.title = title.image;
-	      if(author != null)
-	      	booklet.author = author.image;
-	      if(howpublished != null)
-	      	booklet.howpublished =howpublished.image;
-	      if(year != null)
-	      	booklet.year = Integer.valueOf(year.image);
-	      if(address != null)
-	      	booklet.address = address.image;
-	      if(month != null)
-	      	booklet.month = month.image;
-	      if(note != null)
-	      	booklet.note = note.image;
-	      if(key != null)
-	      	booklet.key = key.image;
-
-	      data.add(booklet);
-	      
-	      System.out.println(booklet.toString());
-	    }
-	}
-	catch(Exception e)
-    {
-      System.out.println("Error: " + e.getMessage());
-    }
-  }
+  (
+    Attribute(BibParserConstants.BOOKLET)
+    (
+		< COMMA > Attribute(BibParserConstants.BOOKLET)
+    )*
+  )?
 }
 
 void ConferenceData() :
+{}
 {
-  Token citation_key = null;
-  Token author = null;
-  Token title = null;
-  Token booktitle = null;
-  Token year = null;
-  
-  Token editor = null;
-  Token volume = null;
-  Token number = null;
-  Token series = null;
-  Token pages = null;
-  Token address = null;
-  Token month = null;
-  Token organization = null;
-  Token publisher = null;
-  Token note = null;
-  Token key = null;
-}
-{
-  citation_key = < WORD > ("," (< AUTHOR > "=" author = < QUOTED_TEXT > | < BOOKTITLE > "=" booktitle = < QUOTED_TEXT > | < YEAR > "=" year = < INTEGER > |< TITLE > "=" title = < QUOTED_TEXT > | < EDITOR > "=" editor = < QUOTED_TEXT > | < VOLUME > "=" volume = <INTEGER > | < NUMBER > "=" number = < INTEGER >| < SERIES > "=" series = < QUOTED_TEXT >| < PAGES > "=" pages = < PAGES_V >| < ORGANIZATION > "=" organization = < QUOTED_TEXT >| < PUBLISHER > "=" publisher = < QUOTED_TEXT >|< ADDRESS > "=" address = < QUOTED_TEXT > | < MONTH > "=" month = < QUOTED_TEXT > | < NOTE > "=" note = < QUOTED_TEXT > | < KEY > "=" key = < QUOTED_TEXT >))*
-  {
-   try
-    {
-	    if(author == null ||title == null || booktitle == null ||year==null)
-	    {
-	      throw new TokenException("AUTHOR, TITLE, BOOKTITLE and YEAR are mandatory in @CONFERENCE entry");
-	    }
-	    else
-	    {
-	      ConferenceData conference = new ConferenceData();
-	      conference.citationKey = citation_key.image;
-	      conference.title = title.image;
-	      conference.author = author.image;
-	      conference.booktitle =booktitle.image;
-	      conference.year = Integer.valueOf(year.image);
-	      if(editor != null)
-	      	conference.editor = editor.image;
-	      if(volume != null)
-	      	conference.volume = Integer.valueOf(volume.image);
-	      if(number != null)
-	      	conference.number = Integer.valueOf(number.image);
-		  if(series != null)
-	      	conference.series = series.image;
-	      if(pages != null)
-	      	conference.pages = pages.image;
-	      if(organization != null)
-	      	conference.organization = organization.image;
-		  if(publisher != null)
-	      	conference.publisher = publisher.image;
-	      if(address != null)
-	      	conference.address = address.image;
-	      if(month != null)
-	      	conference.month = month.image;
-	      if(note != null)
-	      	conference.note = note.image;
-	      if(key != null)
-	      	conference.key = key.image;
-
-	      data.add(conference);
-	      
-	      System.out.println(conference.toString());
-	    }
-	}
-	catch(Exception e)
-    {
-      System.out.println("Error: " + e.getMessage());
-    }
-  }
+  (
+    Attribute(BibParserConstants.CONFERENCE)
+    (
+		< COMMA > Attribute(BibParserConstants.CONFERENCE)
+    )*
+  )?
 }
 
 void InbookData() :
+{}
 {
-  Token citation_key = null;
-  Token author = null;
-  Token title = null;
-  Token chapter = null;
-  Token pages = null;
-  Token publisher = null;
-  Token year = null;
-  
-
-  Token volume = null;
-  Token type = null;
-  Token series = null;
-  Token edition = null;
-  Token address = null;
-  Token month = null;
-  Token note = null;
-  Token key = null;
-}
-{
-  citation_key = < WORD > ("," (< AUTHOR > "=" author = < QUOTED_TEXT > | < TITLE > "=" title = < QUOTED_TEXT > | < YEAR > "=" year = < INTEGER > |< CHAPTER > "=" chapter = < INTEGER >|< PAGES > "=" pages = < PAGES_V >|< PUBLISHER > "=" publisher = < QUOTED_TEXT > | < REP_TYPE > "=" type = < QUOTED_TEXT >  | < VOLUME > "=" volume = <INTEGER >  | < EDITION > "=" edition = < INTEGER >  | < SERIES > "=" series = < QUOTED_TEXT >  | < ADDRESS > "=" pages = < QUOTED_TEXT >| < MONTH > "=" month = < QUOTED_TEXT > | < NOTE > "=" note = < QUOTED_TEXT > | < KEY > "=" key = < QUOTED_TEXT >))*
-  {
-   try
-    {
-	    if(author == null ||title == null || (chapter==null && pages==null)|| publisher == null ||year==null)
-	    {
-	      throw new TokenException("AUTHOR, TITLE, CHAPTER or PAGES, PUBLISHER and YEAR are mandatory in @INBOOK entry");
-	    }
-	    else
-	    {
-	      InbookData inbook = new InbookData();
-	      inbook.citationKey = citation_key.image;
-	      inbook.title = title.image;
-	      inbook.author = author.image;
-	      inbook.publisher =publisher.image;
-	      inbook.year = Integer.valueOf(year.image);
-	      if(pages != null)
-	      	inbook.pages = pages.image;
-	      if(chapter != null)
-	      	inbook.chapter = Integer.valueOf(chapter.image);
-	      if(volume != null)
-	      	inbook.volume = Integer.valueOf(volume.image);
-		  if(series != null)
-	      	inbook.series = series.image;
-	      if(type != null)
-	      	inbook.type = type.image;
-	      if(edition != null)
-	      	inbook.edition = edition.image;
-	      if(address != null)
-	      	inbook.address = address.image;
-	      if(month != null)
-	      	inbook.month = month.image;
-	      if(note != null)
-	      	inbook.note = note.image;
-	      if(key != null)
-	      	inbook.key = key.image;
-
-	      data.add(inbook);
-	      
-	      System.out.println(inbook.toString());
-	    }
-	}
-	catch(Exception e)
-    {
-      System.out.println("Error: " + e.getMessage());
-    }
-  }
+  (
+    Attribute(BibParserConstants.INBOOK)
+    (
+		< COMMA > Attribute(BibParserConstants.INBOOK)
+    )*
+  )?
 }
 
 void IncollectionData() :
+{}
 {
-  Token citation_key = null;
-  Token author = null;
-  Token title = null;
-  Token booktitle = null;
-  Token publisher = null;
-  Token year = null;
-  
-
-  Token editor = null;
-  Token edition = null;
-  Token volume = null;
-  Token series = null;
-  Token type = null;
-  Token chapter = null;
-  Token pages = null;
-  Token address = null;
-  Token month = null;
-  Token note = null;
-  Token key = null;
-}
-{
-  citation_key = < WORD > ("," (< AUTHOR > "=" author = < QUOTED_TEXT > | < TITLE > "=" title = < QUOTED_TEXT > | < YEAR > "=" year = < INTEGER > |< BOOKTITLE > "=" booktitle = < QUOTED_TEXT > |< PUBLISHER > "=" publisher = < QUOTED_TEXT > | < REP_TYPE > "=" type = < QUOTED_TEXT >  | < EDITOR > "=" editor = < QUOTED_TEXT > | < PAGES > "=" pages = < PAGES_V >   | < VOLUME > "=" volume = <INTEGER >  | < CHAPTER > "=" chapter = <INTEGER >  | < EDITION > "=" edition = < INTEGER >  | < SERIES > "=" series = < QUOTED_TEXT >  | < ADDRESS > "=" pages = < QUOTED_TEXT >  | < MONTH > "=" month = < QUOTED_TEXT >  | < NOTE > "=" note = < QUOTED_TEXT >  | < KEY > "=" key = < QUOTED_TEXT >))*
-  {
-   try
-    {
-	    if(author == null ||title == null || booktitle == null|| publisher == null ||year==null)
-	    {
-	      throw new TokenException("AUTHOR, TITLE, BOOKTITLE, PUBLISHER and YEAR are mandatory in @INCOLLECTION entry");
-	    }
-	    else
-	    {
-	      IncollectionData incollection = new IncollectionData();
-	      incollection.citationKey = citation_key.image;
-	      incollection.title = title.image;
-	      incollection.author = author.image;
-	      incollection.publisher =publisher.image;
-	      incollection.booktitle =booktitle.image;
-	      incollection.year = Integer.valueOf(year.image);
-	      if(editor != null)
-	      	incollection.editor = editor.image;
-	      if(edition != null)
-	      	incollection.edition = edition.image;
-	      if(volume != null)
-	      	incollection.volume = Integer.valueOf(volume.image);
-		  if(series != null)
-	      	incollection.series = series.image;
-	      if(type != null)
-	      	incollection.type = type.image;
-	      if(address != null)
-	      	incollection.address = address.image;
-	      if(pages != null)
-	      	incollection.pages = pages.image;
-	      if(month != null)
-	      	incollection.month = month.image;
-	      if(note != null)
-	      	incollection.note = note.image;
-	      if(key != null)
-	      	incollection.key = key.image;
-
-	      data.add(incollection);
-	      
-	      System.out.println(incollection.toString());
-	    }
-	}
-	catch(Exception e)
-    {
-      System.out.println("Error: " + e.getMessage());
-    }
-  }
+  (
+    Attribute(BibParserConstants.INCOLLECTION)
+    (
+		< COMMA > Attribute(BibParserConstants.INCOLLECTION)
+    )*
+  )?
 }
 
 void InproceedingsData() :
+{}
 {
-  Token citation_key = null;
-  Token author = null;
-  Token title = null;
-  Token booktitle = null;
-  Token year = null;
-  
-  Token editor = null;
-  Token volume = null;
-  Token number = null;
-  Token series = null;
-  Token pages = null;
-  Token address = null;
-  Token month = null;
-  Token organization = null;
-  Token publisher = null;
-  Token note = null;
-  Token key = null;
-}
-{
-  citation_key = < WORD > ("," (< AUTHOR > "=" author = < QUOTED_TEXT > | < BOOKTITLE > "=" booktitle = < QUOTED_TEXT > | < YEAR > "=" year = < INTEGER > |< TITLE > "=" title = < QUOTED_TEXT > | < EDITOR > "=" editor = < QUOTED_TEXT > | < VOLUME > "=" volume = <INTEGER > | < NUMBER > "=" number = < INTEGER >| < SERIES > "=" series = < QUOTED_TEXT >| < PAGES > "=" pages = < PAGES_V >| < ORGANIZATION > "=" organization = < QUOTED_TEXT >| < PUBLISHER > "=" publisher = < QUOTED_TEXT >|< ADDRESS > "=" address = < QUOTED_TEXT > | < MONTH > "=" month = < QUOTED_TEXT > | < NOTE > "=" note = < QUOTED_TEXT > | < KEY > "=" key = < QUOTED_TEXT >))*
-  {
-   try
-    {
-	    if(author == null ||title == null || booktitle == null ||year==null)
-	    {
-	      throw new TokenException("AUTHOR, TITLE, BOOKTITLE and YEAR are mandatory in @INPROCEEDINGS entry");
-	    }
-	    else
-	    {
-	      InproceedingsData inproceedings = new InproceedingsData();
-	      inproceedings.citationKey = citation_key.image;
-	      inproceedings.title = title.image;
-	      inproceedings.author = author.image;
-	      inproceedings.booktitle =booktitle.image;
-	      inproceedings.year = Integer.valueOf(year.image);
-	      if(editor != null)
-	      	inproceedings.editor = editor.image;
-	      if(volume != null)
-	      	inproceedings.volume = Integer.valueOf(volume.image);
-	      if(number != null)
-	      	inproceedings.number = Integer.valueOf(number.image);
-		  if(series != null)
-	      	inproceedings.series = series.image;
-	      if(pages != null)
-	      	inproceedings.pages = pages.image;
-	      if(organization != null)
-	      	inproceedings.organization = organization.image;
-		  if(publisher != null)
-	      	inproceedings.publisher = publisher.image;
-	      if(address != null)
-	      	inproceedings.address = address.image;
-	      if(month != null)
-	      	inproceedings.month = month.image;
-	      if(note != null)
-	      	inproceedings.note = note.image;
-	      if(key != null)
-	      	inproceedings.key = key.image;
-
-		  data.add(inproceedings);	
-	      
-	      System.out.println(inproceedings.toString());
-	    }
-	}
-	catch(Exception e)
-    {
-      System.out.println("Error: " + e.getMessage());
-    }
-  }
+  (
+    Attribute(BibParserConstants.INPROCEEDINGS)
+    (
+		< COMMA > Attribute(BibParserConstants.INPROCEEDINGS)
+    )*
+  )?
 }
 
 void ManualData() :
+{}
 {
-  Token citation_key = null;
-  Token title = null;
-  
-  Token author = null;
-  Token organization = null;
-  Token address = null;
-  Token edition = null;
-  Token year = null;
-  Token month = null;
-  Token note = null;
-  Token key = null;
-}
-{
-  citation_key = < WORD > ("," (< TITLE > "=" title = < QUOTED_TEXT > | < AUTHOR > "=" author = < QUOTED_TEXT >  | < YEAR > "=" year = < INTEGER > | < ORGANIZATION > "=" organization = < QUOTED_TEXT >  | < EDITION > "=" edition = < QUOTED_TEXT >  |< ADDRESS > "=" address = < QUOTED_TEXT >  | < MONTH > "=" month = < QUOTED_TEXT > | < NOTE > "=" note = < QUOTED_TEXT > | < KEY > "=" key = < QUOTED_TEXT >))*
-  {
-   try
-    {
-	    if(title == null)
-	    {
-	      throw new TokenException("TITLE is mandatory in @MANUAL entry");
-	    }
-	    else
-	    {
-	      ManualData manual = new ManualData();
-	      manual.citationKey = citation_key.image;
-	      manual.title = title.image;
-	      if(year != null)
-	      	manual.year = Integer.valueOf(year.image);
-	      if(author != null)
-	      	manual.author = author.image;
-	      if(edition != null)
-	      	manual.edition = edition.image;
-	      if(organization != null)
-	      	manual.organization = organization.image;
-	      if(address != null)
-	      	manual.address = address.image;
-	      if(month != null)
-	      	manual.month = month.image;
-	      if(note != null)
-	      	manual.note = note.image;
-	      if(key != null)
-	      	manual.key = key.image;
-
-	      data.add(manual);
-	      
-	      System.out.println(manual.toString());
-	    }
-	}
-	catch(Exception e)
-    {
-      System.out.println("Error: " + e.getMessage());
-    }
-  }
+  (
+    Attribute(BibParserConstants.MANUAL)
+    (
+		< COMMA > Attribute(BibParserConstants.MANUAL)
+    )*
+  )?
 }
 
 void MastersthesisData() :
+{}
 {
-  Token citation_key = null;
-  Token author = null;
-  Token title = null;
-  Token school = null;
-  Token year = null;
-
-  Token type = null;
-  Token address = null;
-  Token month = null;
-  Token note = null;
-  Token key = null;
-}
-{
-  citation_key = < WORD > ("," (< AUTHOR > "=" author = < QUOTED_TEXT >|< TITLE > "=" title = < QUOTED_TEXT >|< SCHOOL > "=" school = < QUOTED_TEXT > | < YEAR > "=" year = < INTEGER > | < TYPE > "=" type = < QUOTED_TEXT > | < ADDRESS > "=" address = < QUOTED_TEXT > | < MONTH > "=" month = < QUOTED_TEXT > | < NOTE > "=" note = < QUOTED_TEXT > | < KEY > "=" key = < QUOTED_TEXT >))*
-  {
-   try
-    {
-	    if(author ==null || title == null || school == null || year == null)
-	    {
-	      throw new TokenException("AUTHOR, TITLE, SCHOOL, is mandatory in @MASTERTHESIS entry");
-	    }
-	    else
-	    {
-	      MastersthesisData mastersthesis = new MastersthesisData();
-	      mastersthesis.citationKey = citation_key.image;
-	      mastersthesis.school = school.image;
-	      mastersthesis.title = title.image;
-	      mastersthesis.year = Integer.valueOf(year.image);
-	      mastersthesis.author = author.image;
-	      if(type != null)
-	      	mastersthesis.type = type.image;
-	      if(address != null)
-	      	mastersthesis.address = address.image;
-	      if(month != null)
-	      	mastersthesis.month = month.image;
-	      if(note != null)
-	      	mastersthesis.note = note.image;
-	      if(key != null)
-	      	mastersthesis.key = key.image;
-
-	      data.add(mastersthesis);
-	      
-	      System.out.println(mastersthesis.toString());
-	    }
-	}
-	catch(Exception e)
-    {
-      System.out.println("Error: " + e.getMessage());
-    }
-  }
+  (
+    Attribute(BibParserConstants.MASTERTHESIS)
+    (
+		< COMMA > Attribute(BibParserConstants.MASTERTHESIS)
+    )*
+  )?
 }
 
 void MiscData() :
+{}
 {
-  Token citation_key = null;
-  
-  Token author = null;
-  Token title = null;
-  Token howpublished = null;
-  Token year = null;
-  Token month = null;
-  Token note = null;
-  Token key = null;
-}
-{
-  citation_key = < WORD > ("," (< AUTHOR > "=" author = < QUOTED_TEXT > | < TITLE > "=" title = < QUOTED_TEXT > | < HOWPUBLISHED > "=" howpublished = < QUOTED_TEXT > | < YEAR > "=" year = <INTEGER > | < MONTH > "=" month = < QUOTED_TEXT > | < NOTE > "=" note = < QUOTED_TEXT > | < KEY > "=" key = < QUOTED_TEXT >))*
-  {
-   try
-    {
-      MiscData misc = new MiscData();
-      misc.citationKey = citation_key.image;
-      if(author !=null)
-		misc.author = author.image;
-	  if(title != null)
-	  	misc.title = title.image;
-	  if(howpublished != null)
-	  	misc.howpublished = howpublished.image;
-	  if(year != null)
-	  	misc.year = Integer.valueOf(year.image);
-	  if(month != null)
-	  	misc.month = month.image;
-	  if(note != null)
-	  	misc.note = note.image;
-	  if(key != null)
-	    misc.key = key.image;
-
-	  data.add(misc);
-	  
-	  System.out.println(misc.toString());
-	    
-	}
-	catch(Exception e)
-    {
-      System.out.println("Error: " + e.getMessage());
-    }
-  }
+  (
+    Attribute(BibParserConstants.MISC)
+    (
+		< COMMA > Attribute(BibParserConstants.MISC)
+    )*
+  )?
 }
 
 void PhdthesisData() :
+{}
 {
-  Token citation_key = null;
-  Token author = null;
-  Token title = null;
-  Token school = null;
-  Token year = null;
-
-  Token type = null;
-  Token address = null;
-  Token month = null;
-  Token note = null;
-  Token key = null;
-}
-{
-  citation_key = < WORD > ("," (< AUTHOR > "=" author = < QUOTED_TEXT >|< TITLE > "=" title = < QUOTED_TEXT >|< SCHOOL > "=" school = < QUOTED_TEXT > | < YEAR > "=" year = < INTEGER > | < TYPE > "=" type = < QUOTED_TEXT > | < ADDRESS > "=" address = < QUOTED_TEXT > | < MONTH > "=" month = < QUOTED_TEXT > | < NOTE > "=" note = < QUOTED_TEXT > | < KEY > "=" key = < QUOTED_TEXT >))*
-  {
-   try
-    {
-	    if(author ==null || title == null || school == null || year == null)
-	    {
-	      throw new TokenException("AUTHOR, TITLE, SCHOOL, is mandatory in @PHDTHESIS entry");
-	    }
-	    else
-	    {
-	      PhdthesisData phdthesis = new PhdthesisData();
-	      phdthesis.citationKey = citation_key.image;
-	      phdthesis.school = school.image;
-	      phdthesis.title = title.image;
-	      phdthesis.year = Integer.valueOf(year.image);
-	      phdthesis.author = author.image;
-	      if(type != null)
-	      	phdthesis.type = type.image;
-	      if(address != null)
-	      	phdthesis.address = address.image;
-	      if(month != null)
-	      	phdthesis.month = month.image;
-	      if(note != null)
-	      	phdthesis.note = note.image;
-	      if(key != null)
-	      	phdthesis.key = key.image;
-
-	      data.add(phdthesis);
-	      
-	      System.out.println(phdthesis.toString());
-	    }
-	}
-	catch(Exception e)
-    {
-      System.out.println("Error: " + e.getMessage());
-    }
-  }
+  (
+    Attribute(BibParserConstants.PHDTHESIS)
+    (
+		< COMMA > Attribute(BibParserConstants.PHDTHESIS)
+    )*
+  )?
 }
 
 void ProceedingsData() :
+{}
 {
-  Token citation_key = null;
-  Token title = null;
-  Token year = null;
-  
-  Token editor = null;
-  Token volume = null;
-  Token number = null;
-  Token series = null;
-  Token pages = null;
-  Token address = null;
-  Token month = null;
-  Token organization = null;
-  Token publisher = null;
-  Token note = null;
-  Token key = null;
-}
-{
-  citation_key = < WORD > ("," (< YEAR > "=" year = < INTEGER > |< TITLE > "=" title = < QUOTED_TEXT > | < EDITOR > "=" editor = < QUOTED_TEXT > | < VOLUME > "=" volume = <INTEGER > | < NUMBER > "=" number = < INTEGER >| < SERIES > "=" series = < QUOTED_TEXT >| < PAGES > "=" pages = < PAGES_V >| < ORGANIZATION > "=" organization = < QUOTED_TEXT >| < PUBLISHER > "=" publisher = < QUOTED_TEXT >|< ADDRESS > "=" address = < QUOTED_TEXT > | < MONTH > "=" month = < QUOTED_TEXT > | < NOTE > "=" note = < QUOTED_TEXT > | < KEY > "=" key = < QUOTED_TEXT >))*
-  {
-   try
-    {
-	    if(title == null ||year==null)
-	    {
-	      throw new TokenException("TITLE and YEAR are mandatory in @PROCEEDINGS entry");
-	    }
-	    else
-	    {
-	      ProceedingsData proceedings = new ProceedingsData();
-	      proceedings.citationKey = citation_key.image;
-	      proceedings.title = title.image;
-	      proceedings.year = Integer.valueOf(year.image);
-	      if(editor != null)
-	      	proceedings.editor = editor.image;
-	      if(volume != null)
-	      	proceedings.volume = Integer.valueOf(volume.image);
-	      if(number != null)
-	      	proceedings.number = Integer.valueOf(number.image);
-		  if(series != null)
-	      	proceedings.series = series.image;
-	      if(pages != null)
-	      	proceedings.pages = pages.image;
-	      if(organization != null)
-	      	proceedings.organization = organization.image;
-		  if(publisher != null)
-	      	proceedings.publisher = publisher.image;
-	      if(address != null)
-	      	proceedings.address = address.image;
-	      if(month != null)
-	      	proceedings.month = month.image;
-	      if(note != null)
-	      	proceedings.note = note.image;
-	      if(key != null)
-	      	proceedings.key = key.image;
-
-	      data.add(proceedings);
-	      
-	      System.out.println(proceedings.toString());
-	    }
-	}
-	catch(Exception e)
-    {
-      System.out.println("Error: " + e.getMessage());
-    }
-  }
+  (
+    Attribute(BibParserConstants.PROCEEDINGS)
+    (
+		< COMMA > Attribute(BibParserConstants.PROCEEDINGS)
+    )*
+  )?
 }
 
 void TechreportData() :
+{}
 {
-  Token citation_key = null;
-  Token author = null;
-  Token title = null;
-  Token institution = null;
-  Token year = null;
-  
-  Token type = null;
-  Token number = null;
-  Token address = null;
-  Token month = null;
-  Token note = null;
-  Token key = null;
-}
-{
-  citation_key = < WORD > ("," (< AUTHOR > "=" author = < QUOTED_TEXT > | < INSTITUTION > "=" institution = < QUOTED_TEXT > | < YEAR > "=" year = < INTEGER > |< TITLE > "=" title = < QUOTED_TEXT > | < NUMBER > "=" number = < INTEGER >| < TYPE > "=" type = < QUOTED_TEXT > |< ADDRESS > "=" address = < QUOTED_TEXT > | < MONTH > "=" month = < QUOTED_TEXT > | < NOTE > "=" note = < QUOTED_TEXT > | < KEY > "=" key = < QUOTED_TEXT >))*
-  {
-   try
-    {
-	    if(author == null || institution == null || title == null ||year==null)
-	    {
-	      throw new TokenException("AUTHOR, INSTITUTION, TITLE and YEAR are mandatory in @TECHREPORT entry");
-	    }
-	    else
-	    {
-	      TechreportData techreport = new TechreportData();
-	      techreport.citationKey = citation_key.image;
-	      techreport.title = title.image;
-	      techreport.author = author.image;
-	      techreport.institution = institution.image;
-	      techreport.year = Integer.valueOf(year.image);
-	      if(type != null)
-	      	techreport.type = type.image;
-	      if(number != null)
-	      	techreport.number = Integer.valueOf(number.image);
-	      if(address != null)
-	      	techreport.address = address.image;
-	      if(month != null)
-	      	techreport.month = month.image;
-	      if(note != null)
-	      	techreport.note = note.image;
-	      if(key != null)
-	      	techreport.key = key.image;
-
-	      data.add(techreport);
-	      
-	      System.out.println(techreport.toString());
-	    }
-	}
-	catch(Exception e)
-    {
-      System.out.println("Error: " + e.getMessage());
-    }
-  }
+  (
+    Attribute(BibParserConstants.TECHREPORT)
+    (
+		< COMMA > Attribute(BibParserConstants.TECHREPORT)
+    )*
+  )?
 }
 
 void UnpublishedData() :
+{}
 {
-  Token citation_key = null;
-  Token author = null;
-  Token title = null;
-  Token note = null;
-  
-  Token year = null;
-  Token month = null;
-  Token key = null;
+  (
+    Attribute(BibParserConstants.UNPUBLISHED)
+    (
+		< COMMA > Attribute(BibParserConstants.UNPUBLISHED)
+    )*
+  )?
+}
+
+void Attribute(int kind):
+{
+  Token field;
+  Token value;
 }
 {
-  citation_key = < WORD > ("," (< AUTHOR > "=" author = < QUOTED_TEXT > | < NOTE > "=" note = < QUOTED_TEXT > | < TITLE > "=" title = < QUOTED_TEXT >  | < YEAR > "=" year = < INTEGER >  | < MONTH > "=" month = < QUOTED_TEXT > | < KEY > "=" key = < QUOTED_TEXT >))*
+  (
+  		field = < WORD > < EQUAL > (value = < WORD >| value = < QUOTED_TEXT >)
+ 	|	field = < AUTHOR > < EQUAL > (value = < WORD >| value = < QUOTED_TEXT >)
+ 	|	field = < TITLE > < EQUAL > (value = < WORD >| value = < QUOTED_TEXT >)
+ 	|	field = < JOURNAL > < EQUAL > (value = < WORD >| value = < QUOTED_TEXT >) 
+ 	|	field = < YEAR > < EQUAL > (value = < INTEGER >) 
+ 	|	field = < VOLUME > < EQUAL > (value = < INTEGER >) 
+ 	|	field = < NUMBER > < EQUAL > (value = < INTEGER >) 
+ 	|	field = < PAGES > < EQUAL > (value = < PAGES_V >)
+ 	|	field = < MONTH > < EQUAL > (value = < QUOTED_TEXT >)  
+ 	|	field = < NOTE > < EQUAL > (value = < QUOTED_TEXT >)  
+ 	|	field = < KEY > < EQUAL > (value = < QUOTED_TEXT >)  
+ 	|	field = < PUBLISHER > < EQUAL > (value = < QUOTED_TEXT >)
+ 	|	field = < SERIES > < EQUAL > (value = < QUOTED_TEXT >)
+ 	|	field = < ADDRESS > < EQUAL > (value = < QUOTED_TEXT >)
+ 	|	field = < EDITION > < EQUAL > (value = < QUOTED_TEXT >)
+ 	
+  )
   {
-   try
-    {
-	    if(author == null || note == null || title == null)
-	    {
-	      throw new TokenException("AUTHOR, NOTE and TITLE are mandatory in @UNPUBLISHED entry");
-	    }
-	    else
-	    {
-	      UnpublishedData unpublished = new UnpublishedData();
-	      unpublished.citationKey = citation_key.image;
-	      unpublished.title = title.image;
-	      unpublished.author = author.image;
-	      unpublished.note = note.image;
-	      if(year != null)
-	        unpublished.year = Integer.valueOf(year.image);
-	      if(month != null)
-	      	unpublished.month = month.image;
-	      if(key != null)
-	      	unpublished.key = key.image;
-
-	      data.add(unpublished);
-	      
-	      System.out.println(unpublished.toString());
-	    }
-	}
-	catch(Exception e)
-    {
-      System.out.println("Error: " + e.getMessage());
+    try
+    {		switch(kind)
+		{
+			case BibParserConstants.ARTICLE:
+				switch(field.kind)
+				{
+					case BibParserConstants.AUTHOR:
+						break;
+					case BibParserConstants.TITLE:
+						break;
+					case BibParserConstants.JOURNAL:
+						break;
+					case BibParserConstants.YEAR:
+						break;
+					case BibParserConstants.VOLUME:
+						break;
+					case BibParserConstants.NUMBER:
+						break;
+					case BibParserConstants.PAGES:
+						break;
+					case BibParserConstants.MONTH:
+						break;
+					case BibParserConstants.NOTE:
+						break;
+					case BibParserConstants.KEY:
+						break;
+					default:
+						throw new SintaxException("Field " + field.image + " not expected: line " + field.beginLine + ", column " + field.beginColumn);
+						break;
+				}
+				break;
+			case BibParserConstants.BOOK:
+				switch(field.kind)
+				{
+					case BibParserConstants.AUTHOR:
+						break;
+					case BibParserConstants.TITLE:
+						break;
+					case BibParserConstants.PUBLISHER:
+						break;
+					case BibParserConstants.YEAR:
+						break;
+					case BibParserConstants.VOLUME:
+						break;
+					case BibParserConstants.NUMBER:
+						break;
+					case BibParserConstants.SERIES:
+						break;
+					case BibParserConstants.ADDRESS:
+						break;
+					case BibParserConstants.EDITION:
+						break;
+					case BibParserConstants.MONTH:
+						break;
+					case BibParserConstants.NOTE:
+						break;
+					case BibParserConstants.KEY:
+						break;
+					default:
+						throw new SintaxException("Field " + field.image + " not expected: line " + field.beginLine + ", column " + field.beginColumn);
+						break;
+				}
+				break;
+			default:
+				break;
+		}
     }
+    catch(SintaxException e)    {	  System.out.println(e.toString());
+    } 	
   }
 }

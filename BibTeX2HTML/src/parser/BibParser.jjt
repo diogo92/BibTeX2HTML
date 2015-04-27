@@ -113,24 +113,31 @@ void Type() :
 }
 {
 	< WORD > | < TEXT > | < CONFERENCE > | < ARTICLE > | < BOOK >
-	| < BOOKLET > | < INBOOK > | < INCOLLECTION > | < PAGES >
+	| < BOOKLET > | < INBOOK > | < INCOLLECTION >
 	| < INPROCEEDINGS > | < MANUAL > | < MASTERTHESIS > | < MISC >
 	| < PHDTHESIS > | < PROCEEDINGS > | < TECHREPORT > | < UNPUBLISHED >
-	| < AUTHOR > | < ANNOTE > | < BOOKTITLE > | < CHAPTER >
+}
+
+void Field():
+{
+  Token value;
+}
+{	< AUTHOR > | < ANNOTE > | < BOOKTITLE > | < CHAPTER >
 	| < CROSSREF > | < EDITOR > | < INSTITUTION > | < ORGANIZATION >
 	| < SCHOOL > | < JOURNAL > | < TITLE > | < YEAR > | < VOLUME >
 	| < NUMBER > | < ADDRESS > | < HOWPUBLISHED > | < PUBLISHER >
-	| < SERIES > | < EDITION > | < NOTE > | < MONTH >
+	| < SERIES > | < EDITION > | < NOTE > | < MONTH > | < PAGES >
 }
-
 void Value() :
-{}{
+{
+  Token value;}{
   < WORD > | < QUOTED_TEXT > | < INTEGER > | < PAGES_V >}
+
 void Attribute():
 {
 }
 {
   (
-  		Type() Equal() Value()
+  		Field() Equal() Value()
   )
 }

@@ -17,28 +17,35 @@ import reader.FileReader;
 public class BibParser{
   public static Hashtable symbtab = new Hashtable();
   public static Vector< BibData > data;
+  public static Vector< Vector <Object > > tree;
+  public static int currIndex = 0;
   public static void main(String args [])  {	start(args);
   }  public static void start(String args [])  {
+    tree = new Vector< Vector <Object > >();
     String temp;
     SymbolTable temp2;    System.out.println("File to be parsed:");    System.out.print(">> ");
     Scanner sc = new Scanner(System.in);
     String file = sc.nextLine();
         try    {
-      new BibParser(FileReader.getFile(file));      SimpleNode n = BibParser.Start();      n.dump(">>  ");
-
+      new BibParser(FileReader.getFile(file));
+      SimpleNode n = BibParser.Start();      n.dump(">>  ");
+      BibParser.CheckTree(n);
+      BibParser.CheckSemantic();
       Enumeration t = symbtab.keys();
 
       while (t.hasMoreElements() == true)      {
         temp = (String)t.nextElement();
         temp2 = (SymbolTable)symbtab.get(temp);
-        System.out.println(temp);
-        if(temp2.type != null)
+     //   System.out.println(temp);
+     /*   if(temp2.type != null)
         	System.out.println(" type = " + temp2.type);
         if(temp2.value != null)
-        	System.out.println(" value = " + temp2.value);
+        	System.out.println(" value = " + temp2.value);*/
 
       }    }    catch (Exception e)    {      System.out.println("Error: " + e.getMessage());    }
-    sc.close();  }}PARSER_END(BibParser)SKIP :{  " "| "\t"| "\r"
+    sc.close();  }
+
+  }PARSER_END(BibParser)SKIP :{  " "| "\t"| "\r"
 | "\n"}
 TOKEN :{
   < ARROBA : "@" >
@@ -131,85 +138,85 @@ void Type() :
 	Token value;
 }
 {
-	(value=< WORD >		{		  jjtThis.value=value.image;
+	(value=< WORD >		{		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("WORD",value.image));
 		}
 	) | (value=< TEXT >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("TEXT",value.image));
 		}
 	) | (value=< CONFERENCE >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("CONFERENCE",value.image));
 		}
 	) | (value=< ARTICLE >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("ARTICLE",value.image));
 		}
 	) | (value=< BOOK >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("BOOK",value.image));
 		}
 	)
 	| (value=< BOOKLET >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("BOOKLET",value.image));
 		}
 	) | (value=< INBOOK >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("INBOOK",value.image));
 		}
 	) | (value=< INCOLLECTION >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("INCOLLECTION",value.image));
 		}
 	)
 	| (value=< INPROCEEDINGS >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("INPROCEEDINGS",value.image));
 		}
 	) | (value=< MANUAL >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("MANUAL",value.image));
 		}
 	) | (value=< MASTERTHESIS >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("MASTERSTHESIS",value.image));
 		}
 	) | (value=< MISC >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("MISC",value.image));
 		}
 	)
 	| (value=< PHDTHESIS >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("PHDTHESIS",value.image));
 		}
 	)| (value=< PROCEEDINGS >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("PROCEEDINGS",value.image));
 		}
 	) | (value=< TECHREPORT >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("TECHREPORT",value.image));
 		}
 	) | (value=< UNPUBLISHED >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("UNPUBLISHED",value.image));
 		}
 	)
@@ -221,116 +228,116 @@ void Field():
 }
 {	(value=< AUTHOR >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("AUTHOR",value.image));
 		}
 	) | (value=< ANNOTE >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("ANNOTE",value.image));
 		}
 	) | (value=< BOOKTITLE >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("BOOKTITLE",value.image));
 		}
 	) | (value=< CHAPTER >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("CHAPTER",value.image));
 		}
 	)
 	| (value=< CROSSREF >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("CROSSREF",value.image));
 		}
 	) | (value=< EDITOR >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("EDITOR",value.image));
 		}
 	) | (value=< INSTITUTION >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("INSTITUTION",value.image));
 		}
 	) | (value=< ORGANIZATION >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("ORGANIZATION",value.image));
 		}
 	)
 	|(value=< SCHOOL >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("SCHOOL",value.image));
 		}
 	)| (value=< JOURNAL >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("JOURNAL",value.image));
 		}
 	) | (value=< TITLE >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("TITLE",value.image));
 		}
 	) | (value=< YEAR >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("YEAR",value.image));
 		}
 	) | (value=< VOLUME >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("VOLUME",value.image));
 		}
 	)
 	| (value=< NUMBER >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("NUMBER",value.image));
 		}
 	) | (value=< ADDRESS >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("ADDRESS",value.image));
 		}
 	) | (value=< HOWPUBLISHED >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("HOWPUBLISHED",value.image));
 		}
 	) | (value=< PUBLISHER >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("PUBLISHER",value.image));
 		}
 	)
 	| (value=< SERIES >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("SERIES",value.image));
 		}
 	) | (value=< EDITION >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("EDITION",value.image));
 		}
 	) | (value=< NOTE >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("NOTE",value.image));
 		}
 	) | (value=< MONTH >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("MONTH",value.image));
 		}
 	) | (value=< PAGES >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("PAGES",value.image));
 		}
 	)
@@ -340,25 +347,26 @@ void Value() :
   Token value;}{
   (value=< WORD >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("WORD",value.image));
 		}
 	) | (value=< QUOTED_TEXT >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("QUOTED_TEXT",value.image));
 		}
 	) | (value=< INTEGER >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("INTEGER",value.image));
 		}
 	) | (value=< PAGES_V >
 		{
-		  jjtThis.value=value.image;
+		  jjtThis.jjtSetValue(value.image);
 		  symbtab.put(value.image,new SymbolTable("PAGES_V",value.image));
 		}
-	)}
+	)
+	}
 
 void Attribute():
 {
@@ -368,3 +376,39 @@ void Attribute():
   		Field() Equal() Value()
   )
 }
+
+
+void CheckTree(SimpleNode n) #void:
+{}
+{    {
+	if(n.jjtGetValue()!=null)	{		if(n.jjtGetValue().equals("article") || n.jjtGetValue().equals("book") || n.jjtGetValue().equals("booklet") ||
+			n.jjtGetValue().equals("conference") || n.jjtGetValue().equals("inbook") || n.jjtGetValue().equals("incollection") ||
+			n.jjtGetValue().equals("inproceedings") || n.jjtGetValue().equals("manual") || n.jjtGetValue().equals("masterthesis") ||
+			n.jjtGetValue().equals("misc") || n.jjtGetValue().equals("phdthesis") || n.jjtGetValue().equals("proceedings") ||
+			n.jjtGetValue().equals("techreport") || n.jjtGetValue().equals("unpublished"))			{
+				tree.add(new Vector<Object >());
+				tree.elementAt(currIndex).add(n.jjtGetValue());
+				currIndex++;
+			}
+		else		{			tree.elementAt(currIndex-1).add(n.jjtGetValue());
+		}
+	}
+    if (n.getChildren() != null) {
+      for (int i = 0; i < n.getChildren().length; ++i) {
+        SimpleNode auxn = (SimpleNode)n.jjtGetChild(i);
+        if (auxn != null) {
+         CheckTree(auxn);
+        }
+      }
+    }
+       
+  }
+}
+
+
+void CheckSemantic() #void:
+{}{
+  {	for(int i = 0;i<tree.elementAt(0).size();i++)
+		System.out.println(tree.elementAt(0).elementAt(i));
+  }
+  }

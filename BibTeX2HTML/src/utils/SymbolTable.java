@@ -1,4 +1,4 @@
-package data;
+package utils;
 
 public class SymbolTable extends Object {
 

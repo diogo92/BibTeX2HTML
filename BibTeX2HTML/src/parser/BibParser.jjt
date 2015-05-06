@@ -7,21 +7,26 @@
 
 import java.util.Vector;
 import java.util.Scanner;
-
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Hashtable;
-
+import java.util.Stack;
 import data.*;
 import reader.FileReader;
+import utils.*;
 
 public class BibParser{
   public static Hashtable symbtab = new Hashtable();
   public static Vector< BibData > data;
   public static Vector< Vector <Object > > tree;
+  public static Stack<Object > stack;
+  public static boolean firstStack = true;
   public static int currIndex = 0;
-  public static void main(String args [])  {	start(args);
+  public static void main(String args [])
+    {	start(args);
   }  public static void start(String args [])  {
     tree = new Vector< Vector <Object > >();
+    stack = new Stack<Object >();
     String temp;
     SymbolTable temp2;    System.out.println("File to be parsed:");    System.out.print(">> ");
     Scanner sc = new Scanner(System.in);
@@ -30,13 +35,12 @@ public class BibParser{
       new BibParser(FileReader.getFile(file));
       SimpleNode n = BibParser.Start();      n.dump(">>  ");
       BibParser.CheckTree(n);
-      BibParser.CheckSemantic();
       Enumeration t = symbtab.keys();
 
       while (t.hasMoreElements() == true)      {
         temp = (String)t.nextElement();
         temp2 = (SymbolTable)symbtab.get(temp);
-     //   System.out.println(temp);
+      //  System.out.println(temp);
      /*   if(temp2.type != null)
         	System.out.println(" type = " + temp2.type);
         if(temp2.value != null)
@@ -386,11 +390,14 @@ void CheckTree(SimpleNode n) #void:
 			n.jjtGetValue().equals("inproceedings") || n.jjtGetValue().equals("manual") || n.jjtGetValue().equals("masterthesis") ||
 			n.jjtGetValue().equals("misc") || n.jjtGetValue().equals("phdthesis") || n.jjtGetValue().equals("proceedings") ||
 			n.jjtGetValue().equals("techreport") || n.jjtGetValue().equals("unpublished"))			{
-				tree.add(new Vector<Object >());
-				tree.elementAt(currIndex).add(n.jjtGetValue());
-				currIndex++;
+
+			  	if(!firstStack)			  	{					analyzeStack();
+			  	}
+			  	if(firstStack)
+			  		firstStack=false;
+			  	stack.push(n.jjtGetValue());
 			}
-		else		{			tree.elementAt(currIndex-1).add(n.jjtGetValue());
+		else		{			stack.push(n.jjtGetValue());
 		}
 	}
     if (n.getChildren() != null) {
@@ -405,10 +412,727 @@ void CheckTree(SimpleNode n) #void:
   }
 }
 
-
-void CheckSemantic() #void:
+void analyzeStack() #void:
 {}{
-  {	for(int i = 0;i<tree.elementAt(0).size();i++)
-		System.out.println(tree.elementAt(0).elementAt(i));
+  {
+    Vector <Object > stackelems = new Vector<Object >();
+    while(!stack.empty())    {		stackelems.addElement(stack.peek());
+		stack.pop();
+    }
+   	Collections.reverse(stackelems);
+   	switch((String)stackelems.elementAt(0))   	{		case "article":
+		analyzeArticle(stackelems);
+		break;
+
+		case "book":
+		analyzeBook(stackelems);
+		break;
+
+		case "booklet":
+		analyzeBooklet(stackelems);
+		break;
+
+		case "conference":
+		analyzeConference(stackelems);
+		break;
+
+		case "inbook":
+		analyzeInbook(stackelems);
+		break;
+
+		case "incollection":
+		analyzeIncollection(stackelems);
+		break;
+
+		case "inproceedings":
+		analyzeInproceedings(stackelems);
+		break;
+
+		case "manual":
+		analyzeManual(stackelems);
+		break;
+
+		case "masterthesis":
+		analyzeMastersthesis(stackelems);
+		break;
+
+		case "misc":
+		analyzeMisc(stackelems);
+		break;
+
+		case "phdthesis":
+		analyzePhdthesis(stackelems);
+		break;
+
+		case "proceedings":
+		analyzeProceedings(stackelems);
+		break;
+
+		case "techreport":
+		analyzeTechreport(stackelems);
+		break;
+
+		case "unpublished":
+		analyzeUnpublished(stackelems);
+		break;
+
+   	}  }}
+
+
+void analyzeArticle(Vector<Object > elems) #void:
+{}
+{
+  {
+    int currPairInd = 0;
+    int numPair = (elems.size()-1)/2;
+    String[] types = new String[numPair];
+    String[] values = new String[numPair];
+    for(int i= 0;i<numPair;i++)    {		types[i]=new String();
+		values[i] = new String();
+    }
+    for(int i = 1; i<elems.size();i+=2)    {
+		types[currPairInd]=(String)elems.elementAt(i);
+		values[currPairInd]=(String)elems.elementAt(i+1);
+   		currPairInd++;
+    }
+    if(!Utilities.contains(types,"author") || !Utilities.contains(types,"title") || !Utilities.contains(types,"journal") ||
+    	!Utilities.contains(types,"year"))    {		System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN ARTICLE " /*+ INSERIR CHAVE*/);
+		System.exit(-1);
+    }
+    checkValueTypes(types,values,numPair);
+  }}
+
+void analyzeBook(Vector<Object > elems) #void:
+{
+}
+{
+  {
+    int currPairInd = 0;
+    int numPair = (elems.size()-1)/2;
+    String[] types = new String[numPair];
+    String[] values = new String[numPair];
+    for(int i= 0;i<numPair;i++)
+    {
+		types[i]=new String();
+		values[i] = new String();
+    }
+    for(int i = 1; i<elems.size();i+=2)
+    {
+		types[currPairInd]=(String)elems.elementAt(i);
+		values[currPairInd]=(String)elems.elementAt(i+1);
+   		currPairInd++;
+    }
+    if(!Utilities.contains(types,"author") || !Utilities.contains(types,"title") || !Utilities.contains(types,"publisher") ||
+    	!Utilities.contains(types,"year"))
+    {
+		System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN BOOK " /*+ INSERIR CHAVE*/);
+		System.exit(-1);
+    }
+    checkValueTypes(types,values,numPair);
+
   }
-  }
+}
+
+void analyzeBooklet(Vector<Object > elems) #void:
+{
+}
+{
+  {
+    int currPairInd = 0;
+    int numPair = (elems.size()-1)/2;
+    String[] types = new String[numPair];
+    String[] values = new String[numPair];
+    for(int i= 0;i<numPair;i++)
+    {
+		types[i]=new String();
+		values[i] = new String();
+    }
+    for(int i = 1; i<elems.size();i+=2)
+    {
+		types[currPairInd]=(String)elems.elementAt(i);
+		values[currPairInd]=(String)elems.elementAt(i+1);
+   		currPairInd++;
+    }
+    if(!Utilities.contains(types,"title"))
+    {
+		System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN BOOKLET " /*+ INSERIR CHAVE*/);
+		System.exit(-1);
+    }
+    checkValueTypes(types,values,numPair);
+
+  }
+}
+
+void analyzeConference(Vector<Object > elems) #void:
+{
+}
+{
+  {
+    int currPairInd = 0;
+    int numPair = (elems.size()-1)/2;
+    String[] types = new String[numPair];
+    String[] values = new String[numPair];
+    for(int i= 0;i<numPair;i++)
+    {
+		types[i]=new String();
+		values[i] = new String();
+    }
+    for(int i = 1; i<elems.size();i+=2)
+    {
+		types[currPairInd]=(String)elems.elementAt(i);
+		values[currPairInd]=(String)elems.elementAt(i+1);
+   		currPairInd++;
+    }
+    if(!Utilities.contains(types,"author") || !Utilities.contains(types,"title") || !Utilities.contains(types,"booktitle") ||
+    	!Utilities.contains(types,"year"))
+    {
+		System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN CONFERENCE " /*+ INSERIR CHAVE*/);
+		System.exit(-1);
+    }
+    checkValueTypes(types,values,numPair);
+
+  }
+}
+
+void analyzeInbook(Vector<Object > elems) #void:
+{
+}
+{
+  {
+    int currPairInd = 0;
+    int numPair = (elems.size()-1)/2;
+    String[] types = new String[numPair];
+    String[] values = new String[numPair];
+    for(int i= 0;i<numPair;i++)
+    {
+		types[i]=new String();
+		values[i] = new String();
+    }
+    for(int i = 1; i<elems.size();i+=2)
+    {
+		types[currPairInd]=(String)elems.elementAt(i);
+		values[currPairInd]=(String)elems.elementAt(i+1);
+   		currPairInd++;
+    }
+    if(!Utilities.contains(types,"author") || !Utilities.contains(types,"title") || !Utilities.contains(types,"publisher") ||
+    	!Utilities.contains(types,"year") || !Utilities.contains(types,"chapter"))
+    {
+		System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN INBOOK " /*+ INSERIR CHAVE*/);
+		System.exit(-1);
+    }
+    checkValueTypes(types,values,numPair);
+
+  }
+}
+
+void analyzeIncollection(Vector<Object > elems) #void:
+{
+}
+{
+  {
+    int currPairInd = 0;
+    int numPair = (elems.size()-1)/2;
+    String[] types = new String[numPair];
+    String[] values = new String[numPair];
+    for(int i= 0;i<numPair;i++)
+    {
+		types[i]=new String();
+		values[i] = new String();
+    }
+    for(int i = 1; i<elems.size();i+=2)
+    {
+		types[currPairInd]=(String)elems.elementAt(i);
+		values[currPairInd]=(String)elems.elementAt(i+1);
+   		currPairInd++;
+    }
+    if(!Utilities.contains(types,"author") || !Utilities.contains(types,"title") || !Utilities.contains(types,"publisher") ||
+    	!Utilities.contains(types,"year") || !Utilities.contains(types,"booktitle"))
+    {
+		System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN INCOLLECTION " /*+ INSERIR CHAVE*/);
+		System.exit(-1);
+    }
+    checkValueTypes(types,values,numPair);
+
+  }
+}
+
+void analyzeInproceedings(Vector<Object > elems) #void:
+{
+}
+{
+  {
+    int currPairInd = 0;
+    int numPair = (elems.size()-1)/2;
+    String[] types = new String[numPair];
+    String[] values = new String[numPair];
+    for(int i= 0;i<numPair;i++)
+    {
+		types[i]=new String();
+		values[i] = new String();
+    }
+    for(int i = 1; i<elems.size();i+=2)
+    {
+		types[currPairInd]=(String)elems.elementAt(i);
+		values[currPairInd]=(String)elems.elementAt(i+1);
+   		currPairInd++;
+    }
+    if(!Utilities.contains(types,"author") || !Utilities.contains(types,"title") ||
+    	!Utilities.contains(types,"year") || !Utilities.contains(types,"booktitle"))
+    {
+		System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN INPROCEEDINGS " /*+ INSERIR CHAVE*/);
+		System.exit(-1);
+    }
+    checkValueTypes(types,values,numPair);
+
+  }
+}
+
+void analyzeManual(Vector<Object > elems) #void:
+{
+}
+{
+  {
+    int currPairInd = 0;
+    int numPair = (elems.size()-1)/2;
+    String[] types = new String[numPair];
+    String[] values = new String[numPair];
+    for(int i= 0;i<numPair;i++)
+    {
+		types[i]=new String();
+		values[i] = new String();
+    }
+    for(int i = 1; i<elems.size();i+=2)
+    {
+		types[currPairInd]=(String)elems.elementAt(i);
+		values[currPairInd]=(String)elems.elementAt(i+1);
+   		currPairInd++;
+    }
+    if(!Utilities.contains(types,"title"))
+    {
+		System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN MANUAL " /*+ INSERIR CHAVE*/);
+		System.exit(-1);
+    }
+    checkValueTypes(types,values,numPair);
+
+  }
+}
+
+void analyzeMastersthesis(Vector<Object > elems) #void:
+{
+}
+{
+  {
+    int currPairInd = 0;
+    int numPair = (elems.size()-1)/2;
+    String[] types = new String[numPair];
+    String[] values = new String[numPair];
+    for(int i= 0;i<numPair;i++)
+    {
+		types[i]=new String();
+		values[i] = new String();
+    }
+    for(int i = 1; i<elems.size();i+=2)
+    {
+		types[currPairInd]=(String)elems.elementAt(i);
+		values[currPairInd]=(String)elems.elementAt(i+1);
+   		currPairInd++;
+    }
+    if(!Utilities.contains(types,"author") || !Utilities.contains(types,"title") || !Utilities.contains(types,"school") ||
+    	!Utilities.contains(types,"year"))
+    {
+		System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN MASTERSTHESIS " /*+ INSERIR CHAVE*/);
+		System.exit(-1);
+    }
+    checkValueTypes(types,values,numPair);
+
+  }
+}
+
+void analyzeMisc(Vector<Object > elems) #void:
+{
+}
+{
+  {
+    int currPairInd = 0;
+    int numPair = (elems.size()-1)/2;
+    String[] types = new String[numPair];
+    String[] values = new String[numPair];
+    for(int i= 0;i<numPair;i++)
+    {
+		types[i]=new String();
+		values[i] = new String();
+    }
+    for(int i = 1; i<elems.size();i+=2)
+    {
+		types[currPairInd]=(String)elems.elementAt(i);
+		values[currPairInd]=(String)elems.elementAt(i+1);
+   		currPairInd++;
+    }
+    if(!Utilities.contains(types,"author") || !Utilities.contains(types,"title") || !Utilities.contains(types,"howpublished") ||
+    	!Utilities.contains(types,"year") || !Utilities.contains(types,"month") || !Utilities.contains(types,"note") || !Utilities.contains(types,"key"))
+    {
+		System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN MISC " /*+ INSERIR CHAVE*/);
+		System.exit(-1);
+    }
+    checkValueTypes(types,values,numPair);
+
+  }
+}
+
+void analyzePhdthesis(Vector<Object > elems) #void:
+{
+}
+{
+  {
+    int currPairInd = 0;
+    int numPair = (elems.size()-1)/2;
+    String[] types = new String[numPair];
+    String[] values = new String[numPair];
+    for(int i= 0;i<numPair;i++)
+    {
+		types[i]=new String();
+		values[i] = new String();
+    }
+    for(int i = 1; i<elems.size();i+=2)
+    {
+		types[currPairInd]=(String)elems.elementAt(i);
+		values[currPairInd]=(String)elems.elementAt(i+1);
+   		currPairInd++;
+    }
+    if(!Utilities.contains(types,"author") || !Utilities.contains(types,"title") || !Utilities.contains(types,"school") ||
+    	!Utilities.contains(types,"year"))
+    {
+		System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN PHDTHESIS " /*+ INSERIR CHAVE*/);
+		System.exit(-1);
+    }
+    checkValueTypes(types,values,numPair);
+
+  }
+}
+
+void analyzeProceedings(Vector<Object > elems) #void:
+{
+}
+{
+  {
+    int currPairInd = 0;
+    int numPair = (elems.size()-1)/2;
+    String[] types = new String[numPair];
+    String[] values = new String[numPair];
+    for(int i= 0;i<numPair;i++)
+    {
+		types[i]=new String();
+		values[i] = new String();
+    }
+    for(int i = 1; i<elems.size();i+=2)
+    {
+		types[currPairInd]=(String)elems.elementAt(i);
+		values[currPairInd]=(String)elems.elementAt(i+1);
+   		currPairInd++;
+    }
+    if(!Utilities.contains(types,"title") ||!Utilities.contains(types,"year"))
+    {
+		System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN PROCEDINGS " /*+ INSERIR CHAVE*/);
+		System.exit(-1);
+    }
+    checkValueTypes(types,values,numPair);
+
+  }
+}
+
+void analyzeTechreport(Vector<Object > elems) #void:
+{
+}
+{
+  {
+    int currPairInd = 0;
+    int numPair = (elems.size()-1)/2;
+    String[] types = new String[numPair];
+    String[] values = new String[numPair];
+    for(int i= 0;i<numPair;i++)
+    {
+		types[i]=new String();
+		values[i] = new String();
+    }
+    for(int i = 1; i<elems.size();i+=2)
+    {
+		types[currPairInd]=(String)elems.elementAt(i);
+		values[currPairInd]=(String)elems.elementAt(i+1);
+   		currPairInd++;
+    }
+    if(!Utilities.contains(types,"author") || !Utilities.contains(types,"title") || !Utilities.contains(types,"institution") ||
+    	!Utilities.contains(types,"year"))
+    {
+		System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN TECHREPORT " /*+ INSERIR CHAVE*/);
+		System.exit(-1);
+    }
+    checkValueTypes(types,values,numPair);
+
+  }
+}
+
+void analyzeUnpublished(Vector<Object > elems) #void:
+{
+}
+{
+  {
+    int currPairInd = 0;
+    int numPair = (elems.size()-1)/2;
+    String[] types = new String[numPair];
+    String[] values = new String[numPair];
+    for(int i= 0;i<numPair;i++)
+    {
+		types[i]=new String();
+		values[i] = new String();
+    }
+    for(int i = 1; i<elems.size();i+=2)
+    {
+		types[currPairInd]=(String)elems.elementAt(i);
+		values[currPairInd]=(String)elems.elementAt(i+1);
+   		currPairInd++;
+    }
+    if(!Utilities.contains(types,"author") || !Utilities.contains(types,"title") || !Utilities.contains(types,"note"))
+    {
+		System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN UNPUBLISHED " /*+ INSERIR CHAVE*/);
+		System.exit(-1);
+    }
+    checkValueTypes(types,values,numPair);
+
+  }
+}
+
+
+void checkValueTypes(String[] types,String[] values,int numPair) #void:{}{
+  {
+    SymbolTable st;
+    for(int i=0;i<numPair;i++)
+    {
+		switch (types[i])
+		{
+		  	case "address":
+				st = (SymbolTable)symbtab.get(values[i]);
+				if(!st.type.equals("QUOTED_TEXT"))
+				{
+					System.out.println("ERROR: WRONG VALUE OF ADDRESS");
+					System.exit(-1);
+
+				}
+				break;
+			case "annote":
+				st = (SymbolTable)symbtab.get(values[i]);
+				if(!st.type.equals("QUOTED_TEXT"))
+				{
+					System.out.println("ERROR: WRONG VALUE OF ANNOTE");
+					System.exit(-1);
+
+				}
+				break;
+			case "author":
+				st = (SymbolTable)symbtab.get(values[i]);
+				if(!st.type.equals("QUOTED_TEXT"))
+				{
+					System.out.println("ERROR: WRONG VALUE OF AUTHOR");
+					System.exit(-1);
+
+				}
+				break;
+			case "booktitle":
+				st = (SymbolTable)symbtab.get(values[i]);
+				if(!st.type.equals("QUOTED_TEXT"))
+				{
+					System.out.println("ERROR: WRONG VALUE OF BOOKTITLE");
+					System.exit(-1);
+
+				}
+				break;
+			case "chapter":
+				st = (SymbolTable)symbtab.get(values[i]);
+				if(!st.type.equals("INTEGER"))
+				{
+					System.out.println("ERROR: WRONG VALUE OF CHAPTER");
+					System.exit(-1);
+
+				}
+				break;
+			case "crossref":
+				st = (SymbolTable)symbtab.get(values[i]);
+				if(!st.type.equals("WORD"))
+				{
+					System.out.println("ERROR: WRONG VALUE OF CROSSREF");
+					System.exit(-1);
+
+				}
+				break;
+			case "edition":
+				st = (SymbolTable)symbtab.get(values[i]);
+				if(!st.type.equals("QUOTED_TEXT"))
+				{
+					System.out.println("ERROR: WRONG VALUE OF EDITION");
+					System.exit(-1);
+
+				}
+				break;
+			case "editor":
+				st = (SymbolTable)symbtab.get(values[i]);
+				if(!st.type.equals("QUOTED_TEXT"))
+				{
+					System.out.println("ERROR: WRONG VALUE OF EDITOR");
+					System.exit(-1);
+
+				}
+				break;
+			case "howpublished":
+				st = (SymbolTable)symbtab.get(values[i]);
+				if(!st.type.equals("QUOTED_TEXT"))
+				{
+					System.out.println("ERROR: WRONG VALUE OF HOWPUBLISHED");
+					System.exit(-1);
+
+				}
+				break;
+			case "institution":
+				st = (SymbolTable)symbtab.get(values[i]);
+				if(!st.type.equals("QUOTED_TEXT"))
+				{
+					System.out.println("ERROR: WRONG VALUE OF INSTITUTION");
+					System.exit(-1);
+
+				}
+				break;
+			case "journal":
+				st = (SymbolTable)symbtab.get(values[i]);
+				if(!st.type.equals("QUOTED_TEXT") && !st.type.equals("WORD"))
+				{
+					System.out.println("ERROR: WRONG VALUE OF JOURNAL");
+					System.exit(-1);
+
+				}
+				break;
+			case "month":
+				st = (SymbolTable)symbtab.get(values[i]);
+				if(!st.type.equals("QUOTED_TEXT"))
+				{
+					System.out.println("ERROR: WRONG VALUE OF MONTH");
+					System.exit(-1);
+
+				}
+				break;
+			case "note":
+				st = (SymbolTable)symbtab.get(values[i]);
+				if(!st.type.equals("QUOTED_TEXT"))
+				{
+					System.out.println("ERROR: WRONG VALUE OF NOTE");
+					System.exit(-1);
+
+				}
+				break;
+			case "number":
+				st = (SymbolTable)symbtab.get(values[i]);
+				if(!st.type.equals("INTEGER"))
+				{
+					System.out.println("ERROR: WRONG VALUE OF NUMBER");
+					System.exit(-1);
+
+				}
+				break;
+			case "organization":
+				st = (SymbolTable)symbtab.get(values[i]);
+				if(!st.type.equals("QUOTED_TEXT"))
+				{
+					System.out.println("ERROR: WRONG VALUE OF ORGANIZATION");
+					System.exit(-1);
+
+				}
+				break;
+			case "pages":
+				st = (SymbolTable)symbtab.get(values[i]);
+				if(!st.type.equals("PAGES_V"))
+				{
+					System.out.println("ERROR: WRONG VALUE OF PAGES");
+					System.exit(-1);
+
+				}
+				break;
+			case "publisher":
+				st = (SymbolTable)symbtab.get(values[i]);
+				if(!st.type.equals("QUOTED_TEXT"))
+				{
+					System.out.println("ERROR: WRONG VALUE OF PUBLISHER");
+					System.exit(-1);
+
+				}
+				break;
+			case "school":
+				st = (SymbolTable)symbtab.get(values[i]);
+				if(!st.type.equals("QUOTED_TEXT"))
+				{
+					System.out.println("ERROR: WRONG VALUE OF SCHOOL");
+					System.exit(-1);
+
+				}
+				break;
+			case "series":
+				st = (SymbolTable)symbtab.get(values[i]);
+				if(!st.type.equals("QUOTED_TEXT"))
+				{
+					System.out.println("ERROR: WRONG VALUE OF SERIES");
+					System.exit(-1);
+
+				}
+				break;
+			case "type":
+				st = (SymbolTable)symbtab.get(values[i]);
+				if(!st.type.equals("QUOTED_TEXT"))
+				{
+					System.out.println("ERROR: WRONG VALUE OF TYPE");
+					System.exit(-1);
+
+				}
+				break;
+			case "year":
+				st = (SymbolTable)symbtab.get(values[i]);
+				if(!st.type.equals("INTEGER"))
+				{
+					System.out.println("ERROR: WRONG VALUE OF YEAR");
+					System.exit(-1);
+
+				}
+				break;
+			case "volume":
+				st = (SymbolTable)symbtab.get(values[i]);
+				if(!st.type.equals("INTEGER"))
+				{
+					System.out.println("ERROR: WRONG VALUE OF VOLUME");
+					System.exit(-1);
+
+				}
+				break;
+			
+			
+			case "key":
+				st = (SymbolTable)symbtab.get(values[i]);
+				if(!st.type.equals("QUOTED_TEXT"))
+				{
+					System.out.println("ERROR: WRONG VALUE OF KEY");
+					System.exit(-1);
+
+				}
+				break;
+			case "title":
+				st = (SymbolTable)symbtab.get(values[i]);
+				if(!st.type.equals("QUOTED_TEXT") && !st.type.equals("WORD"))
+				{
+					System.out.println("ERROR: WRONG VALUE OF TITLE");
+					System.exit(-1);
+
+				}
+				break;
+			default:
+				System.out.println("ERROR: UNKNOWN OR INCORRECT FIELD FOUND IN");
+				System.exit(-1);
+				break;
+
+		}
+
+    }  }}
+

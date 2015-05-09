@@ -3,7 +3,8 @@
  */options{  static = true;
   IGNORE_CASE = true;
   UNICODE_INPUT = true;
-  lookahead = 2;}PARSER_BEGIN(BibParser)package parser;
+  FORCE_LA_CHECK = true;
+  lookahead = 10;}PARSER_BEGIN(BibParser)package parser;
 
 import java.util.Vector;
 import java.util.Scanner;
@@ -94,9 +95,10 @@ public class BibParser{
 | < SERIES : "SERIES" >
 | < EDITION: "EDITION" >
 | < PAGES : "PAGES" >
-| < PAGES_V : "\""< INTEGER > ("-"|"--") < INTEGER >"\"" >
+| < PAGES_V : < DOUBLE_MARKS >< INTEGER > ("-"|"--") < INTEGER ><DOUBLE_MARKS > |< SINGLE_MARKS >< INTEGER > ("-"|"--") < INTEGER ><SINGLE_MARKS > >
 | < MONTH : "MONTH" >
 | < NOTE : "NOTE" >
+| < YEAR_V : ("\"" < INTEGER > ("?")? "\"") | ("'" < INTEGER > ("?")? "'")>
 | < KEY : "KEY" >
 | < REP_TYPE : "REP_TYPE" >
 | < INTEGER : < DIGIT >(< DIGIT >)* >
@@ -142,234 +144,48 @@ void Type() :
 	Token value;
 }
 {
-	(value=< WORD >		{		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("WORD",value.image));
-		}
-	) | (value=< TEXT >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("TEXT",value.image));
-		}
-	) | (value=< CONFERENCE >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("CONFERENCE",value.image));
-		}
-	) | (value=< ARTICLE >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("ARTICLE",value.image));
-		}
-	) | (value=< BOOK >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("BOOK",value.image));
-		}
-	)
-	| (value=< BOOKLET >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("BOOKLET",value.image));
-		}
-	) | (value=< INBOOK >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("INBOOK",value.image));
-		}
-	) | (value=< INCOLLECTION >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("INCOLLECTION",value.image));
-		}
-	)
-	| (value=< INPROCEEDINGS >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("INPROCEEDINGS",value.image));
-		}
-	) | (value=< MANUAL >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("MANUAL",value.image));
-		}
-	) | (value=< MASTERTHESIS >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("MASTERSTHESIS",value.image));
-		}
-	) | (value=< MISC >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("MISC",value.image));
-		}
-	)
-	| (value=< PHDTHESIS >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("PHDTHESIS",value.image));
-		}
-	)| (value=< PROCEEDINGS >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("PROCEEDINGS",value.image));
-		}
-	) | (value=< TECHREPORT >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("TECHREPORT",value.image));
-		}
-	) | (value=< UNPUBLISHED >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("UNPUBLISHED",value.image));
-		}
-	)
+  (    
+	(value=< WORD >	) |
+	(value=< TEXT >	) |
+	(value=< CONFERENCE >) |
+	(value=< ARTICLE >	) |
+	(value=< BOOK >	) |
+	(value=< BOOKLET >) |
+	(value=< INBOOK >) |
+	(value=< INCOLLECTION >) |
+	(value=< INPROCEEDINGS >) |
+	(value=< MANUAL >) |
+	(value=< MASTERTHESIS >) |
+	(value=< MISC >) |
+	(value=< PHDTHESIS >)|
+	(value=< PROCEEDINGS >	) |
+	(value=< TECHREPORT >	) |
+	(value=< UNPUBLISHED >)
+)
+	{jjtThis.jjtSetValue(value);symbtab.put(value.image,new SymbolTable(value.kind,value.image));}
 }
 
 void Field():
 {
   Token value;
 }
-{	(value=< AUTHOR >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("AUTHOR",value.image));
-		}
-	) | (value=< ANNOTE >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("ANNOTE",value.image));
-		}
-	) | (value=< BOOKTITLE >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("BOOKTITLE",value.image));
-		}
-	) | (value=< CHAPTER >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("CHAPTER",value.image));
-		}
-	)
-	| (value=< CROSSREF >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("CROSSREF",value.image));
-		}
-	) | (value=< EDITOR >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("EDITOR",value.image));
-		}
-	) | (value=< INSTITUTION >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("INSTITUTION",value.image));
-		}
-	) | (value=< ORGANIZATION >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("ORGANIZATION",value.image));
-		}
-	)
-	|(value=< SCHOOL >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("SCHOOL",value.image));
-		}
-	)| (value=< JOURNAL >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("JOURNAL",value.image));
-		}
-	) | (value=< TITLE >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("TITLE",value.image));
-		}
-	) | (value=< YEAR >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("YEAR",value.image));
-		}
-	) | (value=< VOLUME >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("VOLUME",value.image));
-		}
-	)
-	| (value=< NUMBER >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("NUMBER",value.image));
-		}
-	) | (value=< ADDRESS >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("ADDRESS",value.image));
-		}
-	) | (value=< HOWPUBLISHED >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("HOWPUBLISHED",value.image));
-		}
-	) | (value=< PUBLISHER >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("PUBLISHER",value.image));
-		}
-	)
-	| (value=< SERIES >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("SERIES",value.image));
-		}
-	) | (value=< EDITION >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("EDITION",value.image));
-		}
-	) | (value=< NOTE >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("NOTE",value.image));
-		}
-	) | (value=< MONTH >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("MONTH",value.image));
-		}
-	) | (value=< PAGES >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("PAGES",value.image));
-		}
-	)
+{
+  (    	(value=< AUTHOR >) | (value=< ANNOTE >) | (value=< BOOKTITLE >) | (value=< CHAPTER >)
+	| (value=< CROSSREF >) | (value=< EDITOR >) | (value=< INSTITUTION >) | (value=< ORGANIZATION >	)
+	| (value=< SCHOOL >	) | (value=< JOURNAL >) | (value=< TITLE >) | (value=< YEAR >) | (value=< VOLUME >)
+	| (value=< NUMBER >	) | (value=< ADDRESS >) | (value=< HOWPUBLISHED >) | (value=< PUBLISHER >	)
+	| (value=< SERIES >) | (value=< EDITION >) | (value=< NOTE >) | (value=< MONTH >) | (value=< PAGES >)
+  )
+  {jjtThis.jjtSetValue(value);symbtab.put(value.image,new SymbolTable(value.kind,value.image));}
 }
 void Value() :
 {
   Token value;}{
-  (value=< WORD >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("WORD",value.image));
-		}
-	) | (value=< QUOTED_TEXT >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("QUOTED_TEXT",value.image));
-		}
-	) | (value=< INTEGER >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("INTEGER",value.image));
-		}
-	) | (value=< PAGES_V >
-		{
-		  jjtThis.jjtSetValue(value.image);
-		  symbtab.put(value.image,new SymbolTable("PAGES_V",value.image));
-		}
-	)
+  (    
+	(value=< WORD >) | (value=< QUOTED_TEXT >) | (value=< INTEGER >) | (value=< PAGES_V >) | (value=< YEAR_V >)
+
+  )
+  {jjtThis.jjtSetValue(value);symbtab.put(value.image,new SymbolTable(value.kind,value.image));}
 	}
 
 void Attribute():
@@ -385,11 +201,11 @@ void Attribute():
 void CheckTree(SimpleNode n) #void:
 {}
 {    {
-	if(n.jjtGetValue()!=null)	{		if(n.jjtGetValue().equals("article") || n.jjtGetValue().equals("book") || n.jjtGetValue().equals("booklet") ||
-			n.jjtGetValue().equals("conference") || n.jjtGetValue().equals("inbook") || n.jjtGetValue().equals("incollection") ||
-			n.jjtGetValue().equals("inproceedings") || n.jjtGetValue().equals("manual") || n.jjtGetValue().equals("masterthesis") ||
-			n.jjtGetValue().equals("misc") || n.jjtGetValue().equals("phdthesis") || n.jjtGetValue().equals("proceedings") ||
-			n.jjtGetValue().equals("techreport") || n.jjtGetValue().equals("unpublished"))			{
+	if(((Token)n.jjtGetValue())!=null)	{		if(((Token)n.jjtGetValue()).kind == BibParserConstants.ARTICLE || ((Token)n.jjtGetValue()).kind == BibParserConstants.BOOK || ((Token)n.jjtGetValue()).kind == BibParserConstants.BOOKLET ||
+			((Token)n.jjtGetValue()).kind == BibParserConstants.CONFERENCE || ((Token)n.jjtGetValue()).kind == BibParserConstants.INBOOK || ((Token)n.jjtGetValue()).kind == BibParserConstants.INCOLLECTION ||
+			((Token)n.jjtGetValue()).kind == BibParserConstants.INPROCEEDINGS || ((Token)n.jjtGetValue()).kind == BibParserConstants.MANUAL || ((Token)n.jjtGetValue()).kind == BibParserConstants.MASTERTHESIS ||
+			((Token)n.jjtGetValue()).kind == BibParserConstants.MISC || ((Token)n.jjtGetValue()).kind == BibParserConstants.PHDTHESIS || ((Token)n.jjtGetValue()).kind == BibParserConstants.PROCEEDINGS ||
+			((Token)n.jjtGetValue()).kind == BibParserConstants.TECHREPORT || ((Token)n.jjtGetValue()).kind == BibParserConstants.UNPUBLISHED)			{
 
 			  	if(!firstStack)			  	{					analyzeStack();
 			  	}
@@ -400,8 +216,8 @@ void CheckTree(SimpleNode n) #void:
 		else		{			stack.push(n.jjtGetValue());
 		}
 	}
-    if (n.getChildren() != null) {
-      for (int i = 0; i < n.getChildren().length; ++i) {
+    if (n.jjtGetNumChildren() > 0) {
+      for (int i = 0; i < n.jjtGetNumChildren(); ++i) {
         SimpleNode auxn = (SimpleNode)n.jjtGetChild(i);
         if (auxn != null) {
          CheckTree(auxn);
@@ -420,59 +236,59 @@ void analyzeStack() #void:
 		stack.pop();
     }
    	Collections.reverse(stackelems);
-   	switch((String)stackelems.elementAt(0))   	{		case "article":
+   	switch(((Token)stackelems.elementAt(0)).kind)   	{		case BibParserConstants.ARTICLE:
 		analyzeArticle(stackelems);
 		break;
 
-		case "book":
+		case BibParserConstants.BOOK:
 		analyzeBook(stackelems);
 		break;
 
-		case "booklet":
+		case BibParserConstants.BOOKLET:
 		analyzeBooklet(stackelems);
 		break;
 
-		case "conference":
+		case BibParserConstants.CONFERENCE:
 		analyzeConference(stackelems);
 		break;
 
-		case "inbook":
+		case BibParserConstants.INBOOK:
 		analyzeInbook(stackelems);
 		break;
 
-		case "incollection":
+		case BibParserConstants.INCOLLECTION:
 		analyzeIncollection(stackelems);
 		break;
 
-		case "inproceedings":
+		case BibParserConstants.INPROCEEDINGS:
 		analyzeInproceedings(stackelems);
 		break;
 
-		case "manual":
+		case BibParserConstants.MANUAL:
 		analyzeManual(stackelems);
 		break;
 
-		case "masterthesis":
+		case BibParserConstants.MASTERTHESIS:
 		analyzeMastersthesis(stackelems);
 		break;
 
-		case "misc":
+		case BibParserConstants.MISC:
 		analyzeMisc(stackelems);
 		break;
 
-		case "phdthesis":
+		case BibParserConstants.PHDTHESIS:
 		analyzePhdthesis(stackelems);
 		break;
 
-		case "proceedings":
+		case BibParserConstants.PROCEEDINGS:
 		analyzeProceedings(stackelems);
 		break;
 
-		case "techreport":
+		case BibParserConstants.TECHREPORT:
 		analyzeTechreport(stackelems);
 		break;
 
-		case "unpublished":
+		case BibParserConstants.UNPUBLISHED:
 		analyzeUnpublished(stackelems);
 		break;
 
@@ -485,18 +301,18 @@ void analyzeArticle(Vector<Object > elems) #void:
   {
     int currPairInd = 0;
     int numPair = (elems.size()-1)/2;
-    String[] types = new String[numPair];
-    String[] values = new String[numPair];
-    for(int i= 0;i<numPair;i++)    {		types[i]=new String();
-		values[i] = new String();
+    int[] types = new int[numPair];
+    Token[] values = new Token[numPair];
+    for(int i= 0;i<numPair;i++)    {
+		values[i] = new Token();
     }
     for(int i = 1; i<elems.size();i+=2)    {
-		types[currPairInd]=(String)elems.elementAt(i);
-		values[currPairInd]=(String)elems.elementAt(i+1);
+		types[currPairInd]=((Token)elems.elementAt(i)).kind;
+		values[currPairInd]=(Token)elems.elementAt(i+1);
    		currPairInd++;
     }
-    if(!Utilities.contains(types,"author") || !Utilities.contains(types,"title") || !Utilities.contains(types,"journal") ||
-    	!Utilities.contains(types,"year"))    {		System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN ARTICLE " /*+ INSERIR CHAVE*/);
+    if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.JOURNAL) ||
+    	!Utilities.contains(types,BibParserConstants.YEAR))    {		System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN ARTICLE " /*+ INSERIR CHAVE*/);
 		System.exit(-1);
     }
     checkValueTypes(types,values,numPair);
@@ -509,21 +325,20 @@ void analyzeBook(Vector<Object > elems) #void:
   {
     int currPairInd = 0;
     int numPair = (elems.size()-1)/2;
-    String[] types = new String[numPair];
-    String[] values = new String[numPair];
+    int[] types = new int[numPair];
+    Token[] values = new Token[numPair];
     for(int i= 0;i<numPair;i++)
     {
-		types[i]=new String();
-		values[i] = new String();
+		values[i] = new Token();
     }
     for(int i = 1; i<elems.size();i+=2)
     {
-		types[currPairInd]=(String)elems.elementAt(i);
-		values[currPairInd]=(String)elems.elementAt(i+1);
+		types[currPairInd]=((Token)elems.elementAt(i)).kind;
+		values[currPairInd]=(Token)elems.elementAt(i+1);
    		currPairInd++;
     }
-    if(!Utilities.contains(types,"author") || !Utilities.contains(types,"title") || !Utilities.contains(types,"publisher") ||
-    	!Utilities.contains(types,"year"))
+    if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.PUBLISHER) ||
+    	!Utilities.contains(types,BibParserConstants.YEAR))
     {
 		System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN BOOK " /*+ INSERIR CHAVE*/);
 		System.exit(-1);
@@ -540,20 +355,19 @@ void analyzeBooklet(Vector<Object > elems) #void:
   {
     int currPairInd = 0;
     int numPair = (elems.size()-1)/2;
-    String[] types = new String[numPair];
-    String[] values = new String[numPair];
+    int[] types = new int[numPair];
+    Token[] values = new Token[numPair];
     for(int i= 0;i<numPair;i++)
     {
-		types[i]=new String();
-		values[i] = new String();
+		values[i] = new Token();
     }
     for(int i = 1; i<elems.size();i+=2)
     {
-		types[currPairInd]=(String)elems.elementAt(i);
-		values[currPairInd]=(String)elems.elementAt(i+1);
+		types[currPairInd]=((Token)elems.elementAt(i)).kind;
+		values[currPairInd]=(Token)elems.elementAt(i+1);
    		currPairInd++;
     }
-    if(!Utilities.contains(types,"title"))
+    if(!Utilities.contains(types,BibParserConstants.TITLE))
     {
 		System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN BOOKLET " /*+ INSERIR CHAVE*/);
 		System.exit(-1);
@@ -570,21 +384,20 @@ void analyzeConference(Vector<Object > elems) #void:
   {
     int currPairInd = 0;
     int numPair = (elems.size()-1)/2;
-    String[] types = new String[numPair];
-    String[] values = new String[numPair];
+    int[] types = new int[numPair];
+    Token[] values = new Token[numPair];
     for(int i= 0;i<numPair;i++)
     {
-		types[i]=new String();
-		values[i] = new String();
+		values[i] = new Token();
     }
     for(int i = 1; i<elems.size();i+=2)
     {
-		types[currPairInd]=(String)elems.elementAt(i);
-		values[currPairInd]=(String)elems.elementAt(i+1);
+		types[currPairInd]=((Token)elems.elementAt(i)).kind;
+		values[currPairInd]=(Token)elems.elementAt(i+1);
    		currPairInd++;
     }
-    if(!Utilities.contains(types,"author") || !Utilities.contains(types,"title") || !Utilities.contains(types,"booktitle") ||
-    	!Utilities.contains(types,"year"))
+    if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.BOOKTITLE) ||
+    	!Utilities.contains(types,BibParserConstants.YEAR))
     {
 		System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN CONFERENCE " /*+ INSERIR CHAVE*/);
 		System.exit(-1);
@@ -601,21 +414,20 @@ void analyzeInbook(Vector<Object > elems) #void:
   {
     int currPairInd = 0;
     int numPair = (elems.size()-1)/2;
-    String[] types = new String[numPair];
-    String[] values = new String[numPair];
+    int[] types = new int[numPair];
+    Token[] values = new Token[numPair];
     for(int i= 0;i<numPair;i++)
     {
-		types[i]=new String();
-		values[i] = new String();
+		values[i] = new Token();
     }
     for(int i = 1; i<elems.size();i+=2)
     {
-		types[currPairInd]=(String)elems.elementAt(i);
-		values[currPairInd]=(String)elems.elementAt(i+1);
+		types[currPairInd]=((Token)elems.elementAt(i)).kind;
+		values[currPairInd]=(Token)elems.elementAt(i+1);
    		currPairInd++;
     }
-    if(!Utilities.contains(types,"author") || !Utilities.contains(types,"title") || !Utilities.contains(types,"publisher") ||
-    	!Utilities.contains(types,"year") || !Utilities.contains(types,"chapter"))
+    if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.PUBLISHER) ||
+    	!Utilities.contains(types,BibParserConstants.YEAR) || !Utilities.contains(types,BibParserConstants.CHAPTER))
     {
 		System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN INBOOK " /*+ INSERIR CHAVE*/);
 		System.exit(-1);
@@ -632,21 +444,20 @@ void analyzeIncollection(Vector<Object > elems) #void:
   {
     int currPairInd = 0;
     int numPair = (elems.size()-1)/2;
-    String[] types = new String[numPair];
-    String[] values = new String[numPair];
+    int[] types = new int[numPair];
+    Token[] values = new Token[numPair];
     for(int i= 0;i<numPair;i++)
     {
-		types[i]=new String();
-		values[i] = new String();
+		values[i] = new Token();
     }
     for(int i = 1; i<elems.size();i+=2)
     {
-		types[currPairInd]=(String)elems.elementAt(i);
-		values[currPairInd]=(String)elems.elementAt(i+1);
+		types[currPairInd]=((Token)elems.elementAt(i)).kind;
+		values[currPairInd]=(Token)elems.elementAt(i+1);
    		currPairInd++;
     }
-    if(!Utilities.contains(types,"author") || !Utilities.contains(types,"title") || !Utilities.contains(types,"publisher") ||
-    	!Utilities.contains(types,"year") || !Utilities.contains(types,"booktitle"))
+    if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.PUBLISHER) ||
+    	!Utilities.contains(types,BibParserConstants.YEAR) || !Utilities.contains(types,BibParserConstants.BOOKTITLE))
     {
 		System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN INCOLLECTION " /*+ INSERIR CHAVE*/);
 		System.exit(-1);
@@ -663,21 +474,20 @@ void analyzeInproceedings(Vector<Object > elems) #void:
   {
     int currPairInd = 0;
     int numPair = (elems.size()-1)/2;
-    String[] types = new String[numPair];
-    String[] values = new String[numPair];
+    int[] types = new int[numPair];
+    Token[] values = new Token[numPair];
     for(int i= 0;i<numPair;i++)
     {
-		types[i]=new String();
-		values[i] = new String();
+		values[i] = new Token();
     }
     for(int i = 1; i<elems.size();i+=2)
     {
-		types[currPairInd]=(String)elems.elementAt(i);
-		values[currPairInd]=(String)elems.elementAt(i+1);
+		types[currPairInd]=((Token)elems.elementAt(i)).kind;
+		values[currPairInd]=(Token)elems.elementAt(i+1);
    		currPairInd++;
     }
-    if(!Utilities.contains(types,"author") || !Utilities.contains(types,"title") ||
-    	!Utilities.contains(types,"year") || !Utilities.contains(types,"booktitle"))
+    if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) ||
+    	!Utilities.contains(types,BibParserConstants.YEAR) || !Utilities.contains(types,BibParserConstants.BOOKTITLE))
     {
 		System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN INPROCEEDINGS " /*+ INSERIR CHAVE*/);
 		System.exit(-1);
@@ -694,20 +504,19 @@ void analyzeManual(Vector<Object > elems) #void:
   {
     int currPairInd = 0;
     int numPair = (elems.size()-1)/2;
-    String[] types = new String[numPair];
-    String[] values = new String[numPair];
+    int[] types = new int[numPair];
+    Token[] values = new Token[numPair];
     for(int i= 0;i<numPair;i++)
     {
-		types[i]=new String();
-		values[i] = new String();
+		values[i] = new Token();
     }
     for(int i = 1; i<elems.size();i+=2)
     {
-		types[currPairInd]=(String)elems.elementAt(i);
-		values[currPairInd]=(String)elems.elementAt(i+1);
+		types[currPairInd]=((Token)elems.elementAt(i)).kind;
+		values[currPairInd]=(Token)elems.elementAt(i+1);
    		currPairInd++;
     }
-    if(!Utilities.contains(types,"title"))
+    if(!Utilities.contains(types,BibParserConstants.TITLE))
     {
 		System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN MANUAL " /*+ INSERIR CHAVE*/);
 		System.exit(-1);
@@ -724,21 +533,20 @@ void analyzeMastersthesis(Vector<Object > elems) #void:
   {
     int currPairInd = 0;
     int numPair = (elems.size()-1)/2;
-    String[] types = new String[numPair];
-    String[] values = new String[numPair];
+    int[] types = new int[numPair];
+    Token[] values = new Token[numPair];
     for(int i= 0;i<numPair;i++)
     {
-		types[i]=new String();
-		values[i] = new String();
+		values[i] = new Token();
     }
     for(int i = 1; i<elems.size();i+=2)
     {
-		types[currPairInd]=(String)elems.elementAt(i);
-		values[currPairInd]=(String)elems.elementAt(i+1);
+		types[currPairInd]=((Token)elems.elementAt(i)).kind;
+		values[currPairInd]=(Token)elems.elementAt(i+1);
    		currPairInd++;
     }
-    if(!Utilities.contains(types,"author") || !Utilities.contains(types,"title") || !Utilities.contains(types,"school") ||
-    	!Utilities.contains(types,"year"))
+    if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.SCHOOL) ||
+    	!Utilities.contains(types,BibParserConstants.YEAR))
     {
 		System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN MASTERSTHESIS " /*+ INSERIR CHAVE*/);
 		System.exit(-1);
@@ -755,21 +563,20 @@ void analyzeMisc(Vector<Object > elems) #void:
   {
     int currPairInd = 0;
     int numPair = (elems.size()-1)/2;
-    String[] types = new String[numPair];
-    String[] values = new String[numPair];
+    int[] types = new int[numPair];
+    Token[] values = new Token[numPair];
     for(int i= 0;i<numPair;i++)
     {
-		types[i]=new String();
-		values[i] = new String();
+		values[i] = new Token();
     }
     for(int i = 1; i<elems.size();i+=2)
     {
-		types[currPairInd]=(String)elems.elementAt(i);
-		values[currPairInd]=(String)elems.elementAt(i+1);
+		types[currPairInd]=((Token)elems.elementAt(i)).kind;
+		values[currPairInd]=(Token)elems.elementAt(i+1);
    		currPairInd++;
     }
-    if(!Utilities.contains(types,"author") || !Utilities.contains(types,"title") || !Utilities.contains(types,"howpublished") ||
-    	!Utilities.contains(types,"year") || !Utilities.contains(types,"month") || !Utilities.contains(types,"note") || !Utilities.contains(types,"key"))
+    if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.HOWPUBLISHED) ||
+    	!Utilities.contains(types,BibParserConstants.YEAR) || !Utilities.contains(types,BibParserConstants.MONTH) || !Utilities.contains(types,BibParserConstants.NOTE) || !Utilities.contains(types,BibParserConstants.KEY))
     {
 		System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN MISC " /*+ INSERIR CHAVE*/);
 		System.exit(-1);
@@ -786,21 +593,20 @@ void analyzePhdthesis(Vector<Object > elems) #void:
   {
     int currPairInd = 0;
     int numPair = (elems.size()-1)/2;
-    String[] types = new String[numPair];
-    String[] values = new String[numPair];
+    int[] types = new int[numPair];
+    Token[] values = new Token[numPair];
     for(int i= 0;i<numPair;i++)
     {
-		types[i]=new String();
-		values[i] = new String();
+		values[i] = new Token();
     }
     for(int i = 1; i<elems.size();i+=2)
     {
-		types[currPairInd]=(String)elems.elementAt(i);
-		values[currPairInd]=(String)elems.elementAt(i+1);
+		types[currPairInd]=((Token)elems.elementAt(i)).kind;
+		values[currPairInd]=(Token)elems.elementAt(i+1);
    		currPairInd++;
     }
-    if(!Utilities.contains(types,"author") || !Utilities.contains(types,"title") || !Utilities.contains(types,"school") ||
-    	!Utilities.contains(types,"year"))
+    if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.SCHOOL) ||
+    	!Utilities.contains(types,BibParserConstants.YEAR))
     {
 		System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN PHDTHESIS " /*+ INSERIR CHAVE*/);
 		System.exit(-1);
@@ -817,20 +623,19 @@ void analyzeProceedings(Vector<Object > elems) #void:
   {
     int currPairInd = 0;
     int numPair = (elems.size()-1)/2;
-    String[] types = new String[numPair];
-    String[] values = new String[numPair];
+    int[] types = new int[numPair];
+    Token[] values = new Token[numPair];
     for(int i= 0;i<numPair;i++)
     {
-		types[i]=new String();
-		values[i] = new String();
+		values[i] = new Token();
     }
     for(int i = 1; i<elems.size();i+=2)
     {
-		types[currPairInd]=(String)elems.elementAt(i);
-		values[currPairInd]=(String)elems.elementAt(i+1);
+		types[currPairInd]=((Token)elems.elementAt(i)).kind;
+		values[currPairInd]=(Token)elems.elementAt(i+1);
    		currPairInd++;
     }
-    if(!Utilities.contains(types,"title") ||!Utilities.contains(types,"year"))
+    if(!Utilities.contains(types,BibParserConstants.TITLE) ||!Utilities.contains(types,BibParserConstants.YEAR))
     {
 		System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN PROCEDINGS " /*+ INSERIR CHAVE*/);
 		System.exit(-1);
@@ -847,21 +652,20 @@ void analyzeTechreport(Vector<Object > elems) #void:
   {
     int currPairInd = 0;
     int numPair = (elems.size()-1)/2;
-    String[] types = new String[numPair];
-    String[] values = new String[numPair];
+    int[] types = new int[numPair];
+    Token[] values = new Token[numPair];
     for(int i= 0;i<numPair;i++)
     {
-		types[i]=new String();
-		values[i] = new String();
+		values[i] = new Token();
     }
     for(int i = 1; i<elems.size();i+=2)
     {
-		types[currPairInd]=(String)elems.elementAt(i);
-		values[currPairInd]=(String)elems.elementAt(i+1);
+		types[currPairInd]=((Token)elems.elementAt(i)).kind;
+		values[currPairInd]=(Token)elems.elementAt(i+1);
    		currPairInd++;
     }
-    if(!Utilities.contains(types,"author") || !Utilities.contains(types,"title") || !Utilities.contains(types,"institution") ||
-    	!Utilities.contains(types,"year"))
+    if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.INSTITUTION) ||
+    	!Utilities.contains(types,BibParserConstants.YEAR))
     {
 		System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN TECHREPORT " /*+ INSERIR CHAVE*/);
 		System.exit(-1);
@@ -878,20 +682,19 @@ void analyzeUnpublished(Vector<Object > elems) #void:
   {
     int currPairInd = 0;
     int numPair = (elems.size()-1)/2;
-    String[] types = new String[numPair];
-    String[] values = new String[numPair];
+    int[] types = new int[numPair];
+    Token[] values = new Token[numPair];
     for(int i= 0;i<numPair;i++)
     {
-		types[i]=new String();
-		values[i] = new String();
+		values[i] = new Token();
     }
     for(int i = 1; i<elems.size();i+=2)
     {
-		types[currPairInd]=(String)elems.elementAt(i);
-		values[currPairInd]=(String)elems.elementAt(i+1);
+		types[currPairInd]=((Token)elems.elementAt(i)).kind;
+		values[currPairInd]=(Token)elems.elementAt(i+1);
    		currPairInd++;
     }
-    if(!Utilities.contains(types,"author") || !Utilities.contains(types,"title") || !Utilities.contains(types,"note"))
+    if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.NOTE))
     {
 		System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN UNPUBLISHED " /*+ INSERIR CHAVE*/);
 		System.exit(-1);
@@ -902,205 +705,205 @@ void analyzeUnpublished(Vector<Object > elems) #void:
 }
 
 
-void checkValueTypes(String[] types,String[] values,int numPair) #void:{}{
+void checkValueTypes(int[] types,Token[] values,int numPair) #void:{}{
   {
     SymbolTable st;
     for(int i=0;i<numPair;i++)
     {
 		switch (types[i])
 		{
-		  	case "address":
-				st = (SymbolTable)symbtab.get(values[i]);
-				if(!st.type.equals("QUOTED_TEXT"))
+		  	case BibParserConstants.ADDRESS:
+				st = (SymbolTable)symbtab.get(values[i].image);
+				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
 					System.out.println("ERROR: WRONG VALUE OF ADDRESS");
 					System.exit(-1);
 
 				}
 				break;
-			case "annote":
-				st = (SymbolTable)symbtab.get(values[i]);
-				if(!st.type.equals("QUOTED_TEXT"))
+			case BibParserConstants.ANNOTE:
+				st = (SymbolTable)symbtab.get(values[i].image);
+				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
 					System.out.println("ERROR: WRONG VALUE OF ANNOTE");
 					System.exit(-1);
 
 				}
 				break;
-			case "author":
-				st = (SymbolTable)symbtab.get(values[i]);
-				if(!st.type.equals("QUOTED_TEXT"))
+			case BibParserConstants.AUTHOR:
+				st = (SymbolTable)symbtab.get(values[i].image);
+				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
 					System.out.println("ERROR: WRONG VALUE OF AUTHOR");
 					System.exit(-1);
 
 				}
 				break;
-			case "booktitle":
-				st = (SymbolTable)symbtab.get(values[i]);
-				if(!st.type.equals("QUOTED_TEXT"))
+			case BibParserConstants.BOOKTITLE:
+				st = (SymbolTable)symbtab.get(values[i].image);
+				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
 					System.out.println("ERROR: WRONG VALUE OF BOOKTITLE");
 					System.exit(-1);
 
 				}
 				break;
-			case "chapter":
-				st = (SymbolTable)symbtab.get(values[i]);
-				if(!st.type.equals("INTEGER"))
+			case BibParserConstants.CHAPTER:
+				st = (SymbolTable)symbtab.get(values[i].image);
+				if(!(st.type == BibParserConstants.INTEGER))
 				{
 					System.out.println("ERROR: WRONG VALUE OF CHAPTER");
 					System.exit(-1);
 
 				}
 				break;
-			case "crossref":
-				st = (SymbolTable)symbtab.get(values[i]);
-				if(!st.type.equals("WORD"))
+			case BibParserConstants.CROSSREF:
+				st = (SymbolTable)symbtab.get(values[i].image);
+				if(!(st.type == BibParserConstants.WORD))
 				{
 					System.out.println("ERROR: WRONG VALUE OF CROSSREF");
 					System.exit(-1);
 
 				}
 				break;
-			case "edition":
-				st = (SymbolTable)symbtab.get(values[i]);
-				if(!st.type.equals("QUOTED_TEXT"))
+			case BibParserConstants.EDITION:
+				st = (SymbolTable)symbtab.get(values[i].image);
+				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
 					System.out.println("ERROR: WRONG VALUE OF EDITION");
 					System.exit(-1);
 
 				}
 				break;
-			case "editor":
-				st = (SymbolTable)symbtab.get(values[i]);
-				if(!st.type.equals("QUOTED_TEXT"))
+			case BibParserConstants.EDITOR:
+				st = (SymbolTable)symbtab.get(values[i].image);
+				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
 					System.out.println("ERROR: WRONG VALUE OF EDITOR");
 					System.exit(-1);
 
 				}
 				break;
-			case "howpublished":
-				st = (SymbolTable)symbtab.get(values[i]);
-				if(!st.type.equals("QUOTED_TEXT"))
+			case BibParserConstants.HOWPUBLISHED:
+				st = (SymbolTable)symbtab.get(values[i].image);
+				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
 					System.out.println("ERROR: WRONG VALUE OF HOWPUBLISHED");
 					System.exit(-1);
 
 				}
 				break;
-			case "institution":
-				st = (SymbolTable)symbtab.get(values[i]);
-				if(!st.type.equals("QUOTED_TEXT"))
+			case BibParserConstants.INSTITUTION:
+				st = (SymbolTable)symbtab.get(values[i].image);
+				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
 					System.out.println("ERROR: WRONG VALUE OF INSTITUTION");
 					System.exit(-1);
 
 				}
 				break;
-			case "journal":
-				st = (SymbolTable)symbtab.get(values[i]);
-				if(!st.type.equals("QUOTED_TEXT") && !st.type.equals("WORD"))
+			case BibParserConstants.JOURNAL:
+				st = (SymbolTable)symbtab.get(values[i].image);
+				if(!(st.type == BibParserConstants.QUOTED_TEXT) && !(st.type == BibParserConstants.WORD))
 				{
 					System.out.println("ERROR: WRONG VALUE OF JOURNAL");
 					System.exit(-1);
 
 				}
 				break;
-			case "month":
-				st = (SymbolTable)symbtab.get(values[i]);
-				if(!st.type.equals("QUOTED_TEXT"))
+			case BibParserConstants.MONTH:
+				st = (SymbolTable)symbtab.get(values[i].image);
+				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
 					System.out.println("ERROR: WRONG VALUE OF MONTH");
 					System.exit(-1);
 
 				}
 				break;
-			case "note":
-				st = (SymbolTable)symbtab.get(values[i]);
-				if(!st.type.equals("QUOTED_TEXT"))
+			case BibParserConstants.NOTE:
+				st = (SymbolTable)symbtab.get(values[i].image);
+				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
 					System.out.println("ERROR: WRONG VALUE OF NOTE");
 					System.exit(-1);
 
 				}
 				break;
-			case "number":
-				st = (SymbolTable)symbtab.get(values[i]);
-				if(!st.type.equals("INTEGER"))
+			case BibParserConstants.NUMBER:
+				st = (SymbolTable)symbtab.get(values[i].image);
+				if(!(st.type == BibParserConstants.INTEGER))
 				{
 					System.out.println("ERROR: WRONG VALUE OF NUMBER");
 					System.exit(-1);
 
 				}
 				break;
-			case "organization":
-				st = (SymbolTable)symbtab.get(values[i]);
-				if(!st.type.equals("QUOTED_TEXT"))
+			case BibParserConstants.ORGANIZATION:
+				st = (SymbolTable)symbtab.get(values[i].image);
+				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
 					System.out.println("ERROR: WRONG VALUE OF ORGANIZATION");
 					System.exit(-1);
 
 				}
 				break;
-			case "pages":
-				st = (SymbolTable)symbtab.get(values[i]);
-				if(!st.type.equals("PAGES_V"))
+			case BibParserConstants.PAGES:
+				st = (SymbolTable)symbtab.get(values[i].image);
+				if(!(st.type == BibParserConstants.PAGES_V) && !(st.type == BibParserConstants.INTEGER))
 				{
 					System.out.println("ERROR: WRONG VALUE OF PAGES");
 					System.exit(-1);
 
 				}
 				break;
-			case "publisher":
-				st = (SymbolTable)symbtab.get(values[i]);
-				if(!st.type.equals("QUOTED_TEXT"))
+			case BibParserConstants.PUBLISHER:
+				st = (SymbolTable)symbtab.get(values[i].image);
+				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
 					System.out.println("ERROR: WRONG VALUE OF PUBLISHER");
 					System.exit(-1);
 
 				}
 				break;
-			case "school":
-				st = (SymbolTable)symbtab.get(values[i]);
-				if(!st.type.equals("QUOTED_TEXT"))
+			case BibParserConstants.SCHOOL:
+				st = (SymbolTable)symbtab.get(values[i].image);
+				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
 					System.out.println("ERROR: WRONG VALUE OF SCHOOL");
 					System.exit(-1);
 
 				}
 				break;
-			case "series":
-				st = (SymbolTable)symbtab.get(values[i]);
-				if(!st.type.equals("QUOTED_TEXT"))
+			case BibParserConstants.SERIES:
+				st = (SymbolTable)symbtab.get(values[i].image);
+				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
 					System.out.println("ERROR: WRONG VALUE OF SERIES");
 					System.exit(-1);
 
 				}
 				break;
-			case "type":
-				st = (SymbolTable)symbtab.get(values[i]);
-				if(!st.type.equals("QUOTED_TEXT"))
+			case BibParserConstants.REP_TYPE:
+				st = (SymbolTable)symbtab.get(values[i].image);
+				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
 					System.out.println("ERROR: WRONG VALUE OF TYPE");
 					System.exit(-1);
 
 				}
 				break;
-			case "year":
-				st = (SymbolTable)symbtab.get(values[i]);
-				if(!st.type.equals("INTEGER"))
+			case BibParserConstants.YEAR:
+				st = (SymbolTable)symbtab.get(values[i].image);
+				if(!(st.type == BibParserConstants.INTEGER) && !(st.type == BibParserConstants.YEAR_V) && !(st.type == BibParserConstants.PAGES_V))
 				{
 					System.out.println("ERROR: WRONG VALUE OF YEAR");
 					System.exit(-1);
 
 				}
 				break;
-			case "volume":
-				st = (SymbolTable)symbtab.get(values[i]);
-				if(!st.type.equals("INTEGER"))
+			case BibParserConstants.VOLUME:
+				st = (SymbolTable)symbtab.get(values[i].image);
+				if(!(st.type == BibParserConstants.PAGES_V) && !(st.type == BibParserConstants.INTEGER))
 				{
 					System.out.println("ERROR: WRONG VALUE OF VOLUME");
 					System.exit(-1);
@@ -1109,18 +912,18 @@ void checkValueTypes(String[] types,String[] values,int numPair) #void:{}{
 				break;
 			
 			
-			case "key":
-				st = (SymbolTable)symbtab.get(values[i]);
-				if(!st.type.equals("QUOTED_TEXT"))
+			case BibParserConstants.KEY:
+				st = (SymbolTable)symbtab.get(values[i].image);
+				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
 					System.out.println("ERROR: WRONG VALUE OF KEY");
 					System.exit(-1);
 
 				}
 				break;
-			case "title":
-				st = (SymbolTable)symbtab.get(values[i]);
-				if(!st.type.equals("QUOTED_TEXT") && !st.type.equals("WORD"))
+			case BibParserConstants.TITLE:
+				st = (SymbolTable)symbtab.get(values[i].image);
+				if(!(st.type == BibParserConstants.QUOTED_TEXT) && !(st.type == BibParserConstants.WORD))
 				{
 					System.out.println("ERROR: WRONG VALUE OF TITLE");
 					System.exit(-1);

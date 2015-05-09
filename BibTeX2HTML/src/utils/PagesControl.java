@@ -21,10 +21,12 @@ public class PagesControl {
 					} else {
 						System.err
 								.println("Invalid Pages Attribute: \'+\' must be with a single page.");
+						return false;
 					}
 				} else {
 					System.err
 							.println("Invalid Pages Attribute: \'+\' is not the last value.");
+					return false;
 				}
 			} else {
 				// Check if every value separated by commas have an hyphen
@@ -118,11 +120,15 @@ public class PagesControl {
 		System.out.println("----"); // false
 		System.out.println(verifyPages("43, 32"));
 		System.out.println(verifyPages("43+, 32"));
+		System.out.println(verifyPages("43, 32+"));
 		System.out.println(verifyPages("43-34"));
+		System.out.println(verifyPages("43--34"));
+		System.out.println(verifyPages("43--55--66"));
+		System.out.println(verifyPages("43--22--66"));
 		System.out.println(verifyPages("43, 45-34"));
 		System.out.println(verifyPages("43-34, 45"));
 		System.out.println(verifyPages("43-55, 75-73"));
 		System.out.println(verifyPages("43-34"));
-		System.out.println(verifyPages("43-34, 45+, 79"));
+		System.out.println(verifyPages("43-44, 45+, 79"));
 	}
 }

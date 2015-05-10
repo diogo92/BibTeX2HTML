@@ -47,7 +47,7 @@ public class BibParser{
         if(temp2.value != null)
         	System.out.println(" value = " + temp2.value);*/
 
-      }    }    catch (Exception e)    {      System.out.println("Error: " + e.getMessage());    }
+      }    }    catch (Exception e)    {      System.err.println("Error: " + e.getMessage());    }
     sc.close();  }
 
   }PARSER_END(BibParser)SKIP :{  " "| "\t"| "\r"
@@ -110,47 +110,91 @@ public class BibParser{
 				"\u003a"-"\u0040" ,"\u005b"-"\u0060","\u0020"-"\u0021","\u007b"-"\u007e"
 				] >
 | < #LETTER : ["\u0041"-"\u007A" ] >
+}
+
+void error_skipto(int kind) #void:
+{}{
+  {	  ParseException e = generateParseException();  // generate the exception object.
+	  System.err.println(e.toString());  // print the error message
+	  Token t;
+	  do {
+	    t = getNextToken();
+	  } while (t.kind != kind);
+  }
 }SimpleNode Start() :{
-}{  (    Arroba() Type() < BRACKET_START > Data() < BRACKET_END >
-  )*  {    return jjtThis;  }}
+}{
+  try {
+    (
+    Arroba() Type() < BRACKET_START > Data() < BRACKET_END >
+	  )*
+	  {
+	    return jjtThis;
+	  }
+	}
+  catch (ParseException e) {
+    error_skipto(BibParserConstants.BRACKET_END);
+  }}
 
 void Arroba() :
 {}
-{	< ARROBA >
+{
+  try  {	< ARROBA >
+  } catch (ParseException e) {
+    error_skipto(BibParserConstants.BRACKET_END);
+  }
 }
 
 void Data() :
 {}
 {
-  Key() (Attribute() (< COMMA > Attribute() )*)? }
+  try  {
+  Key() (Attribute() (< COMMA > Attribute() )*)?
+  } catch (ParseException e)  {	error_skipto(BibParserConstants.BRACKET_END);
+  }}
 
 void Key() :
 {
   Token key = null;}
-{	(key = < WORD > < COMMA >)?
+{
+  	try  	{	(key = < WORD > < COMMA >)?
 
 	{
 	  if(key == null)
 	  {		System.out.println("Empty key");
 	  }
-	}}
+	}
+	}catch (ParseException e)
+	  {
+		error_skipto(BibParserConstants.BRACKET_END);
+	  }}
 
 void Equal() :{}
 {
-  < EQUAL >}
+  try  {
+  < EQUAL >
+  }
+  catch (ParseException e)
+  {
+	error_skipto(BibParserConstants.BRACKET_END);
+  }}
 
 void Type() :
 {
 	Token value;
 }
 {
+  try  {    
   (    
 	(value=< WORD >	) |	(value=< TEXT >	) |	(value=< CONFERENCE >) | (value=< ARTICLE >	) |
 	(value=< BOOK >	) |	(value=< BOOKLET >) |	(value=< INBOOK >) | (value=< INCOLLECTION >) |
 	(value=< INPROCEEDINGS >) |	(value=< MANUAL >) | (value=< MASTERTHESIS >) |	(value=< MISC >) |
 	(value=< PHDTHESIS >)| (value=< PROCEEDINGS >	) |	(value=< TECHREPORT >	) |	(value=< UNPUBLISHED >)
-)
+  )
 	{jjtThis.jjtSetValue(value);symbtab.put(value.image,new SymbolTable(value.kind,value.image));}
+}catch (ParseException e)
+  {
+	error_skipto(BibParserConstants.BRACKET_END);
+  }
 }
 
 void Field():
@@ -158,6 +202,7 @@ void Field():
   Token value;
 }
 {
+  try  {    
   (    	(value=< AUTHOR >) | (value=< ANNOTE >) | (value=< BOOKTITLE >) | (value=< CHAPTER >)
 	| (value=< CROSSREF >) | (value=< EDITOR >) | (value=< INSTITUTION >) | (value=< ORGANIZATION >	)
 	| (value=< SCHOOL >	) | (value=< JOURNAL >) | (value=< TITLE >) | (value=< YEAR >) | (value=< VOLUME >)
@@ -165,24 +210,38 @@ void Field():
 	| (value=< SERIES >) | (value=< EDITION >) | (value=< NOTE >) | (value=< MONTH >) | (value=< PAGES >)
   )
   {jjtThis.jjtSetValue(value);symbtab.put(value.image,new SymbolTable(value.kind,value.image));}
+}catch (ParseException e)
+  {
+	error_skipto(BibParserConstants.BRACKET_END);
+  }
 }
 void Value() :
 {
   Token value;}{
+  try  {    
   (    
 	(value=< WORD >) | (value=< QUOTED_TEXT >) | (value=< INTEGER >) | (value=< PAGES_V >) | (value=< YEAR_V >)
 
   )
   {jjtThis.jjtSetValue(value);symbtab.put(value.image,new SymbolTable(value.kind,value.image));}
+}catch (ParseException e)
+  {
+	error_skipto(BibParserConstants.BRACKET_END);
+  }
 	}
 
 void Attribute():
 {
 }
 {
+  try  {
   (
   		Field() Equal() Value()
   )
+  } catch (ParseException e)
+  {
+	error_skipto(BibParserConstants.BRACKET_END);
+  }
 }
 
 
@@ -383,232 +442,182 @@ void checkValueTypes(int[] types,Token[] values,int numPair) #void:{}{
     SymbolTable st;
     for(int i=0;i<numPair;i++)
     {
+      try      { 
 		switch (types[i])
 		{
 		  	case BibParserConstants.ADDRESS:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
-					System.out.println("ERROR: WRONG VALUE OF ADDRESS");
-					System.exit(-1);
-
+					throw new SemanticException("WRONG VALUE OF ADDRESS AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
 				}
 				break;
 			case BibParserConstants.ANNOTE:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
-					System.out.println("ERROR: WRONG VALUE OF ANNOTE");
-					System.exit(-1);
-
+					throw new SemanticException("WRONG VALUE OF ANNOTE AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
 				}
 				break;
 			case BibParserConstants.AUTHOR:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
-					System.out.println("ERROR: WRONG VALUE OF AUTHOR");
-					System.exit(-1);
-
+					throw new SemanticException("WRONG VALUE OF AUTHOR AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
 				}
 				break;
 			case BibParserConstants.BOOKTITLE:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
-					System.out.println("ERROR: WRONG VALUE OF BOOKTITLE");
-					System.exit(-1);
-
+					throw new SemanticException("WRONG VALUE OF BOOKTITLE AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
 				}
 				break;
 			case BibParserConstants.CHAPTER:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.INTEGER))
 				{
-					System.out.println("ERROR: WRONG VALUE OF CHAPTER");
-					System.exit(-1);
-
+					throw new SemanticException("WRONG VALUE OF CHAPTER AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
 				}
 				break;
 			case BibParserConstants.CROSSREF:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.WORD))
 				{
-					System.out.println("ERROR: WRONG VALUE OF CROSSREF");
-					System.exit(-1);
-
+					throw new SemanticException("WRONG VALUE OF CROSSREF AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
 				}
 				break;
 			case BibParserConstants.EDITION:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
-					System.out.println("ERROR: WRONG VALUE OF EDITION");
-					System.exit(-1);
-
+					throw new SemanticException("WRONG VALUE OF EDITION AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
 				}
 				break;
 			case BibParserConstants.EDITOR:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
-					System.out.println("ERROR: WRONG VALUE OF EDITOR");
-					System.exit(-1);
-
+					throw new SemanticException("WRONG VALUE OF EDITOR AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
 				}
 				break;
 			case BibParserConstants.HOWPUBLISHED:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
-					System.out.println("ERROR: WRONG VALUE OF HOWPUBLISHED");
-					System.exit(-1);
-
+					throw new SemanticException("WRONG VALUE OF HOWPUBLISHED AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
 				}
 				break;
 			case BibParserConstants.INSTITUTION:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
-					System.out.println("ERROR: WRONG VALUE OF INSTITUTION");
-					System.exit(-1);
-
+					throw new SemanticException("WRONG VALUE OF INSTITUTION AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
 				}
 				break;
 			case BibParserConstants.JOURNAL:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.QUOTED_TEXT) && !(st.type == BibParserConstants.WORD))
 				{
-					System.out.println("ERROR: WRONG VALUE OF JOURNAL");
-					System.exit(-1);
-
+					throw new SemanticException("WRONG VALUE OF JOURNAL AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
 				}
 				break;
 			case BibParserConstants.MONTH:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
-					System.out.println("ERROR: WRONG VALUE OF MONTH");
-					System.exit(-1);
-
+					throw new SemanticException("WRONG VALUE OF MONTH AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
 				}
 				break;
 			case BibParserConstants.NOTE:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
-					System.out.println("ERROR: WRONG VALUE OF NOTE");
-					System.exit(-1);
-
+					throw new SemanticException("WRONG VALUE OF NOTE AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
 				}
 				break;
 			case BibParserConstants.NUMBER:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.INTEGER))
 				{
-					System.out.println("ERROR: WRONG VALUE OF NUMBER");
-					System.exit(-1);
-
+					throw new SemanticException("WRONG VALUE OF NUMBER AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
 				}
 				break;
 			case BibParserConstants.ORGANIZATION:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
-					System.out.println("ERROR: WRONG VALUE OF ORGANIZATION");
-					System.exit(-1);
-
+					throw new SemanticException("WRONG VALUE OF ORGANIZATION AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
 				}
 				break;
 			case BibParserConstants.PAGES:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.PAGES_V) && !(st.type == BibParserConstants.INTEGER))
 				{
-					System.out.println("ERROR: WRONG VALUE OF PAGES");
-					System.exit(-1);
-
+					throw new SemanticException("WRONG VALUE OF PAGES AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
 				}
 				break;
 			case BibParserConstants.PUBLISHER:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
-					System.out.println("ERROR: WRONG VALUE OF PUBLISHER");
-					System.exit(-1);
-
+					throw new SemanticException("WRONG VALUE OF PUBLISHER AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
 				}
 				break;
 			case BibParserConstants.SCHOOL:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
-					System.out.println("ERROR: WRONG VALUE OF SCHOOL");
-					System.exit(-1);
-
+					throw new SemanticException("WRONG VALUE OF SCHOOL AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
 				}
 				break;
 			case BibParserConstants.SERIES:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
-					System.out.println("ERROR: WRONG VALUE OF SERIES");
-					System.exit(-1);
-
+					throw new SemanticException("WRONG VALUE OF SERIES AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
 				}
 				break;
 			case BibParserConstants.REP_TYPE:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
-					System.out.println("ERROR: WRONG VALUE OF TYPE");
-					System.exit(-1);
-
+					throw new SemanticException("WRONG VALUE OF TYPE AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
 				}
 				break;
 			case BibParserConstants.YEAR:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.INTEGER) && !(st.type == BibParserConstants.YEAR_V) && !(st.type == BibParserConstants.PAGES_V))
 				{
-					System.out.println("ERROR: WRONG VALUE OF YEAR");
-					System.exit(-1);
-
+					throw new SemanticException("WRONG VALUE OF YEAR AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
 				}
 				break;
 			case BibParserConstants.VOLUME:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.PAGES_V) && !(st.type == BibParserConstants.INTEGER))
 				{
-					System.out.println("ERROR: WRONG VALUE OF VOLUME");
-					System.exit(-1);
-
+					throw new SemanticException("WRONG VALUE OF VOLUME AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
 				}
 				break;
-			
-			
 			case BibParserConstants.KEY:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
-					System.out.println("ERROR: WRONG VALUE OF KEY");
-					System.exit(-1);
-
+					throw new SemanticException("WRONG VALUE OF KEY AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
 				}
 				break;
 			case BibParserConstants.TITLE:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.QUOTED_TEXT) && !(st.type == BibParserConstants.WORD))
 				{
-					System.out.println("ERROR: WRONG VALUE OF TITLE");
-					System.exit(-1);
-
+					throw new SemanticException("WRONG VALUE OF TITLE AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
 				}
 				break;
 			default:
-				System.out.println("ERROR: UNKNOWN OR INCORRECT FIELD FOUND IN");
-				System.exit(-1);
+				throw new SemanticException("UNKNOWN OR INCORRECT FIELD FOUND AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn + " : " + values[i].image );
 				break;
-
 		}
-
+	  } catch (SemanticException e) {		System.err.println("Semantic error: " + e.getMessage());
+	  }
     }  }}
 

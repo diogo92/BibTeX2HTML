@@ -159,9 +159,12 @@ void Key() :
   	try  	{	(key = < WORD > < COMMA >)?
 
 	{
+	  
 	  if(key == null)
 	  {		System.out.println("Empty key");
 	  }
+	  else
+	  {jjtThis.jjtSetValue(key);symbtab.put(key.image,new SymbolTable(key.kind,key.image));}
 	}
 	}catch (ParseException e)
 	  {
@@ -309,6 +312,8 @@ void analyzeType(Vector<Object > elems,int type) #void:
   {
     int currPairInd = 0;
     int numPair = (elems.size()-1)/2;
+    Token key = (Token)elems.elementAt(1);
+    elems.remove(1);
     int[] types = new int[numPair];
     Token[] values = new Token[numPair];
     for(int i= 0;i<numPair;i++)
@@ -326,7 +331,7 @@ void analyzeType(Vector<Object > elems,int type) #void:
 	    if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.JOURNAL) ||
 	    	!Utilities.contains(types,BibParserConstants.YEAR))
 	    {
-			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN ARTICLE " /*+ INSERIR CHAVE*/);
+			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN ARTICLE " + key.image);
 			System.exit(-1);
 	    }
       	break;
@@ -334,14 +339,14 @@ void analyzeType(Vector<Object > elems,int type) #void:
 	    if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.PUBLISHER) ||
 	    	!Utilities.contains(types,BibParserConstants.YEAR))
 	    {
-			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN BOOK " /*+ INSERIR CHAVE*/);
+			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN BOOK " + key.image);
 			System.exit(-1);
 	    }
       	break;
       case BibParserConstants.BOOKLET:
         if(!Utilities.contains(types,BibParserConstants.TITLE))
 	    {
-			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN BOOKLET " /*+ INSERIR CHAVE*/);
+			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN BOOKLET " + key.image);
 			System.exit(-1);
 	    }
       	break;
@@ -349,7 +354,7 @@ void analyzeType(Vector<Object > elems,int type) #void:
       	if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.BOOKTITLE) ||
     	!Utilities.contains(types,BibParserConstants.YEAR))
 	    {
-			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN CONFERENCE " /*+ INSERIR CHAVE*/);
+			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN CONFERENCE " + key.image);
 			System.exit(-1);
 	    }
       	break;
@@ -357,7 +362,7 @@ void analyzeType(Vector<Object > elems,int type) #void:
       	if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.PUBLISHER) ||
     	!Utilities.contains(types,BibParserConstants.YEAR) || !Utilities.contains(types,BibParserConstants.CHAPTER))
 	    {
-			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN INBOOK " /*+ INSERIR CHAVE*/);
+			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN INBOOK " + key.image);
 			System.exit(-1);
 	    }
       	break;
@@ -365,7 +370,7 @@ void analyzeType(Vector<Object > elems,int type) #void:
         if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.PUBLISHER) ||
     	!Utilities.contains(types,BibParserConstants.YEAR) || !Utilities.contains(types,BibParserConstants.BOOKTITLE))
 	    {
-			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN INCOLLECTION " /*+ INSERIR CHAVE*/);
+			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN INCOLLECTION " + key.image);
 			System.exit(-1);
 	    }
       	break;
@@ -373,14 +378,14 @@ void analyzeType(Vector<Object > elems,int type) #void:
       	if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) ||
     	!Utilities.contains(types,BibParserConstants.YEAR) || !Utilities.contains(types,BibParserConstants.BOOKTITLE))
 	    {
-			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN INPROCEEDINGS " /*+ INSERIR CHAVE*/);
+			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN INPROCEEDINGS " + key.image);
 			System.exit(-1);
 	    }
       	break;
       case BibParserConstants.MANUAL:
         if(!Utilities.contains(types,BibParserConstants.TITLE))
 	    {
-			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN MANUAL " /*+ INSERIR CHAVE*/);
+			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN MANUAL " + key.image);
 			System.exit(-1);
 	    }
       	break;
@@ -388,7 +393,7 @@ void analyzeType(Vector<Object > elems,int type) #void:
         if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.SCHOOL) ||
     	!Utilities.contains(types,BibParserConstants.YEAR))
 	    {
-			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN MASTERSTHESIS " /*+ INSERIR CHAVE*/);
+			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN MASTERSTHESIS " + key.image);
 			System.exit(-1);
 	    }
       	break;
@@ -396,7 +401,7 @@ void analyzeType(Vector<Object > elems,int type) #void:
         if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.HOWPUBLISHED) ||
     	!Utilities.contains(types,BibParserConstants.YEAR) || !Utilities.contains(types,BibParserConstants.MONTH) || !Utilities.contains(types,BibParserConstants.NOTE) || !Utilities.contains(types,BibParserConstants.KEY))
 	    {
-			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN MISC " /*+ INSERIR CHAVE*/);
+			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN MISC " + key.image);
 			System.exit(-1);
 	    }
       	break;
@@ -404,14 +409,14 @@ void analyzeType(Vector<Object > elems,int type) #void:
         if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.SCHOOL) ||
     	!Utilities.contains(types,BibParserConstants.YEAR))
 	    {
-			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN PHDTHESIS " /*+ INSERIR CHAVE*/);
+			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN PHDTHESIS " + key.image);
 			System.exit(-1);
 	    }
       	break;
       case BibParserConstants.PROCEEDINGS:
         if(!Utilities.contains(types,BibParserConstants.TITLE) ||!Utilities.contains(types,BibParserConstants.YEAR))
 	    {
-			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN PROCEDINGS " /*+ INSERIR CHAVE*/);
+			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN PROCEDINGS " + key.image);
 			System.exit(-1);
 	    }
       	break;
@@ -419,25 +424,25 @@ void analyzeType(Vector<Object > elems,int type) #void:
         if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.INSTITUTION) ||
 	    !Utilities.contains(types,BibParserConstants.YEAR))
 	    {
-			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN TECHREPORT " /*+ INSERIR CHAVE*/);
+			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN TECHREPORT " + key.image);
 			System.exit(-1);
 	    }
       	break;
       case BibParserConstants.UNPUBLISHED:
         if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.NOTE))
 	    {
-			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN UNPUBLISHED " /*+ INSERIR CHAVE*/);
+			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN UNPUBLISHED " + key.image);
 			System.exit(-1);
 	    }
       	break;
       default:
       	break;
     }
-    checkValueTypes(types,values,numPair);
+    checkValueTypes(types,values,numPair, key);
   }
 }
 
-void checkValueTypes(int[] types,Token[] values,int numPair) #void:{}{
+void checkValueTypes(int[] types,Token[] values,int numPair, Token key) #void:{}{
   {
     SymbolTable st;
     for(int i=0;i<numPair;i++)
@@ -449,172 +454,172 @@ void checkValueTypes(int[] types,Token[] values,int numPair) #void:{}{
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
-					throw new SemanticException("WRONG VALUE OF ADDRESS AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
+					throw new SemanticException("WRONG VALUE OF ADDRESS AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn + "IN ENTRY " + key.image);
 				}
 				break;
 			case BibParserConstants.ANNOTE:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
-					throw new SemanticException("WRONG VALUE OF ANNOTE AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
+					throw new SemanticException("WRONG VALUE OF ANNOTE AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn + "IN ENTRY " + key.image);
 				}
 				break;
 			case BibParserConstants.AUTHOR:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
-					throw new SemanticException("WRONG VALUE OF AUTHOR AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
+					throw new SemanticException("WRONG VALUE OF AUTHOR AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn + "IN ENTRY " + key.image);
 				}
 				break;
 			case BibParserConstants.BOOKTITLE:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
-					throw new SemanticException("WRONG VALUE OF BOOKTITLE AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
+					throw new SemanticException("WRONG VALUE OF BOOKTITLE AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn + "IN ENTRY " + key.image);
 				}
 				break;
 			case BibParserConstants.CHAPTER:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.INTEGER))
 				{
-					throw new SemanticException("WRONG VALUE OF CHAPTER AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
+					throw new SemanticException("WRONG VALUE OF CHAPTER AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn + "IN ENTRY " + key.image);
 				}
 				break;
 			case BibParserConstants.CROSSREF:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.WORD))
 				{
-					throw new SemanticException("WRONG VALUE OF CROSSREF AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
+					throw new SemanticException("WRONG VALUE OF CROSSREF AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn + "IN ENTRY " + key.image);
 				}
 				break;
 			case BibParserConstants.EDITION:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
-					throw new SemanticException("WRONG VALUE OF EDITION AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
+					throw new SemanticException("WRONG VALUE OF EDITION AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn + "IN ENTRY " + key.image);
 				}
 				break;
 			case BibParserConstants.EDITOR:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
-					throw new SemanticException("WRONG VALUE OF EDITOR AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
+					throw new SemanticException("WRONG VALUE OF EDITOR AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn + "IN ENTRY " + key.image);
 				}
 				break;
 			case BibParserConstants.HOWPUBLISHED:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
-					throw new SemanticException("WRONG VALUE OF HOWPUBLISHED AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
+					throw new SemanticException("WRONG VALUE OF HOWPUBLISHED AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn + "IN ENTRY " + key.image);
 				}
 				break;
 			case BibParserConstants.INSTITUTION:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
-					throw new SemanticException("WRONG VALUE OF INSTITUTION AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
+					throw new SemanticException("WRONG VALUE OF INSTITUTION AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn + "IN ENTRY " + key.image);
 				}
 				break;
 			case BibParserConstants.JOURNAL:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.QUOTED_TEXT) && !(st.type == BibParserConstants.WORD))
 				{
-					throw new SemanticException("WRONG VALUE OF JOURNAL AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
+					throw new SemanticException("WRONG VALUE OF JOURNAL AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn + "IN ENTRY " + key.image);
 				}
 				break;
 			case BibParserConstants.MONTH:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
-					throw new SemanticException("WRONG VALUE OF MONTH AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
+					throw new SemanticException("WRONG VALUE OF MONTH AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn + "IN ENTRY " + key.image);
 				}
 				break;
 			case BibParserConstants.NOTE:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
-					throw new SemanticException("WRONG VALUE OF NOTE AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
+					throw new SemanticException("WRONG VALUE OF NOTE AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn + "IN ENTRY " + key.image);
 				}
 				break;
 			case BibParserConstants.NUMBER:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.INTEGER))
 				{
-					throw new SemanticException("WRONG VALUE OF NUMBER AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
+					throw new SemanticException("WRONG VALUE OF NUMBER AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn + "IN ENTRY " + key.image);
 				}
 				break;
 			case BibParserConstants.ORGANIZATION:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
-					throw new SemanticException("WRONG VALUE OF ORGANIZATION AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
+					throw new SemanticException("WRONG VALUE OF ORGANIZATION AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn + "IN ENTRY " + key.image);
 				}
 				break;
 			case BibParserConstants.PAGES:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.PAGES_V) && !(st.type == BibParserConstants.INTEGER))
 				{
-					throw new SemanticException("WRONG VALUE OF PAGES AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
+					throw new SemanticException("WRONG VALUE OF PAGES AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn + "IN ENTRY " + key.image);
 				}
 				break;
 			case BibParserConstants.PUBLISHER:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
-					throw new SemanticException("WRONG VALUE OF PUBLISHER AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
+					throw new SemanticException("WRONG VALUE OF PUBLISHER AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn + "IN ENTRY " + key.image);
 				}
 				break;
 			case BibParserConstants.SCHOOL:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
-					throw new SemanticException("WRONG VALUE OF SCHOOL AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
+					throw new SemanticException("WRONG VALUE OF SCHOOL AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn + "IN ENTRY " + key.image);
 				}
 				break;
 			case BibParserConstants.SERIES:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
-					throw new SemanticException("WRONG VALUE OF SERIES AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
+					throw new SemanticException("WRONG VALUE OF SERIES AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn + "IN ENTRY " + key.image);
 				}
 				break;
 			case BibParserConstants.REP_TYPE:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
-					throw new SemanticException("WRONG VALUE OF TYPE AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
+					throw new SemanticException("WRONG VALUE OF TYPE AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn + "IN ENTRY " + key.image);
 				}
 				break;
 			case BibParserConstants.YEAR:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.INTEGER) && !(st.type == BibParserConstants.YEAR_V) && !(st.type == BibParserConstants.PAGES_V))
 				{
-					throw new SemanticException("WRONG VALUE OF YEAR AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
+					throw new SemanticException("WRONG VALUE OF YEAR AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn + "IN ENTRY " + key.image);
 				}
 				break;
 			case BibParserConstants.VOLUME:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.PAGES_V) && !(st.type == BibParserConstants.INTEGER))
 				{
-					throw new SemanticException("WRONG VALUE OF VOLUME AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
+					throw new SemanticException("WRONG VALUE OF VOLUME AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn + "IN ENTRY " + key.image);
 				}
 				break;
 			case BibParserConstants.KEY:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.QUOTED_TEXT))
 				{
-					throw new SemanticException("WRONG VALUE OF KEY AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
+					throw new SemanticException("WRONG VALUE OF KEY AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn + "IN ENTRY " + key.image);
 				}
 				break;
 			case BibParserConstants.TITLE:
 				st = (SymbolTable)symbtab.get(values[i].image);
 				if(!(st.type == BibParserConstants.QUOTED_TEXT) && !(st.type == BibParserConstants.WORD))
 				{
-					throw new SemanticException("WRONG VALUE OF TITLE AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn);
+					throw new SemanticException("WRONG VALUE OF TITLE AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn + "IN ENTRY " + key.image);
 				}
 				break;
 			default:
-				throw new SemanticException("UNKNOWN OR INCORRECT FIELD FOUND AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn + " : " + values[i].image );
+				throw new SemanticException("UNKNOWN OR INCORRECT FIELD FOUND AT LINE " + values[i].beginLine + " COLUMN " + values[i].beginColumn + " : " + values[i].image  + "IN ENTRY " + key.image);
 				break;
 		}
 	  } catch (SemanticException e) {		System.err.println("Semantic error: " + e.getMessage());

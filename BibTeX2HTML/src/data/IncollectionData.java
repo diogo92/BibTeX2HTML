@@ -8,7 +8,7 @@ public class IncollectionData extends BibData {
 		}
 		
 	// Required Data Constructor (with chapter)
-	public IncollectionData(String _author, String _title, String _booktitle, String _publisher, Integer _year){
+	public IncollectionData(String _author, String _title, String _booktitle, String _publisher, String _year){
 		author = _author;
 		title = _title;
 		booktitle = _booktitle;
@@ -29,7 +29,7 @@ public class IncollectionData extends BibData {
 	
 	
 	// Full Data Constructor
-	public IncollectionData(String _author, String _title, String _booktitle, String _publisher, Integer _year,
+	public IncollectionData(String _author, String _title, String _booktitle, String _publisher, String _year,
 							String _editor, Integer _volume, String _series, String _type, Integer _chapter, String _pages,
 							String _address, String _edition, String _month, String _note, String _key){
 		author = _author;
@@ -67,7 +67,7 @@ public class IncollectionData extends BibData {
 		return publisher;
 	}
 	
-	public Integer getYear(){
+	public String getYear(){
 		return year;
 	}
 	

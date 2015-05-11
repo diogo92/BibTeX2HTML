@@ -25,7 +25,7 @@ public class BibData {
 	public String title;
 	public String type;
 	public Integer volume;
-	public Integer year;
+	public String year;
 	
 	public BibData(){
 		 citationKey = null;

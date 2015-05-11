@@ -18,7 +18,7 @@ public class UnpublishedData extends BibData {
 	}
 	
 	//optional data constructor
-	public UnpublishedData(String _author, String _title, String _note, String _month, Integer _year, String _key){
+	public UnpublishedData(String _author, String _title, String _note, String _month, String _year, String _key){
 		author = _author;
 		title = _title;
 		note = _note;
@@ -44,7 +44,7 @@ public class UnpublishedData extends BibData {
 		return month;
 	}	
 	
-	public Integer getYear(){
+	public String getYear(){
 		return year;
 	}
 	

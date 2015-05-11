@@ -1,13 +1,14 @@
 package data;
 
 public class MiscData extends BibData {
-	//standard constructor
-	public MiscData(){
+	// standard constructor
+	public MiscData() {
 		super();
 	}
-	
-	//Optional data constructor
-	public MiscData(String _author, String _title, String _howpublished, String _month, Integer _year, String _note, String _key){
+
+	// Optional data constructor
+	public MiscData(String _author, String _title, String _howpublished,
+			String _month, String _year, String _note, String _key) {
 		author = _author;
 		title = _title;
 		howpublished = _howpublished;
@@ -16,44 +17,39 @@ public class MiscData extends BibData {
 		note = _note;
 		key = _key;
 	}
-	
+
 	// Gets for FreeMarker HTML Parse
-	public String getAuthor(){
+	public String getAuthor() {
 		return author;
 	}
-	
-	public String getTitle(){
+
+	public String getTitle() {
 		return title;
 	}
-	
-	public String getHowPublished(){
+
+	public String getHowPublished() {
 		return howpublished;
 	}
-	
-	public String getMonth(){
+
+	public String getMonth() {
 		return month;
 	}
-	
-	public Integer getYear(){
+
+	public String getYear() {
 		return year;
 	}
-	
-	public String getNote(){
+
+	public String getNote() {
 		return note;
 	}
-	
-	public String getKey(){
+
+	public String getKey() {
 		return key;
 	}
-	
-	public String toString(){
-		return super.toString() 
-				+ "," + author
-				+ "," + title
-				+ "," + howpublished
-				+ "," + month
-				+ "," + year
-				+ "," + note
-				+ "," + key;
+
+	public String toString() {
+		return super.toString() + "," + author + "," + title + ","
+				+ howpublished + "," + month + "," + year + "," + note + ","
+				+ key;
 	}
 }

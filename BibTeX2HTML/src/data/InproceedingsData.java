@@ -8,7 +8,7 @@ public class InproceedingsData extends BibData {
 	}
 	
 	// Required data constructor
-	public InproceedingsData(String au, String ti, String bt, Integer ye) {
+	public InproceedingsData(String au, String ti, String bt, String ye) {
 		author = au;
 		title = ti;
 		booktitle = bt;
@@ -28,7 +28,7 @@ public class InproceedingsData extends BibData {
 
 	// Optional data constructor
 
-	public InproceedingsData(String au, String ti, String bt, Integer ye,
+	public InproceedingsData(String au, String ti, String bt, String ye,
 			String ed, Integer vol, Integer num, String ser, String pag,
 			String addr, String mon, String org, String pub, String no, String k) {
 		author = au;
@@ -61,7 +61,7 @@ public class InproceedingsData extends BibData {
 		return booktitle;
 	}
 	
-	public Integer getYear(){
+	public String getYear(){
 		return year;
 	}
 	

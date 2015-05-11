@@ -8,7 +8,7 @@ public class BookletData extends BibData {
 	}
 	
 	// Required Data Constructor
-	public BookletData(String ck,String t){
+	public BookletData(String ck, String t){
 		citationKey = ck;
 		author = null;
 		title = t;
@@ -22,7 +22,7 @@ public class BookletData extends BibData {
 	
 	// Full Data Constructor
 	public BookletData(String ck, String a, String t, String hp, 
-			Integer y,
+			String y,
 			String ad, String mo, String no, String k){
 		citationKey = ck;
 		author = a;
@@ -48,7 +48,7 @@ public class BookletData extends BibData {
 		return howpublished;
 	}
 	
-	public Integer getYear(){
+	public String getYear(){
 		return year;
 	}
 	

@@ -69,7 +69,7 @@ public class BibParser{
 | < INCOLLECTION : "INCOLLECTION" >
 | < INPROCEEDINGS : "INPROCEEDINGS" >
 | < MANUAL : "MANUAL" >
-| < MASTERTHESIS : "MASTERTHESIS" >
+| < MASTERSTHESIS : "MASTERSTHESIS" >
 | < MISC : "MISC" >
 | < PHDTHESIS : "PHDTHESIS" >
 | < PROCEEDINGS : "PROCEEDINGS" >
@@ -125,7 +125,7 @@ void error_skipto(int kind) #void:
 }{
   try {
     (
-    Arroba() Type() < BRACKET_START > Data() < BRACKET_END >
+    	Statement()
 	  )*
 	  {
 	    return jjtThis;
@@ -134,6 +134,14 @@ void error_skipto(int kind) #void:
   catch (ParseException e) {
     error_skipto(BibParserConstants.BRACKET_END);
   }}
+
+void Statement():
+{}
+{
+  try  {	Arroba() Type() < BRACKET_START > Data() < BRACKET_END >
+  }catch(ParseException e)  {error_skipto(BibParserConstants.BRACKET_END);
+    }
+}
 
 void Arroba() :
 {}
@@ -148,7 +156,7 @@ void Data() :
 {}
 {
   try  {
-  Key() (Attribute() (< COMMA > Attribute() )*)?
+  Key() (Attribute() (Attribute() )*)?
   } catch (ParseException e)  {	error_skipto(BibParserConstants.BRACKET_END);
   }}
 
@@ -156,8 +164,7 @@ void Key() :
 {
   Token key = null;}
 {
-  	try  	{	(key = < WORD > < COMMA >)?
-
+  	try  	{	key = < WORD >
 	{
 	  
 	  if(key == null)
@@ -191,7 +198,7 @@ void Type() :
   (    
 	(value=< WORD >	) |	(value=< TEXT >	) |	(value=< CONFERENCE >) | (value=< ARTICLE >	) |
 	(value=< BOOK >	) |	(value=< BOOKLET >) |	(value=< INBOOK >) | (value=< INCOLLECTION >) |
-	(value=< INPROCEEDINGS >) |	(value=< MANUAL >) | (value=< MASTERTHESIS >) |	(value=< MISC >) |
+	(value=< INPROCEEDINGS >) |	(value=< MANUAL >) | (value=< MASTERSTHESIS >) |	(value=< MISC >) |
 	(value=< PHDTHESIS >)| (value=< PROCEEDINGS >	) |	(value=< TECHREPORT >	) |	(value=< UNPUBLISHED >)
   )
 	{jjtThis.jjtSetValue(value);symbtab.put(value.image,new SymbolTable(value.kind,value.image));}
@@ -240,7 +247,7 @@ void Attribute():
 {
   try  {
   (
-  		Field() Equal() Value()
+  		< COMMA > Field() Equal() Value()
   )
   } catch (ParseException e)
   {
@@ -253,9 +260,9 @@ void CheckTree(SimpleNode n) #void:
 {}
 {  {
 	if(((Token)n.jjtGetValue())!=null)	{
-	  System.out.println(((Token)n.jjtGetValue()).image);		if(((Token)n.jjtGetValue()).kind == BibParserConstants.ARTICLE || ((Token)n.jjtGetValue()).kind == BibParserConstants.BOOK || ((Token)n.jjtGetValue()).kind == BibParserConstants.BOOKLET ||
+	  		if(((Token)n.jjtGetValue()).kind == BibParserConstants.ARTICLE || ((Token)n.jjtGetValue()).kind == BibParserConstants.BOOK || ((Token)n.jjtGetValue()).kind == BibParserConstants.BOOKLET ||
 			((Token)n.jjtGetValue()).kind == BibParserConstants.CONFERENCE || ((Token)n.jjtGetValue()).kind == BibParserConstants.INBOOK || ((Token)n.jjtGetValue()).kind == BibParserConstants.INCOLLECTION ||
-			((Token)n.jjtGetValue()).kind == BibParserConstants.INPROCEEDINGS || ((Token)n.jjtGetValue()).kind == BibParserConstants.MANUAL || ((Token)n.jjtGetValue()).kind == BibParserConstants.MASTERTHESIS ||
+			((Token)n.jjtGetValue()).kind == BibParserConstants.INPROCEEDINGS || ((Token)n.jjtGetValue()).kind == BibParserConstants.MANUAL || ((Token)n.jjtGetValue()).kind == BibParserConstants.MASTERSTHESIS ||
 			((Token)n.jjtGetValue()).kind == BibParserConstants.MISC || ((Token)n.jjtGetValue()).kind == BibParserConstants.PHDTHESIS || ((Token)n.jjtGetValue()).kind == BibParserConstants.PROCEEDINGS ||
 			((Token)n.jjtGetValue()).kind == BibParserConstants.TECHREPORT || ((Token)n.jjtGetValue()).kind == BibParserConstants.UNPUBLISHED)			{
 
@@ -295,7 +302,7 @@ void analyzeStack() #void:
 		case BibParserConstants.INCOLLECTION:
 		case BibParserConstants.INPROCEEDINGS:
 		case BibParserConstants.MANUAL:
-		case BibParserConstants.MASTERTHESIS:
+		case BibParserConstants.MASTERSTHESIS:
 		case BibParserConstants.MISC:
 		case BibParserConstants.PHDTHESIS:
 		case BibParserConstants.PROCEEDINGS:
@@ -392,7 +399,7 @@ void analyzeType(Vector<Object > elems,int type) #void:
 			
 	    }
       	break;
-      case BibParserConstants.MASTERTHESIS:
+      case BibParserConstants.MASTERSTHESIS:
         if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.SCHOOL) ||
     	!Utilities.contains(types,BibParserConstants.YEAR))
 	    {

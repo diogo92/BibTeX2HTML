@@ -1,640 +1,12 @@
 /**
  * JJTree template file created by SF JavaCC plugin 1.5.28+ wizard for JavaCC 1.5.0+
- */options{  static = true;
-  IGNORE_CASE = true;
-  UNICODE_INPUT = true;
-  FORCE_LA_CHECK = true;
-  lookahead = 10;}PARSER_BEGIN(BibParser)package parser;
-
-import java.util.Vector;
-import java.util.Scanner;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Stack;
-import data.*;
-import reader.FileReader;
-import utils.*;
-
-public class BibParser{
-  public static Hashtable symbtab = new Hashtable();
-  public static Vector< BibData > data;
-  public static Vector< Vector <Object > > tree;
-  public static Stack<Object > stack;
-  public static boolean firstStack = true;
-  public static int currIndex = 0;
-  public static void main(String args [])
-    {	start(args);
-  }  public static void start(String args [])  {
-    tree = new Vector< Vector <Object > >();
-    stack = new Stack<Object >();
-    String temp;
-    SymbolTable temp2;    System.out.println("File to be parsed:");    System.out.print(">> ");
-    Scanner sc = new Scanner(System.in);
-    String file = sc.nextLine();
-        try    {
-      new BibParser(FileReader.getFile(file));
-      SimpleNode n = BibParser.Start();      n.dump(">>  ");
-      BibParser.CheckTree(n);
-      Enumeration t = symbtab.keys();
-
-      while (t.hasMoreElements() == true)      {
-        temp = (String)t.nextElement();
-        temp2 = (SymbolTable)symbtab.get(temp);
-      //  System.out.println(temp);
-     /*   if(temp2.type != null)
+ */options{  static = true;  IGNORE_CASE = true;  UNICODE_INPUT = true;  FORCE_LA_CHECK = true;  lookahead = 10;}PARSER_BEGIN(BibParser)package parser;import java.util.Vector;import java.util.Scanner;import java.util.Collections;import java.util.Enumeration;import java.util.Hashtable;import java.util.Stack;import data.*;import reader.FileReader;import utils.*;public class BibParser{  public static Hashtable symbtab = new Hashtable();  public static Vector < BibData > data;  public static Vector < Vector < Object >> tree;  public static Stack < Object > stack;  public static boolean firstStack = true;  public static int currIndex = 0;  public static void main(String args [])  {    start(args);  }  public static void start(String args [])  {    tree = new Vector < Vector < Object >> ();    stack = new Stack < Object > ();    String temp;    SymbolTable temp2;    System.out.println("File to be parsed:");    System.out.print(">> ");    Scanner sc = new Scanner(System.in);    String file = sc.nextLine();    try    {      new BibParser(FileReader.getFile(file));      SimpleNode n = BibParser.Start();      n.dump(">>  ");      BibParser.CheckTree(n);      Enumeration t = symbtab.keys();      while (t.hasMoreElements() == true)      {        temp = (String) t.nextElement();        temp2 = (SymbolTable) symbtab.get(temp);        //  System.out.println(temp);
+        /*   if(temp2.type != null)
         	System.out.println(" type = " + temp2.type);
         if(temp2.value != null)
-        	System.out.println(" value = " + temp2.value);*/
-
-      }    }    catch (Exception e)    {      System.err.println("Error: " + e.getMessage());    }
-    sc.close();  }
-
-  }PARSER_END(BibParser)SKIP :{  " "| "\t"| "\r"
-| "\n"}
-TOKEN :{
-  < ARROBA : "@" >
-| < BRACKET_START : "{" >
-| < BRACKET_END : "}" >
-| < COMMA : "," >
-| < EQUAL : "=" >
-| < DOUBLE_MARKS :"\"" >
-| < SINGLE_MARKS :"'" >
-| < STRING : "STRING" >
-| < ARTICLE : "ARTICLE" >
-| < BOOK : "BOOK" >
-| < BOOKLET : "BOOKLET" >
-| < CONFERENCE : "CONFERENCE" >
-| < INBOOK : "INBOOK" >
-| < INCOLLECTION : "INCOLLECTION" >
-| < INPROCEEDINGS : "INPROCEEDINGS" >
-| < MANUAL : "MANUAL" >
-| < MASTERSTHESIS : "MASTERSTHESIS" >
-| < MISC : "MISC" >
-| < PHDTHESIS : "PHDTHESIS" >
-| < PROCEEDINGS : "PROCEEDINGS" >
-| < TECHREPORT : "TECHREPORT" >
-| < UNPUBLISHED : "UNPUBLISHED" >
-| < AUTHOR : "AUTHOR" >
-| < ANNOTE : "ANNOTE" >
-| < BOOKTITLE : "BOOKTITLE" >
-| < CHAPTER : "CHAPTER" >
-| < CROSSREF : "CROSSREF" >
-| < EDITOR : "EDITOR" >
-| < INSTITUTION : "INSTITUTION" >
-| < ORGANIZATION : "ORGANIZATION" >
-| < SCHOOL : "SCHOOL" >
-| < JOURNAL : "JOURNAL" >
-| < TITLE : "TITLE" >
-| < YEAR : "YEAR" >
-| < VOLUME : "VOLUME" >
-| < NUMBER : "NUMBER" >
-| < ADDRESS : "ADDRESS" >
-| < HOWPUBLISHED : "HOWPUBLISHED" >
-| < PUBLISHER : "PUBLISHER" >
-| < SERIES : "SERIES" >
-| < EDITION: "EDITION" >
-| < PAGES : "PAGES" >
-| < PAGES_V : < DOUBLE_MARKS >< INTEGER > ("-"|"--") < INTEGER ><DOUBLE_MARKS > |< SINGLE_MARKS >< INTEGER > ("-"|"--") < INTEGER ><SINGLE_MARKS > >
-| < MONTH : "MONTH" >
-| < NOTE : "NOTE" >
-| < YEAR_V : ("\"" < INTEGER > ("?")? "\"") | ("'" < INTEGER > ("?")? "'")>
-| < KEY : "KEY" >
-| < REP_TYPE : "REP_TYPE" >
-| < INTEGER : < DIGIT >(< DIGIT >)* >
-| < #DIGIT : ["0"-"9"] >
-| < QUOTED_TEXT : < DOUBLE_MARKS > (< INTEGER > | < LETTER > | < SPECIAL > | "\\" (< SINGLE_MARKS >| < DOUBLE_MARKS >) | < SINGLE_MARKS >)*< DOUBLE_MARKS > | < SINGLE_MARKS >(< INTEGER > | < LETTER > | < SPECIAL > | "\\" (< SINGLE_MARKS >| < DOUBLE_MARKS >)| < DOUBLE_MARKS >)*< SINGLE_MARKS > > 
-| < WORD : < LETTER >(< LETTER > | < INTEGER >)* >
-| < TEXT : (< LETTER > | < INTEGER >)+ >
-| < #SPECIAL : ["\r","\n","\u0020"-"\u0021","\u0023"-"\u0026","\u0028"-"\u002f",
-				"\u003a"-"\u0040" ,"\u005b"-"\u0060","\u0020"-"\u0021","\u007b"-"\u007e"
-				] >
-| < #LETTER : ["\u0041"-"\u007A" ] >
-}
-
-void error_skipto(int kind) #void:
-{}{
-  {	  ParseException e = generateParseException();  // generate the exception object.
-	  System.err.println(e.toString());  // print the error message
-	  Token t;
-	  do {
-	    t = getNextToken();
-	  } while (t.kind != kind);
-  }
-}SimpleNode Start() :{
-}{
-  try {
-    (
-    	Statement()
-	  )*
-	  {
-	    return jjtThis;
-	  }
-	}
-  catch (ParseException e) {
-    error_skipto(BibParserConstants.BRACKET_END);
-  }}
-
-void Statement():
-{}
-{
-  try  {	Arroba() Type() < BRACKET_START > Data() < BRACKET_END >
-  }catch(ParseException e)  {error_skipto(BibParserConstants.BRACKET_END);
-    }
-}
-
-void Arroba() :
-{}
-{
-  try  {	< ARROBA >
-  } catch (ParseException e) {
-    error_skipto(BibParserConstants.BRACKET_END);
-  }
-}
-
-void Data() :
-{}
-{
-  try  {
-  Key() (Attribute() (Attribute() )*)?
-  } catch (ParseException e)  {	error_skipto(BibParserConstants.BRACKET_END);
-  }}
-
-void Key() :
-{
-  Token key = null;}
-{
-  	try  	{	key = < WORD >
-	{
-	  
-	  if(key == null)
-	  {		System.err.println("Empty key");
-		throw new  ParseException("Key is required");
-		}
-	  else
-	  {jjtThis.jjtSetValue(key);symbtab.put(key.image,new SymbolTable(key.kind,key.image));}
-	}
-	}catch (ParseException e)
-	  {
-		error_skipto(BibParserConstants.BRACKET_END);
-	  }}
-
-void Equal() :{}
-{
-  try  {
-  < EQUAL >
-  }
-  catch (ParseException e)
-  {
-	error_skipto(BibParserConstants.BRACKET_END);
-  }}
-
-void Type() :
-{
-	Token value;
-}
-{
-  try  {    
-  (    
-	(value=< WORD >	) |	(value=< TEXT >	) |	(value=< CONFERENCE >) | (value=< ARTICLE >	) |
-	(value=< BOOK >	) |	(value=< BOOKLET >) |	(value=< INBOOK >) | (value=< INCOLLECTION >) |
-	(value=< INPROCEEDINGS >) |	(value=< MANUAL >) | (value=< MASTERSTHESIS >) |	(value=< MISC >) |
-	(value=< PHDTHESIS >)| (value=< PROCEEDINGS >	) |	(value=< TECHREPORT >	) |	(value=< UNPUBLISHED >)
-  )
-	{jjtThis.jjtSetValue(value);symbtab.put(value.image,new SymbolTable(value.kind,value.image));}
-}catch (ParseException e)
-  {
-	error_skipto(BibParserConstants.BRACKET_END);
-  }
-}
-
-void Field():
-{
-  Token value;
-}
-{
-  try  {    
-  (    	(value=< AUTHOR >) | (value=< ANNOTE >) | (value=< BOOKTITLE >) | (value=< CHAPTER >)
-	| (value=< CROSSREF >) | (value=< EDITOR >) | (value=< INSTITUTION >) | (value=< ORGANIZATION >	)
-	| (value=< SCHOOL >	) | (value=< JOURNAL >) | (value=< TITLE >) | (value=< YEAR >) | (value=< VOLUME >)
-	| (value=< NUMBER >	) | (value=< ADDRESS >) | (value=< HOWPUBLISHED >) | (value=< PUBLISHER >	)
-	| (value=< SERIES >) | (value=< EDITION >) | (value=< NOTE >) | (value=< MONTH >) | (value=< PAGES >)
-  )
-  {jjtThis.jjtSetValue(value);symbtab.put(value.image,new SymbolTable(value.kind,value.image));}
-}catch (ParseException e)
-  {
-	error_skipto(BibParserConstants.BRACKET_END);
-  }
-}
-void Value() :
-{
-  Token value;}{
-  try  {    
-  (    
-	(value=< WORD >) | (value=< QUOTED_TEXT >) | (value=< INTEGER >) | (value=< PAGES_V >) | (value=< YEAR_V >)
-
-  )
-  {jjtThis.jjtSetValue(value);symbtab.put(value.image,new SymbolTable(value.kind,value.image));}
-}catch (ParseException e)
-  {
-	error_skipto(BibParserConstants.BRACKET_END);
-  }
-	}
-
-void Attribute():
-{
-}
-{
-  try  {
-  (
-  		< COMMA > Field() Equal() Value()
-  )
-  } catch (ParseException e)
-  {
-	error_skipto(BibParserConstants.BRACKET_END);
-  }
-}
-
-
-void CheckTree(SimpleNode n) #void:
-{}
-{  {
-	if(((Token)n.jjtGetValue())!=null)	{
-	  		if(((Token)n.jjtGetValue()).kind == BibParserConstants.ARTICLE || ((Token)n.jjtGetValue()).kind == BibParserConstants.BOOK || ((Token)n.jjtGetValue()).kind == BibParserConstants.BOOKLET ||
-			((Token)n.jjtGetValue()).kind == BibParserConstants.CONFERENCE || ((Token)n.jjtGetValue()).kind == BibParserConstants.INBOOK || ((Token)n.jjtGetValue()).kind == BibParserConstants.INCOLLECTION ||
-			((Token)n.jjtGetValue()).kind == BibParserConstants.INPROCEEDINGS || ((Token)n.jjtGetValue()).kind == BibParserConstants.MANUAL || ((Token)n.jjtGetValue()).kind == BibParserConstants.MASTERSTHESIS ||
-			((Token)n.jjtGetValue()).kind == BibParserConstants.MISC || ((Token)n.jjtGetValue()).kind == BibParserConstants.PHDTHESIS || ((Token)n.jjtGetValue()).kind == BibParserConstants.PROCEEDINGS ||
-			((Token)n.jjtGetValue()).kind == BibParserConstants.TECHREPORT || ((Token)n.jjtGetValue()).kind == BibParserConstants.UNPUBLISHED)			{
-
-			  	if(!firstStack)			  	{					analyzeStack();
-			  	}
-			  	if(firstStack)
-			  		firstStack=false;
-			  	stack.push(n.jjtGetValue());
-			}
-		else		{			stack.push(n.jjtGetValue());
-		}
-	}
-    if (n.jjtGetNumChildren() > 0) {
-      for (int i = 0; i < n.jjtGetNumChildren(); ++i) {
-        SimpleNode auxn = (SimpleNode)n.jjtGetChild(i);
-        if (auxn != null) {
-         CheckTree(auxn);
-        }
-      }
-    }
-  }
-}
-
-void analyzeStack() #void:
-{}{
-  {
-    Vector <Object > stackelems = new Vector<Object >();
-    while(!stack.empty())    {		stackelems.addElement(stack.peek());
-		stack.pop();
-    }
-   	Collections.reverse(stackelems);
-   	switch(((Token)stackelems.elementAt(0)).kind)   	{		case BibParserConstants.ARTICLE:
-		case BibParserConstants.BOOK:
-		case BibParserConstants.BOOKLET:
-		case BibParserConstants.CONFERENCE:
-		case BibParserConstants.INBOOK:
-		case BibParserConstants.INCOLLECTION:
-		case BibParserConstants.INPROCEEDINGS:
-		case BibParserConstants.MANUAL:
-		case BibParserConstants.MASTERSTHESIS:
-		case BibParserConstants.MISC:
-		case BibParserConstants.PHDTHESIS:
-		case BibParserConstants.PROCEEDINGS:
-		case BibParserConstants.TECHREPORT:
-		case BibParserConstants.UNPUBLISHED:
-			analyzeType(stackelems,((Token)stackelems.elementAt(0)).kind);
-			break;
-
-   	}  }}
-
-
-void analyzeType(Vector<Object > elems,int type) #void:
-{}
-{
-  {
-    int currPairInd = 0;
-    int numPair = (elems.size()-1)/2;
-    Token key = (Token)elems.elementAt(1);
-    elems.remove(1);
-    int[] types = new int[numPair];
-    Token[] values = new Token[numPair];
-    for(int i= 0;i<numPair;i++)
-    {
-		values[i] = new Token();
-    }
-    for(int i = 1; i<elems.size();i+=2)
-    {
-		types[currPairInd]=((Token)elems.elementAt(i)).kind;
-		values[currPairInd]=(Token)elems.elementAt(i+1);
-   		currPairInd++;
-    }
-    try    {      
-    switch(type)    {
-      case BibParserConstants.ARTICLE:
-	    if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.JOURNAL) ||
-	    	!Utilities.contains(types,BibParserConstants.YEAR))
-	    {
-			throw new SemanticException("ERROR: required field not present in ARTICLE " + key.image);
-			
-			
-	    }
-      	break;
-      case BibParserConstants.BOOK:
-	    if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.PUBLISHER) ||
-	    	!Utilities.contains(types,BibParserConstants.YEAR))
-	    {
-			throw new SemanticException("ERROR: required field not present in BOOK " + key.image);
-			
-	    }
-      	break;
-      case BibParserConstants.BOOKLET:
-        if(!Utilities.contains(types,BibParserConstants.TITLE))
-	    {
-			throw new SemanticException("ERROR: required field not present in BOOKLET " + key.image);
-			
-	    }
-      	break;
-      case BibParserConstants.CONFERENCE:
-      	if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.BOOKTITLE) ||
-    	!Utilities.contains(types,BibParserConstants.YEAR))
-	    {
-			throw new SemanticException("ERROR: required field not present in CONFERENCE " + key.image);
-			
-	    }
-      	break;
-      case BibParserConstants.INBOOK:
-      	if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.PUBLISHER) ||
-    	!Utilities.contains(types,BibParserConstants.YEAR) || !Utilities.contains(types,BibParserConstants.CHAPTER))
-	    {
-			throw new SemanticException("ERROR: required field not present in INBOOK " + key.image);
-			
-	    }
-      	break;
-      case BibParserConstants.INCOLLECTION:
-        if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.PUBLISHER) ||
-    	!Utilities.contains(types,BibParserConstants.YEAR) || !Utilities.contains(types,BibParserConstants.BOOKTITLE))
-	    {
-			throw new SemanticException("ERROR: required field not present in INCOLLECTION " + key.image);
-			
-	    }
-      	break;
-      case BibParserConstants.INPROCEEDINGS:
-      	if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) ||
-    	!Utilities.contains(types,BibParserConstants.YEAR) || !Utilities.contains(types,BibParserConstants.BOOKTITLE))
-	    {
-			throw new SemanticException("ERROR: required field not present in INPROCEEDINGS " + key.image);
-			
-	    }
-      	break;
-      case BibParserConstants.MANUAL:
-        if(!Utilities.contains(types,BibParserConstants.TITLE))
-	    {
-			throw new SemanticException("ERROR: required field not present in MANUAL " + key.image);
-			
-	    }
-      	break;
-      case BibParserConstants.MASTERSTHESIS:
-        if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.SCHOOL) ||
-    	!Utilities.contains(types,BibParserConstants.YEAR))
-	    {
-			throw new SemanticException("ERROR: required field not present in MASTERSTHESIS " + key.image);
-			
-	    }
-      	break;
-      case BibParserConstants.MISC:
-        if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.HOWPUBLISHED) ||
-    	!Utilities.contains(types,BibParserConstants.YEAR) || !Utilities.contains(types,BibParserConstants.MONTH) || !Utilities.contains(types,BibParserConstants.NOTE) || !Utilities.contains(types,BibParserConstants.KEY))
-	    {
-			throw new SemanticException("ERROR: required field not present in MISC " + key.image);
-			
-	    }
-      	break;
-      case BibParserConstants.PHDTHESIS:
-        if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.SCHOOL) ||
-    	!Utilities.contains(types,BibParserConstants.YEAR))
-	    {
-			throw new SemanticException("ERROR: required field not present in PHDTHESIS " + key.image);
-			
-	    }
-      	break;
-      case BibParserConstants.PROCEEDINGS:
-        if(!Utilities.contains(types,BibParserConstants.TITLE) ||!Utilities.contains(types,BibParserConstants.YEAR))
-	    {
-			throw new SemanticException("ERROR: required field not present in PROCEDINGS " + key.image);
-			
-	    }
-      	break;
-      case BibParserConstants.TECHREPORT:
-        if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.INSTITUTION) ||
-	    !Utilities.contains(types,BibParserConstants.YEAR))
-	    {
-			throw new SemanticException("ERROR: required field not present in TECHREPORT " + key.image);
-			
-	    }
-      	break;
-      case BibParserConstants.UNPUBLISHED:
-        if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.NOTE))
-	    {
-			throw new SemanticException("ERROR: required field not present in UNPUBLISHED " + key.image);
-	    }
-      	break;
-      default:
-      	break;
-    }
-  } catch(SemanticException e)  {	System.err.println(e.getMessage());
-
-  }
-    checkValueTypes(types,values,numPair, key);
-  }
-}
-
-void checkValueTypes(int[] types,Token[] values,int numPair, Token key) #void:{}{
-  {
-    SymbolTable st;
-    for(int i=0;i<numPair;i++)
-    {
-      try      { 
-		switch (types[i])
-		{
-		  	case BibParserConstants.ADDRESS:
-				st = (SymbolTable)symbtab.get(values[i].image);
-				if(!(st.type == BibParserConstants.QUOTED_TEXT))
-				{
-					throw new SemanticException("Wrong value of ADDRESS at line " + values[i].beginLine + " column " + values[i].beginColumn + " in entry " + key.image);
-				}
-				break;
-			case BibParserConstants.ANNOTE:
-				st = (SymbolTable)symbtab.get(values[i].image);
-				if(!(st.type == BibParserConstants.QUOTED_TEXT))
-				{
-					throw new SemanticException("Wrong value of ANNOTE at line " + values[i].beginLine + " column " + values[i].beginColumn + " in entry " + key.image);
-				}
-				break;
-			case BibParserConstants.AUTHOR:
-				st = (SymbolTable)symbtab.get(values[i].image);
-				if(!(st.type == BibParserConstants.QUOTED_TEXT))
-				{
-					throw new SemanticException("Wrong value of AUTHOR at line " + values[i].beginLine + " column " + values[i].beginColumn + " in entry " + key.image);
-				}
-				break;
-			case BibParserConstants.BOOKTITLE:
-				st = (SymbolTable)symbtab.get(values[i].image);
-				if(!(st.type == BibParserConstants.QUOTED_TEXT))
-				{
-					throw new SemanticException("Wrong value of BOOKTITLE at line " + values[i].beginLine + " column " + values[i].beginColumn + " in entry " + key.image);
-				}
-				break;
-			case BibParserConstants.CHAPTER:
-				st = (SymbolTable)symbtab.get(values[i].image);
-				if(!(st.type == BibParserConstants.INTEGER))
-				{
-					throw new SemanticException("Wrong value of CHAPTER at line " + values[i].beginLine + " column " + values[i].beginColumn + " in entry " + key.image);
-				}
-				break;
-			case BibParserConstants.CROSSREF:
-				st = (SymbolTable)symbtab.get(values[i].image);
-				if(!(st.type == BibParserConstants.WORD))
-				{
-					throw new SemanticException("Wrong value of CROSSREF at line " + values[i].beginLine + " column " + values[i].beginColumn + " in entry " + key.image);
-				}
-				break;
-			case BibParserConstants.EDITION:
-				st = (SymbolTable)symbtab.get(values[i].image);
-				if(!(st.type == BibParserConstants.QUOTED_TEXT))
-				{
-					throw new SemanticException("Wrong value of EDITION at line " + values[i].beginLine + " column " + values[i].beginColumn + " in entry " + key.image);
-				}
-				break;
-			case BibParserConstants.EDITOR:
-				st = (SymbolTable)symbtab.get(values[i].image);
-				if(!(st.type == BibParserConstants.QUOTED_TEXT))
-				{
-					throw new SemanticException("Wrong value of EDITOR at line " + values[i].beginLine + " column " + values[i].beginColumn + " in entry " + key.image);
-				}
-				break;
-			case BibParserConstants.HOWPUBLISHED:
-				st = (SymbolTable)symbtab.get(values[i].image);
-				if(!(st.type == BibParserConstants.QUOTED_TEXT))
-				{
-					throw new SemanticException("Wrong value of HOWPUBLISHED at line " + values[i].beginLine + " column " + values[i].beginColumn + " in entry " + key.image);
-				}
-				break;
-			case BibParserConstants.INSTITUTION:
-				st = (SymbolTable)symbtab.get(values[i].image);
-				if(!(st.type == BibParserConstants.QUOTED_TEXT))
-				{
-					throw new SemanticException("Wrong value of INSTITUTION at line " + values[i].beginLine + " column " + values[i].beginColumn + " in entry " + key.image);
-				}
-				break;
-			case BibParserConstants.JOURNAL:
-				st = (SymbolTable)symbtab.get(values[i].image);
-				if(!(st.type == BibParserConstants.QUOTED_TEXT) && !(st.type == BibParserConstants.WORD))
-				{
-					throw new SemanticException("Wrong value of JOURNAL at line " + values[i].beginLine + " column " + values[i].beginColumn + " in entry " + key.image);
-				}
-				break;
-			case BibParserConstants.MONTH:
-				st = (SymbolTable)symbtab.get(values[i].image);
-				if(!(st.type == BibParserConstants.QUOTED_TEXT))
-				{
-					throw new SemanticException("Wrong value of MONTH at line " + values[i].beginLine + " column " + values[i].beginColumn + " in entry " + key.image);
-				}
-				break;
-			case BibParserConstants.NOTE:
-				st = (SymbolTable)symbtab.get(values[i].image);
-				if(!(st.type == BibParserConstants.QUOTED_TEXT))
-				{
-					throw new SemanticException("Wrong value of NOTE at line " + values[i].beginLine + " column " + values[i].beginColumn + " in entry " + key.image);
-				}
-				break;
-			case BibParserConstants.NUMBER:
-				st = (SymbolTable)symbtab.get(values[i].image);
-				if(!(st.type == BibParserConstants.INTEGER))
-				{
-					throw new SemanticException("Wrong value of NUMBER at line " + values[i].beginLine + " column " + values[i].beginColumn + " in entry " + key.image);
-				}
-				break;
-			case BibParserConstants.ORGANIZATION:
-				st = (SymbolTable)symbtab.get(values[i].image);
-				if(!(st.type == BibParserConstants.QUOTED_TEXT))
-				{
-					throw new SemanticException("Wrong value of ORGANIZATION at line " + values[i].beginLine + " column " + values[i].beginColumn + " in entry " + key.image);
-				}
-				break;
-			case BibParserConstants.PAGES:
-				st = (SymbolTable)symbtab.get(values[i].image);
-				if(!(st.type == BibParserConstants.PAGES_V) && !(st.type == BibParserConstants.INTEGER))
-				{
-					throw new SemanticException("Wrong value of PAGES at line " + values[i].beginLine + " column " + values[i].beginColumn + " in entry " + key.image);
-				}
-				break;
-			case BibParserConstants.PUBLISHER:
-				st = (SymbolTable)symbtab.get(values[i].image);
-				if(!(st.type == BibParserConstants.QUOTED_TEXT))
-				{
-					throw new SemanticException("Wrong value of PUBLISHER at line " + values[i].beginLine + " column " + values[i].beginColumn + " in entry " + key.image);
-				}
-				break;
-			case BibParserConstants.SCHOOL:
-				st = (SymbolTable)symbtab.get(values[i].image);
-				if(!(st.type == BibParserConstants.QUOTED_TEXT))
-				{
-					throw new SemanticException("Wrong value of SCHOOL at line " + values[i].beginLine + " column " + values[i].beginColumn + " in entry " + key.image);
-				}
-				break;
-			case BibParserConstants.SERIES:
-				st = (SymbolTable)symbtab.get(values[i].image);
-				if(!(st.type == BibParserConstants.QUOTED_TEXT))
-				{
-					throw new SemanticException("Wrong value of SERIES at line " + values[i].beginLine + " column " + values[i].beginColumn + " in entry " + key.image);
-				}
-				break;
-			case BibParserConstants.REP_TYPE:
-				st = (SymbolTable)symbtab.get(values[i].image);
-				if(!(st.type == BibParserConstants.QUOTED_TEXT))
-				{
-					throw new SemanticException("Wrong value of TYPE at line " + values[i].beginLine + " column " + values[i].beginColumn + " in entry " + key.image);
-				}
-				break;
-			case BibParserConstants.YEAR:
-				st = (SymbolTable)symbtab.get(values[i].image);
-				if(!(st.type == BibParserConstants.INTEGER) && !(st.type == BibParserConstants.YEAR_V) && !(st.type == BibParserConstants.PAGES_V))
-				{
-					throw new SemanticException("Wrong value of YEAR at line " + values[i].beginLine + " column " + values[i].beginColumn + " in entry " + key.image);
-				}
-				break;
-			case BibParserConstants.VOLUME:
-				st = (SymbolTable)symbtab.get(values[i].image);
-				if(!(st.type == BibParserConstants.PAGES_V) && !(st.type == BibParserConstants.INTEGER))
-				{
-					throw new SemanticException("Wrong value of VOLUME at line " + values[i].beginLine + " column " + values[i].beginColumn + " in entry " + key.image);
-				}
-				break;
-			case BibParserConstants.KEY:
-				st = (SymbolTable)symbtab.get(values[i].image);
-				if(!(st.type == BibParserConstants.QUOTED_TEXT))
-				{
-					throw new SemanticException("Wrong value of KEY at line " + values[i].beginLine + " column " + values[i].beginColumn + " in entry " + key.image);
-				}
-				break;
-			case BibParserConstants.TITLE:
-				st = (SymbolTable)symbtab.get(values[i].image);
-				if(!(st.type == BibParserConstants.QUOTED_TEXT) && !(st.type == BibParserConstants.WORD))
-				{
-					throw new SemanticException("Wrong value of TITLE at line " + values[i].beginLine + " column " + values[i].beginColumn + " in entry " + key.image);
-				}
-				break;
-			default:
-				throw new SemanticException("unknown or incorrect field found at line " + values[i].beginLine + " column " + values[i].beginColumn + " : " + values[i].image  + "in entry " + key.image);
-				break;
-		}
-	  } catch (SemanticException e) {		System.err.println("Semantic error: " + e.getMessage());
-	  }
-    }  }}
-
+        	System.out.println(" value = " + temp2.value);*/      }    }    catch (Exception e)    {      System.err.println("Error: " + e.getMessage());    }    sc.close();  }}PARSER_END(BibParser)SKIP :{  " "| "\t"| "\r"| "\n"}TOKEN :{  < ARROBA : "@" >| < BRACKET_START : "{" >| < BRACKET_END : "}" >| < COMMA : "," >| < EQUAL : "=" >| < DOUBLE_MARKS : "\"" >| < SINGLE_MARKS : "'" >| < STRING : "STRING" >| < ARTICLE : "ARTICLE" >| < BOOK : "BOOK" >| < BOOKLET : "BOOKLET" >| < CONFERENCE : "CONFERENCE" >| < INBOOK : "INBOOK" >| < INCOLLECTION : "INCOLLECTION" >| < INPROCEEDINGS : "INPROCEEDINGS" >| < MANUAL : "MANUAL" >| < MASTERSTHESIS : "MASTERSTHESIS" >| < MISC : "MISC" >| < PHDTHESIS : "PHDTHESIS" >| < PROCEEDINGS : "PROCEEDINGS" >| < TECHREPORT : "TECHREPORT" >| < UNPUBLISHED : "UNPUBLISHED" >| < AUTHOR : "AUTHOR" >| < ANNOTE : "ANNOTE" >| < BOOKTITLE : "BOOKTITLE" >| < CHAPTER : "CHAPTER" >| < CROSSREF : "CROSSREF" >| < EDITOR : "EDITOR" >| < INSTITUTION : "INSTITUTION" >| < ORGANIZATION : "ORGANIZATION" >| < SCHOOL : "SCHOOL" >| < JOURNAL : "JOURNAL" >| < TITLE : "TITLE" >| < YEAR : "YEAR" >| < VOLUME : "VOLUME" >| < NUMBER : "NUMBER" >| < ADDRESS : "ADDRESS" >| < HOWPUBLISHED : "HOWPUBLISHED" >| < PUBLISHER : "PUBLISHER" >| < SERIES : "SERIES" >| < EDITION : "EDITION" >| < PAGES : "PAGES" >| < PAGES_V :    < DOUBLE_MARKS > < INTEGER >    (      "-"    | "--"    )    < INTEGER > < DOUBLE_MARKS >  | < SINGLE_MARKS > < INTEGER >    (      "-"    | "--"    )    < INTEGER > < SINGLE_MARKS >>| < MONTH : "MONTH" >| < NOTE : "NOTE" >| < YEAR_V :    (      "\"" < INTEGER > ("?")? "\""    )  |    (      "'" < INTEGER > ("?")? "'"    ) >| < KEY : "KEY" >| < REP_TYPE : "REP_TYPE" >| < INTEGER : < DIGIT > (< DIGIT >)* >| < #DIGIT : [ "0"-"9" ] >| < QUOTED_TEXT :    < DOUBLE_MARKS >    (      < INTEGER >    | < LETTER >    | < SPECIAL >    | "\\"      (        < SINGLE_MARKS >      | < DOUBLE_MARKS >      )    | < SINGLE_MARKS >    )*    < DOUBLE_MARKS >  | < SINGLE_MARKS >    (      < INTEGER >    | < LETTER >    | < SPECIAL >    | "\\"      (        < SINGLE_MARKS >      | < DOUBLE_MARKS >      )    | < DOUBLE_MARKS >    )*    < SINGLE_MARKS >>| < WORD :    < LETTER >    (      < LETTER >    | < INTEGER >    )* >| < TEXT :    (      < LETTER >    | < INTEGER >    )+ >| < #SPECIAL : [ "\r", "\n", " "-"!", "#"-"&", "("-"/", ":"-"@", "["-"`", " "-"!", "{"-"~" ] >| < #LETTER : [ "A"-"z" ] >}void error_skipto(int kind) #void :{}{  {    ParseException e = generateParseException(); // generate the exception object.
+    System.err.println(e.toString()); // print the error message
+    Token t;    do    {      t = getNextToken();    }    while (t.kind != kind);  }}SimpleNode Start() :{}{  try  {    (Statement()) *    {      return jjtThis;    }  }  catch (ParseException e)  {    error_skipto(BibParserConstants.BRACKET_END);  }}void Statement() :{}{  try  {    Arroba() Type() < BRACKET_START > Data() < BRACKET_END >  }  catch (ParseException e)  {    error_skipto(BibParserConstants.BRACKET_END);  }}void Arroba() :{}{  try  {    < ARROBA >  }  catch (ParseException e)  {    error_skipto(BibParserConstants.BRACKET_END);  }}void Data() :{}{  try  {    Key() (Attribute() (Attribute()) *) ?  }  catch (ParseException e)  {    error_skipto(BibParserConstants.BRACKET_END);  }}void Key() :{  Token key = null;}{  try  {    key = < WORD >    {      if (key == null)      {        System.err.println("Empty key");        throw new ParseException("Key is required");      }      else      {        jjtThis.jjtSetValue(key);        symbtab.put(key.image, new SymbolTable(key.kind, key.image));      }    }  }  catch (ParseException e)  {    error_skipto(BibParserConstants.BRACKET_END);  }}void Equal() :{}{  try  {    < EQUAL >  }  catch (ParseException e)  {    error_skipto(BibParserConstants.BRACKET_END);  }}void Type() :{  Token value;}{  try  {    ((value = < WORD >)  | (value = < TEXT >)  | (value = < CONFERENCE >)  | (value = < ARTICLE >)  | (value = < BOOK >)  | (value = < BOOKLET >)  | (value = < INBOOK >)  | (value = < INCOLLECTION >)  | (value = < INPROCEEDINGS >)  | (value = < MANUAL >)  | (value = < MASTERSTHESIS >)  | (value = < MISC >)  | (value = < PHDTHESIS >)  | (value = < PROCEEDINGS >)  | (value = < TECHREPORT >)  | (value = < UNPUBLISHED >))    {      jjtThis.jjtSetValue(value);      symbtab.put(value.image, new SymbolTable(value.kind, value.image));    }  }  catch (ParseException e)  {    error_skipto(BibParserConstants.BRACKET_END);  }}void Field() :{  Token value;}{  try  {    ((value = < AUTHOR >)  | (value = < ANNOTE >)  | (value = < BOOKTITLE >)  | (value = < CHAPTER >)  | (value = < CROSSREF >)  | (value = < EDITOR >)  | (value = < INSTITUTION >)  | (value = < ORGANIZATION >)  | (value = < SCHOOL >)  | (value = < JOURNAL >)  | (value = < TITLE >)  | (value = < YEAR >)  | (value = < VOLUME >)  | (value = < NUMBER >)  | (value = < ADDRESS >)  | (value = < HOWPUBLISHED >)  | (value = < PUBLISHER >)  | (value = < SERIES >)  | (value = < EDITION >)  | (value = < NOTE >)  | (value = < MONTH >)  | (value = < PAGES >))    {      jjtThis.jjtSetValue(value);      symbtab.put(value.image, new SymbolTable(value.kind, value.image));    }  }  catch (ParseException e)  {    error_skipto(BibParserConstants.BRACKET_END);  }}void Value() :{  Token value;}{  try  {    ((value = < WORD >)  | (value = < QUOTED_TEXT >)  | (value = < INTEGER >)  | (value = < PAGES_V >)  | (value = < YEAR_V >))    {      jjtThis.jjtSetValue(value);      symbtab.put(value.image, new SymbolTable(value.kind, value.image));    }  }  catch (ParseException e)  {    error_skipto(BibParserConstants.BRACKET_END);  }}void Attribute() :{}{  try  {    (< COMMA > Field() Equal() Value())  }  catch (ParseException e)  {    error_skipto(BibParserConstants.BRACKET_END);  }}void CheckTree(SimpleNode n) #void :{}{  {    if (n.id == BibParserTreeConstants.JJTSTATEMENT) checkStatement(n);    if (n.jjtGetNumChildren() > 0)    {      for (int i = 0; i < n.jjtGetNumChildren(); ++i)      {        SimpleNode auxn = (SimpleNode) n.jjtGetChild(i);        if (auxn != null)        {          CheckTree(auxn);        }      }    }  }}void checkAttribute(SimpleNode n) #void :{}{  {    if (n.jjtGetNumChildren() > 0)    {      for (int i = 0; i < n.jjtGetNumChildren(); ++i)      {        SimpleNode auxn = (SimpleNode) n.jjtGetChild(i);        if (auxn.id == BibParserTreeConstants.JJTFIELD || auxn.id == BibParserTreeConstants.JJTVALUE)        {          stack.push(auxn.jjtGetValue());        }      }    }  }}void checkData(SimpleNode n) #void :{}{  {    if (n.jjtGetNumChildren() > 0)    {      for (int i = 0; i < n.jjtGetNumChildren(); ++i)      {        SimpleNode auxn = (SimpleNode) n.jjtGetChild(i);        if (auxn.id == BibParserTreeConstants.JJTKEY)        {          stack.push(auxn.jjtGetValue());        }        if (auxn.id == BibParserTreeConstants.JJTATTRIBUTE)        {          checkAttribute(auxn);        }      }      analyzeStack();    }  }}void checkType(SimpleNode n) #void :{}{  {    if (!(((Token) n.jjtGetValue()).kind == BibParserConstants.ARTICLE || ((Token) n.jjtGetValue()).kind == BibParserConstants.BOOK || ((Token) n.jjtGetValue()).kind == BibParserConstants.BOOKLET || ((Token) n.jjtGetValue()).kind == BibParserConstants.CONFERENCE || ((Token) n.jjtGetValue()).kind == BibParserConstants.INBOOK || ((Token) n.jjtGetValue()).kind == BibParserConstants.INCOLLECTION || ((Token) n.jjtGetValue()).kind == BibParserConstants.INPROCEEDINGS || ((Token) n.jjtGetValue()).kind == BibParserConstants.MANUAL || ((Token) n.jjtGetValue()).kind == BibParserConstants.MASTERSTHESIS || ((Token) n.jjtGetValue()).kind == BibParserConstants.MISC || ((Token) n.jjtGetValue()).kind == BibParserConstants.PHDTHESIS || ((Token) n.jjtGetValue()).kind == BibParserConstants.PROCEEDINGS || ((Token) n.jjtGetValue()).kind == BibParserConstants.TECHREPORT || ((Token) n.jjtGetValue()).kind == BibParserConstants.UNPUBLISHED))    {      System.err.println("No such type");    }    else    {      stack.push((Token) n.jjtGetValue());    }  }}void checkStatement(SimpleNode n) #void :{}{  {    if (n.jjtGetNumChildren() > 0)    {      for (int i = 0; i < n.jjtGetNumChildren(); ++i)      {        SimpleNode auxn = (SimpleNode) n.jjtGetChild(i);        if (auxn.id == BibParserTreeConstants.JJTTYPE)        {          checkType(auxn);        }        if (auxn.id == BibParserTreeConstants.JJTDATA)        {          checkData(auxn);        }      }    }  }}void analyzeStack() #void :{}{  {    Vector < Object > stackelems = new Vector < Object > ();    while (!stack.empty())    {      stackelems.addElement(stack.peek());      stack.pop();    }    Collections.reverse(stackelems);    switch (((Token) stackelems.elementAt(0)).kind)    {      case BibParserConstants.ARTICLE : case BibParserConstants.BOOK : case BibParserConstants.BOOKLET : case BibParserConstants.CONFERENCE : case BibParserConstants.INBOOK : case BibParserConstants.INCOLLECTION : case BibParserConstants.INPROCEEDINGS : case BibParserConstants.MANUAL : case BibParserConstants.MASTERSTHESIS : case BibParserConstants.MISC : case BibParserConstants.PHDTHESIS : case BibParserConstants.PROCEEDINGS : case BibParserConstants.TECHREPORT : case BibParserConstants.UNPUBLISHED : analyzeType(stackelems, ((Token) stackelems.elementAt(0)).kind);      break;    }  }}void analyzeType(Vector < Object > elems, int type) #void :{}{  {    int currPairInd = 0;    int numPair = (elems.size() - 1) / 2;    Token key = (Token) elems.elementAt(1);    elems.remove(1);    int [ ] types = new int [ numPair ];    Token [ ] values = new Token [ numPair ];    for (int i = 0; i < numPair; i++)    {      values [ i ] = new Token();    }    for (int i = 1; i < elems.size(); i += 2)    {      types [ currPairInd ] = ((Token) elems.elementAt(i)).kind;      values [ currPairInd ] = (Token) elems.elementAt(i + 1);      currPairInd++;    }    try    {      switch (type)      {        case BibParserConstants.ARTICLE : if (!Utilities.contains(types, BibParserConstants.AUTHOR) || !Utilities.contains(types, BibParserConstants.TITLE) || !Utilities.contains(types, BibParserConstants.JOURNAL) || !Utilities.contains(types, BibParserConstants.YEAR))        {          throw new SemanticException("ERROR: required field not present in ARTICLE " + key.image);        }        break;        case BibParserConstants.BOOK : if (!Utilities.contains(types, BibParserConstants.AUTHOR) || !Utilities.contains(types, BibParserConstants.TITLE) || !Utilities.contains(types, BibParserConstants.PUBLISHER) || !Utilities.contains(types, BibParserConstants.YEAR))        {          throw new SemanticException("ERROR: required field not present in BOOK " + key.image);        }        break;        case BibParserConstants.BOOKLET : if (!Utilities.contains(types, BibParserConstants.TITLE))        {          throw new SemanticException("ERROR: required field not present in BOOKLET " + key.image);        }        break;        case BibParserConstants.CONFERENCE : if (!Utilities.contains(types, BibParserConstants.AUTHOR) || !Utilities.contains(types, BibParserConstants.TITLE) || !Utilities.contains(types, BibParserConstants.BOOKTITLE) || !Utilities.contains(types, BibParserConstants.YEAR))        {          throw new SemanticException("ERROR: required field not present in CONFERENCE " + key.image);        }        break;        case BibParserConstants.INBOOK : if (!Utilities.contains(types, BibParserConstants.AUTHOR) || !Utilities.contains(types, BibParserConstants.TITLE) || !Utilities.contains(types, BibParserConstants.PUBLISHER) || !Utilities.contains(types, BibParserConstants.YEAR) || !Utilities.contains(types, BibParserConstants.CHAPTER))        {          throw new SemanticException("ERROR: required field not present in INBOOK " + key.image);        }        break;        case BibParserConstants.INCOLLECTION : if (!Utilities.contains(types, BibParserConstants.AUTHOR) || !Utilities.contains(types, BibParserConstants.TITLE) || !Utilities.contains(types, BibParserConstants.PUBLISHER) || !Utilities.contains(types, BibParserConstants.YEAR) || !Utilities.contains(types, BibParserConstants.BOOKTITLE))        {          throw new SemanticException("ERROR: required field not present in INCOLLECTION " + key.image);        }        break;        case BibParserConstants.INPROCEEDINGS : if (!Utilities.contains(types, BibParserConstants.AUTHOR) || !Utilities.contains(types, BibParserConstants.TITLE) || !Utilities.contains(types, BibParserConstants.YEAR) || !Utilities.contains(types, BibParserConstants.BOOKTITLE))        {          throw new SemanticException("ERROR: required field not present in INPROCEEDINGS " + key.image);        }        break;        case BibParserConstants.MANUAL : if (!Utilities.contains(types, BibParserConstants.TITLE))        {          throw new SemanticException("ERROR: required field not present in MANUAL " + key.image);        }        break;        case BibParserConstants.MASTERSTHESIS : if (!Utilities.contains(types, BibParserConstants.AUTHOR) || !Utilities.contains(types, BibParserConstants.TITLE) || !Utilities.contains(types, BibParserConstants.SCHOOL) || !Utilities.contains(types, BibParserConstants.YEAR))        {          throw new SemanticException("ERROR: required field not present in MASTERSTHESIS " + key.image);        }        break;        case BibParserConstants.MISC : if (!Utilities.contains(types, BibParserConstants.AUTHOR) || !Utilities.contains(types, BibParserConstants.TITLE) || !Utilities.contains(types, BibParserConstants.HOWPUBLISHED) || !Utilities.contains(types, BibParserConstants.YEAR) || !Utilities.contains(types, BibParserConstants.MONTH) || !Utilities.contains(types, BibParserConstants.NOTE) || !Utilities.contains(types, BibParserConstants.KEY))        {          throw new SemanticException("ERROR: required field not present in MISC " + key.image);        }        break;        case BibParserConstants.PHDTHESIS : if (!Utilities.contains(types, BibParserConstants.AUTHOR) || !Utilities.contains(types, BibParserConstants.TITLE) || !Utilities.contains(types, BibParserConstants.SCHOOL) || !Utilities.contains(types, BibParserConstants.YEAR))        {          throw new SemanticException("ERROR: required field not present in PHDTHESIS " + key.image);        }        break;        case BibParserConstants.PROCEEDINGS : if (!Utilities.contains(types, BibParserConstants.TITLE) || !Utilities.contains(types, BibParserConstants.YEAR))        {          throw new SemanticException("ERROR: required field not present in PROCEDINGS " + key.image);        }        break;        case BibParserConstants.TECHREPORT : if (!Utilities.contains(types, BibParserConstants.AUTHOR) || !Utilities.contains(types, BibParserConstants.TITLE) || !Utilities.contains(types, BibParserConstants.INSTITUTION) || !Utilities.contains(types, BibParserConstants.YEAR))        {          throw new SemanticException("ERROR: required field not present in TECHREPORT " + key.image);        }        break;        case BibParserConstants.UNPUBLISHED : if (!Utilities.contains(types, BibParserConstants.AUTHOR) || !Utilities.contains(types, BibParserConstants.TITLE) || !Utilities.contains(types, BibParserConstants.NOTE))        {          throw new SemanticException("ERROR: required field not present in UNPUBLISHED " + key.image);        }        break;        default : break;      }    }    catch (SemanticException e)    {      System.err.println(e.getMessage());    }    checkValueTypes(types, values, numPair, key);  }}void checkValueTypes(int [ ] types, Token [ ] values, int numPair, Token key) #void :{}{  {    SymbolTable st;    for (int i = 0; i < numPair; i++)    {      try      {        switch (types [ i ])        {          case BibParserConstants.ADDRESS : st = (SymbolTable) symbtab.get(values [ i ].image);          if (!(st.type == BibParserConstants.QUOTED_TEXT))          {            throw new SemanticException("Wrong value of ADDRESS at line " + values [ i ].beginLine + " column " + values [ i ].beginColumn + " in entry " + key.image);          }          break;          case BibParserConstants.ANNOTE : st = (SymbolTable) symbtab.get(values [ i ].image);          if (!(st.type == BibParserConstants.QUOTED_TEXT))          {            throw new SemanticException("Wrong value of ANNOTE at line " + values [ i ].beginLine + " column " + values [ i ].beginColumn + " in entry " + key.image);          }          break;          case BibParserConstants.AUTHOR : st = (SymbolTable) symbtab.get(values [ i ].image);          if (!(st.type == BibParserConstants.QUOTED_TEXT))          {            throw new SemanticException("Wrong value of AUTHOR at line " + values [ i ].beginLine + " column " + values [ i ].beginColumn + " in entry " + key.image);          }          break;          case BibParserConstants.BOOKTITLE : st = (SymbolTable) symbtab.get(values [ i ].image);          if (!(st.type == BibParserConstants.QUOTED_TEXT))          {            throw new SemanticException("Wrong value of BOOKTITLE at line " + values [ i ].beginLine + " column " + values [ i ].beginColumn + " in entry " + key.image);          }          break;          case BibParserConstants.CHAPTER : st = (SymbolTable) symbtab.get(values [ i ].image);          if (!(st.type == BibParserConstants.INTEGER))          {            throw new SemanticException("Wrong value of CHAPTER at line " + values [ i ].beginLine + " column " + values [ i ].beginColumn + " in entry " + key.image);          }          break;          case BibParserConstants.CROSSREF : st = (SymbolTable) symbtab.get(values [ i ].image);          if (!(st.type == BibParserConstants.WORD))          {            throw new SemanticException("Wrong value of CROSSREF at line " + values [ i ].beginLine + " column " + values [ i ].beginColumn + " in entry " + key.image);          }          break;          case BibParserConstants.EDITION : st = (SymbolTable) symbtab.get(values [ i ].image);          if (!(st.type == BibParserConstants.QUOTED_TEXT))          {            throw new SemanticException("Wrong value of EDITION at line " + values [ i ].beginLine + " column " + values [ i ].beginColumn + " in entry " + key.image);          }          break;          case BibParserConstants.EDITOR : st = (SymbolTable) symbtab.get(values [ i ].image);          if (!(st.type == BibParserConstants.QUOTED_TEXT))          {            throw new SemanticException("Wrong value of EDITOR at line " + values [ i ].beginLine + " column " + values [ i ].beginColumn + " in entry " + key.image);          }          break;          case BibParserConstants.HOWPUBLISHED : st = (SymbolTable) symbtab.get(values [ i ].image);          if (!(st.type == BibParserConstants.QUOTED_TEXT))          {            throw new SemanticException("Wrong value of HOWPUBLISHED at line " + values [ i ].beginLine + " column " + values [ i ].beginColumn + " in entry " + key.image);          }          break;          case BibParserConstants.INSTITUTION : st = (SymbolTable) symbtab.get(values [ i ].image);          if (!(st.type == BibParserConstants.QUOTED_TEXT))          {            throw new SemanticException("Wrong value of INSTITUTION at line " + values [ i ].beginLine + " column " + values [ i ].beginColumn + " in entry " + key.image);          }          break;          case BibParserConstants.JOURNAL : st = (SymbolTable) symbtab.get(values [ i ].image);          if (!(st.type == BibParserConstants.QUOTED_TEXT) && !(st.type == BibParserConstants.WORD))          {            throw new SemanticException("Wrong value of JOURNAL at line " + values [ i ].beginLine + " column " + values [ i ].beginColumn + " in entry " + key.image);          }          break;          case BibParserConstants.MONTH : st = (SymbolTable) symbtab.get(values [ i ].image);          if (!(st.type == BibParserConstants.QUOTED_TEXT))          {            throw new SemanticException("Wrong value of MONTH at line " + values [ i ].beginLine + " column " + values [ i ].beginColumn + " in entry " + key.image);          }          break;          case BibParserConstants.NOTE : st = (SymbolTable) symbtab.get(values [ i ].image);          if (!(st.type == BibParserConstants.QUOTED_TEXT))          {            throw new SemanticException("Wrong value of NOTE at line " + values [ i ].beginLine + " column " + values [ i ].beginColumn + " in entry " + key.image);          }          break;          case BibParserConstants.NUMBER : st = (SymbolTable) symbtab.get(values [ i ].image);          if (!(st.type == BibParserConstants.INTEGER))          {            throw new SemanticException("Wrong value of NUMBER at line " + values [ i ].beginLine + " column " + values [ i ].beginColumn + " in entry " + key.image);          }          break;          case BibParserConstants.ORGANIZATION : st = (SymbolTable) symbtab.get(values [ i ].image);          if (!(st.type == BibParserConstants.QUOTED_TEXT))          {            throw new SemanticException("Wrong value of ORGANIZATION at line " + values [ i ].beginLine + " column " + values [ i ].beginColumn + " in entry " + key.image);          }          break;          case BibParserConstants.PAGES : st = (SymbolTable) symbtab.get(values [ i ].image);          if (!(st.type == BibParserConstants.PAGES_V) && !(st.type == BibParserConstants.INTEGER))          {            throw new SemanticException("Wrong value of PAGES at line " + values [ i ].beginLine + " column " + values [ i ].beginColumn + " in entry " + key.image);          }
+          else if(!PagesControl.verifyPages(values[i].image))          {
+            throw new SemanticException("Wrong value of PAGES at line " + values [ i ].beginLine + " column " + values [ i ].beginColumn + " in entry " + key.image);
+          }          break;          case BibParserConstants.PUBLISHER : st = (SymbolTable) symbtab.get(values [ i ].image);          if (!(st.type == BibParserConstants.QUOTED_TEXT))          {            throw new SemanticException("Wrong value of PUBLISHER at line " + values [ i ].beginLine + " column " + values [ i ].beginColumn + " in entry " + key.image);          }          break;          case BibParserConstants.SCHOOL : st = (SymbolTable) symbtab.get(values [ i ].image);          if (!(st.type == BibParserConstants.QUOTED_TEXT))          {            throw new SemanticException("Wrong value of SCHOOL at line " + values [ i ].beginLine + " column " + values [ i ].beginColumn + " in entry " + key.image);          }          break;          case BibParserConstants.SERIES : st = (SymbolTable) symbtab.get(values [ i ].image);          if (!(st.type == BibParserConstants.QUOTED_TEXT))          {            throw new SemanticException("Wrong value of SERIES at line " + values [ i ].beginLine + " column " + values [ i ].beginColumn + " in entry " + key.image);          }          break;          case BibParserConstants.REP_TYPE : st = (SymbolTable) symbtab.get(values [ i ].image);          if (!(st.type == BibParserConstants.QUOTED_TEXT))          {            throw new SemanticException("Wrong value of TYPE at line " + values [ i ].beginLine + " column " + values [ i ].beginColumn + " in entry " + key.image);          }          break;          case BibParserConstants.YEAR : st = (SymbolTable) symbtab.get(values [ i ].image);          if (!(st.type == BibParserConstants.INTEGER) && !(st.type == BibParserConstants.YEAR_V) && !(st.type == BibParserConstants.PAGES_V))          {            throw new SemanticException("Wrong value of YEAR at line " + values [ i ].beginLine + " column " + values [ i ].beginColumn + " in entry " + key.image);          }          break;          case BibParserConstants.VOLUME : st = (SymbolTable) symbtab.get(values [ i ].image);          if (!(st.type == BibParserConstants.PAGES_V) && !(st.type == BibParserConstants.INTEGER))          {            throw new SemanticException("Wrong value of VOLUME at line " + values [ i ].beginLine + " column " + values [ i ].beginColumn + " in entry " + key.image);          }          break;          case BibParserConstants.KEY : st = (SymbolTable) symbtab.get(values [ i ].image);          if (!(st.type == BibParserConstants.QUOTED_TEXT))          {            throw new SemanticException("Wrong value of KEY at line " + values [ i ].beginLine + " column " + values [ i ].beginColumn + " in entry " + key.image);          }          break;          case BibParserConstants.TITLE : st = (SymbolTable) symbtab.get(values [ i ].image);          if (!(st.type == BibParserConstants.QUOTED_TEXT) && !(st.type == BibParserConstants.WORD))          {            throw new SemanticException("Wrong value of TITLE at line " + values [ i ].beginLine + " column " + values [ i ].beginColumn + " in entry " + key.image);          }          break;          default : throw new SemanticException("unknown or incorrect field found at line " + values [ i ].beginLine + " column " + values [ i ].beginColumn + " : " + values [ i ].image + "in entry " + key.image);          break;        }      }      catch (SemanticException e)      {        System.err.println("Semantic error: " + e.getMessage());      }    }  }}

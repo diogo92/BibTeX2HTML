@@ -11,7 +11,7 @@ public class PagesControl {
 
 		// In case of singleton comma (',')
 		if (divided.length == 0) {
-			System.err.println("Invalid Pages Attribute: \',\' is singleton.");
+			System.err.println("Semantic error: Invalid Pages Attribute: \',\' is singleton.");
 			return false;
 		}
 		for (int i = 0; i < divided.length; i++) {
@@ -31,19 +31,19 @@ public class PagesControl {
 							checker = hyphenControl(plus[1]);
 						} else {
 							System.err
-									.println("Invalid Pages Attribute: \'+\' must be with a single page.");
+									.println("Semantic error: Invalid Pages Attribute: \'+\' must be with a single page.");
 							return false;
 						}
 					}
 					// All others are discarded
 					else {
 						System.err
-								.println("Invalid Pages Attribute: \'+\' must be with a single page.");
+								.println("Semantic error: Invalid Pages Attribute: \'+\' must be with a single page.");
 						return false;
 					}
 				} else {
 					System.err
-							.println("Invalid Pages Attribute: \'+\' is not the last value.");
+							.println("Semantic error: Invalid Pages Attribute: \'+\' is not the last value.");
 					return false;
 				}
 			} else {
@@ -62,7 +62,7 @@ public class PagesControl {
 				}
 				// In case the value is inferior or equal between commas
 				else {
-					System.err.println("Invalid Pages Attribute: " + current
+					System.err.println("Semantic error: Invalid Pages Attribute: " + current
 							+ " >= " + checker + ".");
 					return false;
 				}
@@ -90,7 +90,7 @@ public class PagesControl {
 			// Case of empty values
 			if (divided[0].equals("") || divided[0].equals(null)) {
 				System.err
-						.println("Invalid Pages Attribute: value is null or empty.");
+						.println("Semantic error: Invalid Pages Attribute: value is null or empty.");
 				return -1;
 			}
 			// Reads the Integer
@@ -104,7 +104,7 @@ public class PagesControl {
 				// Case of singleton '-' or '--' with or without values
 				if (divided[i].equals("")) {
 					System.err
-							.println("Invalid Pages Attribute: \'-\' or \'--\' is singleton.");
+							.println("Semantic error: Invalid Pages Attribute: \'-\' or \'--\' is singleton.");
 					return -1;
 				}
 				int checker = Integer.parseInt(divided[i]);
@@ -114,7 +114,7 @@ public class PagesControl {
 				}
 				// In case the value is inferior or equal between hyphens
 				else {
-					System.err.println("Invalid Pages Attribute: " + current
+					System.err.println("Semantic error: Invalid Pages Attribute: " + current
 							+ " >= " + checker + ".");
 					return -1;
 				}
@@ -123,7 +123,7 @@ public class PagesControl {
 		// Invalid Hyphen values size
 		else {
 			System.err
-					.println("Invalid Pages Attribute: Hyphen seperations must have only two values!");
+					.println("Semantic error: Invalid Pages Attribute: Hyphen seperations must have only two values!");
 			return -1;
 		}
 
@@ -132,7 +132,9 @@ public class PagesControl {
 	}
 
 	// Function used to run checker
-	static boolean verifyPages(String value) {
+	public static boolean verifyPages(String value) {
+		value = value.replaceAll("'", "");
+		value = value.replaceAll("\"", "");
 		if (commaControl(value)) {
 			return true;
 		}

@@ -33,7 +33,7 @@ public class PagesControl {
 				checker = hyphenControl(divided[i]);
 			}
 			
-			// Incase invalid value
+			// In case of invalid value
 			if (checker == -1) {
 				return false;
 			} 
@@ -43,7 +43,7 @@ public class PagesControl {
 					current = checker;
 				} else {
 					System.err.println("Invalid Pages Attribute: " + current
-							+ " >= " + checker);
+							+ " >= " + checker + ".");
 					return false;
 				}
 			}
@@ -65,20 +65,25 @@ public class PagesControl {
 
 		int current = 0;
 		
-		// Returns directly if has no hyphen
+		// Returns directly if it has no hyphen
 		if (divided.length == 1) {
 			return Integer.parseInt(divided[0]);
 		}
 		// Standard Hyphen
 		else if (divided.length == 2) {
 			for (int i = 0; i < divided.length; i++) {
+				// Case of singleton '-' or '--' with or without values
+				if(divided[i].equals("")){
+					System.err.println("Invalid Pages Attribute: \'-\' or \'--\' is singleton.");
+					return -1;
+				}
 				int checker = Integer.parseInt(divided[i]);
 				// Check if values are valid
 				if (checker > current) {
 					current = checker;
 				} else {
 					System.err.println("Invalid Pages Attribute: " + current
-							+ " >= " + checker);
+							+ " >= " + checker + ".");
 					return -1;
 				}
 			}
@@ -118,10 +123,14 @@ public class PagesControl {
 		System.out.println(verifyPages("43, 45-47, 49"));
 		System.out.println(verifyPages("43, 45-47, 49+"));
 		System.out.println("----"); // false
+		System.out.println(verifyPages("-43"));
+		System.out.println(verifyPages("--43"));
+		System.out.println(verifyPages("-43, 32"));
 		System.out.println(verifyPages("43, 32"));
 		System.out.println(verifyPages("43+, 32"));
 		System.out.println(verifyPages("43, 32+"));
 		System.out.println(verifyPages("43-34"));
+		System.out.println(verifyPages("43-34, -35"));
 		System.out.println(verifyPages("43--34"));
 		System.out.println(verifyPages("43--55--66"));
 		System.out.println(verifyPages("43--22--66"));

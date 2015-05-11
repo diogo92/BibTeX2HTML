@@ -8,7 +8,7 @@ public class PagesControl {
 		String[] divided = value.split(",");
 
 		int current = 0;
-		
+
 		// In case of singleton comma (',')
 		if (divided.length == 0) {
 			System.err.println("Invalid Pages Attribute: \',\' is singleton.");
@@ -24,18 +24,17 @@ public class PagesControl {
 					// Standard Format
 					if (plus.length == 1) {
 						checker = hyphenControl(plus[0]);
-					} 
+					}
 					// To accept "+%%" format
 					else if (plus.length == 2) {
 						if (plus[0].equals("")) {
 							checker = hyphenControl(plus[1]);
-							System.out.println(checker);
 						} else {
 							System.err
 									.println("Invalid Pages Attribute: \'+\' must be with a single page.");
 							return false;
 						}
-					} 
+					}
 					// All others are discarded
 					else {
 						System.err
@@ -93,7 +92,7 @@ public class PagesControl {
 				System.err
 						.println("Invalid Pages Attribute: value is null or empty.");
 				return -1;
-			} 
+			}
 			// Reads the Integer
 			else {
 				return Integer.parseInt(divided[0]);
@@ -112,7 +111,7 @@ public class PagesControl {
 				// Check if values are valid
 				if (checker > current) {
 					current = checker;
-				} 
+				}
 				// In case the value is inferior or equal between hyphens
 				else {
 					System.err.println("Invalid Pages Attribute: " + current
@@ -142,45 +141,44 @@ public class PagesControl {
 	}
 
 	// --- TESTS ---
-	public static void main(String args[]) {
-		System.out.println("----"); // true
-		System.out.println(verifyPages("43"));
-		System.out.println(verifyPages("43, 45"));
-		System.out.println(verifyPages("43, 45+"));
-		System.out.println(verifyPages("43-45"));
-		System.out.println(verifyPages("43, 45, 47"));
-		System.out.println(verifyPages("43, 45, 47+"));
-		System.out.println(verifyPages("43, 45-47"));
-		System.out.println(verifyPages("43, 45--47"));
-		System.out.println(verifyPages("43, 45-47, 49--87"));
-		System.out.println(verifyPages("43, 45-47, 49"));
-		System.out.println(verifyPages("43, 45-47, 49+"));
-		System.out.println(verifyPages("+33"));
-		System.out.println("----"); // false
-		System.out.println(verifyPages(""));
-		System.out.println(verifyPages(","));
-		System.out.println(verifyPages(", ,"));
-		System.out.println(verifyPages("-43"));
-		System.out.println(verifyPages(" , 33"));
-		System.out.println(verifyPages("43, "));
-		System.out.println(verifyPages("-"));
-		System.out.println(verifyPages("-43"));
-		System.out.println(verifyPages("--43"));
-		System.out.println(verifyPages("-43, 32"));
-		System.out.println(verifyPages("43, 32"));
-		System.out.println(verifyPages("43+, 32"));
-		System.out.println(verifyPages("43, 32+23"));
-		System.out.println(verifyPages("43+, 32+"));
-		System.out.println(verifyPages("43, 32+"));
-		System.out.println(verifyPages("43-34"));
-		System.out.println(verifyPages("43-34, -35"));
-		System.out.println(verifyPages("43--34"));
-		System.out.println(verifyPages("43--55--66"));
-		System.out.println(verifyPages("43--22--66"));
-		System.out.println(verifyPages("43, 45-34"));
-		System.out.println(verifyPages("43-34, 45"));
-		System.out.println(verifyPages("43-55, 75-73"));
-		System.out.println(verifyPages("43-34"));
-		System.out.println(verifyPages("43-44, 45+, 79"));
-	}
+	/*
+	 * public static void main(String args[]) { System.out.println("----"); //
+	 * true System.out.println(verifyPages("43"));
+	 * System.out.println(verifyPages("43, 45"));
+	 * System.out.println(verifyPages("43, 45+"));
+	 * System.out.println(verifyPages("43-45"));
+	 * System.out.println(verifyPages("43, 45, 47"));
+	 * System.out.println(verifyPages("43, 45, 47+"));
+	 * System.out.println(verifyPages("43, 45-47"));
+	 * System.out.println(verifyPages("43, 45--47"));
+	 * System.out.println(verifyPages("43, 45-47, 49--87"));
+	 * System.out.println(verifyPages("43, 45-47, 49"));
+	 * System.out.println(verifyPages("43, 45-47, 49+"));
+	 * System.out.println(verifyPages("+33")); System.out.println("----"); //
+	 * false System.out.println(verifyPages(""));
+	 * System.out.println(verifyPages(","));
+	 * System.out.println(verifyPages(", ,"));
+	 * System.out.println(verifyPages("-43"));
+	 * System.out.println(verifyPages(" , 33"));
+	 * System.out.println(verifyPages("43, "));
+	 * System.out.println(verifyPages("-"));
+	 * System.out.println(verifyPages("-43"));
+	 * System.out.println(verifyPages("--43"));
+	 * System.out.println(verifyPages("-43, 32"));
+	 * System.out.println(verifyPages("43, 32"));
+	 * System.out.println(verifyPages("43+, 32"));
+	 * System.out.println(verifyPages("43, 32+23"));
+	 * System.out.println(verifyPages("43+, 32+"));
+	 * System.out.println(verifyPages("43, 32+"));
+	 * System.out.println(verifyPages("43-34"));
+	 * System.out.println(verifyPages("43-34, -35"));
+	 * System.out.println(verifyPages("43--34"));
+	 * System.out.println(verifyPages("43--55--66"));
+	 * System.out.println(verifyPages("43--22--66"));
+	 * System.out.println(verifyPages("43, 45-34"));
+	 * System.out.println(verifyPages("43-34, 45"));
+	 * System.out.println(verifyPages("43-55, 75-73"));
+	 * System.out.println(verifyPages("43-34"));
+	 * System.out.println(verifyPages("43-44, 45+, 79")); }
+	 */
 }

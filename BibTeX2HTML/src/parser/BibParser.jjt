@@ -274,7 +274,6 @@ void CheckTree(SimpleNode n) #void:
         }
       }
     }
-       
   }
 }
 
@@ -326,118 +325,122 @@ void analyzeType(Vector<Object > elems,int type) #void:
 		values[currPairInd]=(Token)elems.elementAt(i+1);
    		currPairInd++;
     }
+    try    {      
     switch(type)    {
       case BibParserConstants.ARTICLE:
 	    if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.JOURNAL) ||
 	    	!Utilities.contains(types,BibParserConstants.YEAR))
 	    {
-			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN ARTICLE " + key.image);
-			System.exit(-1);
+			throw new SemanticException("ERROR: REQUIRED FIELD NOT PRESENT IN ARTICLE " + key.image);
+			
+			
 	    }
       	break;
       case BibParserConstants.BOOK:
 	    if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.PUBLISHER) ||
 	    	!Utilities.contains(types,BibParserConstants.YEAR))
 	    {
-			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN BOOK " + key.image);
-			System.exit(-1);
+			throw new SemanticException("ERROR: REQUIRED FIELD NOT PRESENT IN BOOK " + key.image);
+			
 	    }
       	break;
       case BibParserConstants.BOOKLET:
         if(!Utilities.contains(types,BibParserConstants.TITLE))
 	    {
-			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN BOOKLET " + key.image);
-			System.exit(-1);
+			throw new SemanticException("ERROR: REQUIRED FIELD NOT PRESENT IN BOOKLET " + key.image);
+			
 	    }
       	break;
       case BibParserConstants.CONFERENCE:
       	if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.BOOKTITLE) ||
     	!Utilities.contains(types,BibParserConstants.YEAR))
 	    {
-			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN CONFERENCE " + key.image);
-			System.exit(-1);
+			throw new SemanticException("ERROR: REQUIRED FIELD NOT PRESENT IN CONFERENCE " + key.image);
+			
 	    }
       	break;
       case BibParserConstants.INBOOK:
       	if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.PUBLISHER) ||
     	!Utilities.contains(types,BibParserConstants.YEAR) || !Utilities.contains(types,BibParserConstants.CHAPTER))
 	    {
-			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN INBOOK " + key.image);
-			System.exit(-1);
+			throw new SemanticException("ERROR: REQUIRED FIELD NOT PRESENT IN INBOOK " + key.image);
+			
 	    }
       	break;
       case BibParserConstants.INCOLLECTION:
         if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.PUBLISHER) ||
     	!Utilities.contains(types,BibParserConstants.YEAR) || !Utilities.contains(types,BibParserConstants.BOOKTITLE))
 	    {
-			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN INCOLLECTION " + key.image);
-			System.exit(-1);
+			throw new SemanticException("ERROR: REQUIRED FIELD NOT PRESENT IN INCOLLECTION " + key.image);
+			
 	    }
       	break;
       case BibParserConstants.INPROCEEDINGS:
       	if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) ||
     	!Utilities.contains(types,BibParserConstants.YEAR) || !Utilities.contains(types,BibParserConstants.BOOKTITLE))
 	    {
-			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN INPROCEEDINGS " + key.image);
-			System.exit(-1);
+			throw new SemanticException("ERROR: REQUIRED FIELD NOT PRESENT IN INPROCEEDINGS " + key.image);
+			
 	    }
       	break;
       case BibParserConstants.MANUAL:
         if(!Utilities.contains(types,BibParserConstants.TITLE))
 	    {
-			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN MANUAL " + key.image);
-			System.exit(-1);
+			throw new SemanticException("ERROR: REQUIRED FIELD NOT PRESENT IN MANUAL " + key.image);
+			
 	    }
       	break;
       case BibParserConstants.MASTERTHESIS:
         if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.SCHOOL) ||
     	!Utilities.contains(types,BibParserConstants.YEAR))
 	    {
-			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN MASTERSTHESIS " + key.image);
-			System.exit(-1);
+			throw new SemanticException("ERROR: REQUIRED FIELD NOT PRESENT IN MASTERSTHESIS " + key.image);
+			
 	    }
       	break;
       case BibParserConstants.MISC:
         if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.HOWPUBLISHED) ||
     	!Utilities.contains(types,BibParserConstants.YEAR) || !Utilities.contains(types,BibParserConstants.MONTH) || !Utilities.contains(types,BibParserConstants.NOTE) || !Utilities.contains(types,BibParserConstants.KEY))
 	    {
-			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN MISC " + key.image);
-			System.exit(-1);
+			throw new SemanticException("ERROR: REQUIRED FIELD NOT PRESENT IN MISC " + key.image);
+			
 	    }
       	break;
       case BibParserConstants.PHDTHESIS:
         if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.SCHOOL) ||
     	!Utilities.contains(types,BibParserConstants.YEAR))
 	    {
-			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN PHDTHESIS " + key.image);
-			System.exit(-1);
+			throw new SemanticException("ERROR: REQUIRED FIELD NOT PRESENT IN PHDTHESIS " + key.image);
+			
 	    }
       	break;
       case BibParserConstants.PROCEEDINGS:
         if(!Utilities.contains(types,BibParserConstants.TITLE) ||!Utilities.contains(types,BibParserConstants.YEAR))
 	    {
-			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN PROCEDINGS " + key.image);
-			System.exit(-1);
+			throw new SemanticException("ERROR: REQUIRED FIELD NOT PRESENT IN PROCEDINGS " + key.image);
+			
 	    }
       	break;
       case BibParserConstants.TECHREPORT:
         if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.INSTITUTION) ||
 	    !Utilities.contains(types,BibParserConstants.YEAR))
 	    {
-			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN TECHREPORT " + key.image);
-			System.exit(-1);
+			throw new SemanticException("ERROR: REQUIRED FIELD NOT PRESENT IN TECHREPORT " + key.image);
+			
 	    }
       	break;
       case BibParserConstants.UNPUBLISHED:
         if(!Utilities.contains(types,BibParserConstants.AUTHOR) || !Utilities.contains(types,BibParserConstants.TITLE) || !Utilities.contains(types,BibParserConstants.NOTE))
 	    {
-			System.out.println("ERROR: REQUIRED FIELD NOT PRESENT IN UNPUBLISHED " + key.image);
-			System.exit(-1);
+			throw new SemanticException("ERROR: REQUIRED FIELD NOT PRESENT IN UNPUBLISHED " + key.image);
 	    }
       	break;
       default:
       	break;
     }
+  } catch(SemanticException e)  {	System.err.println(e.getMessage());
+
+  }
     checkValueTypes(types,values,numPair, key);
   }
 }

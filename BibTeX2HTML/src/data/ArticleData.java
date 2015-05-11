@@ -10,7 +10,7 @@ public class ArticleData extends BibData {
 	
 	// Required Data Constructor
 	public ArticleData(String ck, String a, String t, String j, 
-			Integer y){
+			String y){
 		citationKey = ck;
 		author = a;
 		title = t;
@@ -26,7 +26,7 @@ public class ArticleData extends BibData {
 	
 	// Full Data Constructor
 	public ArticleData(String ck, String a, String t, String j, 
-			Integer y, Integer v, Integer n,
+			String y, Integer v, Integer n,
 			String pa, String mo, String no, String k){
 		citationKey = ck;
 		author = a;
@@ -54,7 +54,7 @@ public class ArticleData extends BibData {
 		return journal;
 	}
 	
-	public Integer getYear(){
+	public String getYear(){
 		return year;
 	}
 	

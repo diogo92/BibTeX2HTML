@@ -8,7 +8,7 @@ public class InbookData extends BibData {
 	}
 	
 	// Required Data Constructor (with chapter)
-		public InbookData(String _author, String _title, Integer _chapter, String _publisher, Integer _year){
+		public InbookData(String _author, String _title, Integer _chapter, String _publisher, String _year){
 			author = _author;
 			title = _title;
 			chapter = _chapter;
@@ -26,7 +26,7 @@ public class InbookData extends BibData {
 		}
 		
 		// Required Data Constructor (with pages)
-		public InbookData(String _author, String _title, String _pages, String _publisher, Integer _year){
+		public InbookData(String _author, String _title, String _pages, String _publisher, String _year){
 			author = _author;
 			title = _title;
 			chapter = null;
@@ -44,7 +44,7 @@ public class InbookData extends BibData {
 		}
 			
 		// Required Data Constructor (with pages and chapter)
-		public InbookData(String _author, String _title, Integer _chapter, String _pages, String _publisher, Integer _year){
+		public InbookData(String _author, String _title, Integer _chapter, String _pages, String _publisher, String _year){
 			author = _author;
 			title = _title;
 			chapter = _chapter;
@@ -62,7 +62,7 @@ public class InbookData extends BibData {
 		}
 		
 		// Full Data Constructor
-		public InbookData(String _author, String _title, Integer _chapter, String _pages, String _publisher, Integer _year,
+		public InbookData(String _author, String _title, Integer _chapter, String _pages, String _publisher, String _year,
 						  Integer _volume, String _series, String _type, String _address, String _edition, String _month, String _note, String _key){
 			author = _author;
 			title = _title;
@@ -101,7 +101,7 @@ public class InbookData extends BibData {
 			return publisher;
 		}
 		
-		public Integer getYear(){
+		public String getYear(){
 			return year;
 		}
 		

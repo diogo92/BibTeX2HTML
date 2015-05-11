@@ -1,13 +1,13 @@
 package data;
 
 public class ManualData extends BibData {
-	//standard Construct
-	public ManualData(){
+	// standard Construct
+	public ManualData() {
 		super();
 	}
-	
+
 	// Required data constructor
-	public ManualData(String _title){
+	public ManualData(String _title) {
 		title = _title;
 		author = null;
 		organization = null;
@@ -18,9 +18,11 @@ public class ManualData extends BibData {
 		note = null;
 		key = null;
 	}
-	
-	//Optional data constructor
-	public ManualData(String _title, String _author, String _organization, String _address, String _edition, String _month, Integer _year, String _note, String _key){
+
+	// Optional data constructor
+	public ManualData(String _title, String _author, String _organization,
+			String _address, String _edition, String _month, String _year,
+			String _note, String _key) {
 		title = _title;
 		author = _author;
 		organization = _organization;
@@ -31,56 +33,47 @@ public class ManualData extends BibData {
 		note = _note;
 		key = _key;
 	}
-	
 
 	// Gets for FreeMarker HTML Parse
-	public String getTitle(){
+	public String getTitle() {
 		return title;
 	}
-	
-	public String getAuthor(){
+
+	public String getAuthor() {
 		return author;
 	}
-	
-	public String getOrganization()
-	{
+
+	public String getOrganization() {
 		return organization;
 	}
-	
-	public String getAddress(){
+
+	public String getAddress() {
 		return address;
 	}
-	
-	public String getEdition(){
+
+	public String getEdition() {
 		return edition;
-	}	
-	
-	public String getMonth(){
+	}
+
+	public String getMonth() {
 		return month;
 	}
-	
-	public Integer getYear(){
+
+	public String getYear() {
 		return year;
 	}
-	
-	public String getNote(){
+
+	public String getNote() {
 		return note;
 	}
-	
-	public String getKey(){
+
+	public String getKey() {
 		return key;
 	}
-	
-	public String toString(){
-		return super.toString() 
-				+ "," + title
-				+ "," + author
-				+ "," + organization
-				+ "," + address
-				+ "," + edition
-				+ "," + month
-				+ "," + year
-				+ "," + note
-				+ "," + key;
+
+	public String toString() {
+		return super.toString() + "," + title + "," + author + ","
+				+ organization + "," + address + "," + edition + "," + month
+				+ "," + year + "," + note + "," + key;
 	}
 }

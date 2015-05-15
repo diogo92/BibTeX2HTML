@@ -76,75 +76,8 @@ public class HTMLWriter {
 		UnpublishedList = new ArrayList<UnpublishedData>();
 
 	}
-
-	// Place each type of data in its respective list
-	public static void readLists() {
-		for (int i = 0; i < parser.BibParser.data.size(); i++) {
-			if (parser.BibParser.data.get(i) instanceof ArticleData) {
-				ArticleList.add((ArticleData) parser.BibParser.data.get(i));
-			}
-
-			if (parser.BibParser.data.get(i) instanceof BookData) {
-				BookList.add((BookData) parser.BibParser.data.get(i));
-			}
-
-			if (parser.BibParser.data.get(i) instanceof BookletData) {
-				BookletList.add((BookletData) parser.BibParser.data.get(i));
-			}
-
-			if (parser.BibParser.data.get(i) instanceof ConferenceData) {
-				ConferenceList.add((ConferenceData) parser.BibParser.data
-						.get(i));
-			}
-
-			if (parser.BibParser.data.get(i) instanceof InbookData) {
-				InbookList.add((InbookData) parser.BibParser.data.get(i));
-			}
-
-			if (parser.BibParser.data.get(i) instanceof IncollectionData) {
-				IncollectionList.add((IncollectionData) parser.BibParser.data
-						.get(i));
-			}
-
-			if (parser.BibParser.data.get(i) instanceof InproceedingsData) {
-				InproceedingsList.add((InproceedingsData) parser.BibParser.data
-						.get(i));
-			}
-
-			if (parser.BibParser.data.get(i) instanceof ManualData) {
-				ManualList.add((ManualData) parser.BibParser.data.get(i));
-			}
-
-			if (parser.BibParser.data.get(i) instanceof MastersthesisData) {
-				MastersthesisList.add((MastersthesisData) parser.BibParser.data
-						.get(i));
-			}
-
-			if (parser.BibParser.data.get(i) instanceof MiscData) {
-				MiscList.add((MiscData) parser.BibParser.data.get(i));
-			}
-
-			if (parser.BibParser.data.get(i) instanceof PhdthesisData) {
-				PhdthesisList.add((PhdthesisData) parser.BibParser.data.get(i));
-			}
-
-			if (parser.BibParser.data.get(i) instanceof ProceedingsData) {
-				ProceedingsList.add((ProceedingsData) parser.BibParser.data
-						.get(i));
-			}
-
-			if (parser.BibParser.data.get(i) instanceof TechreportData) {
-				TechreportList.add((TechreportData) parser.BibParser.data
-						.get(i));
-			}
-
-			if (parser.BibParser.data.get(i) instanceof UnpublishedData) {
-				UnpublishedList.add((UnpublishedData) parser.BibParser.data
-						.get(i));
-			}
-		}
-	}
-
+	
+	// Creates HTML file output to file and console
 	public static void createHTML() throws Exception {
 	// public static void main(String args[]) throws Exception { -- DEBUG --
 		

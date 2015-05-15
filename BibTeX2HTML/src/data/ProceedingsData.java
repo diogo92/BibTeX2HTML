@@ -8,7 +8,8 @@ public class ProceedingsData extends BibData {
 	}
 	
 	//required data constructor
-	public ProceedingsData(String _title, String _year){
+	public ProceedingsData(String ck, String _title, String _year){
+		citationKey = ck;
 		title = _title;
 		year = _year;
 		editor = null;
@@ -23,8 +24,9 @@ public class ProceedingsData extends BibData {
 	}
 	
 	//optional data constructor
-	public ProceedingsData(String _title, String _year,
+	public ProceedingsData(String ck, String _title, String _year,
 						   String _editor, Integer _volume, String _series, String _address, String _month, String _organization, String _publisher, String _note, String _key){
+		citationKey = ck;
 		title = _title;
 		year = _year;
 		editor = _editor;

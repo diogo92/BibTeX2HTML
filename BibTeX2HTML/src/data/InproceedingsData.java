@@ -8,7 +8,8 @@ public class InproceedingsData extends BibData {
 	}
 	
 	// Required data constructor
-	public InproceedingsData(String au, String ti, String bt, String ye) {
+	public InproceedingsData(String ck, String au, String ti, String bt, String ye) {
+		citationKey = ck;
 		author = au;
 		title = ti;
 		booktitle = bt;
@@ -28,9 +29,10 @@ public class InproceedingsData extends BibData {
 
 	// Optional data constructor
 
-	public InproceedingsData(String au, String ti, String bt, String ye,
+	public InproceedingsData(String ck, String au, String ti, String bt, String ye,
 			String ed, Integer vol, Integer num, String ser, String pag,
 			String addr, String mon, String org, String pub, String no, String k) {
+		citationKey = ck;
 		author = au;
 		title = ti;
 		booktitle = bt;

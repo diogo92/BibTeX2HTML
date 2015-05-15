@@ -7,7 +7,8 @@ public class ConferenceData extends BibData {
 	}
 
 	// Required data constructor
-	public ConferenceData(String au, String ti, String bt, String ye) {
+	public ConferenceData(String ck, String au, String ti, String bt, String ye) {
+		citationKey = ck;
 		author = au;
 		title = ti;
 		booktitle = bt;
@@ -28,9 +29,10 @@ public class ConferenceData extends BibData {
 
 	// Optional data constructor
 
-	public ConferenceData(String au, String ti, String bt, String ye,
+	public ConferenceData(String ck, String au, String ti, String bt, String ye,
 			String ed, Integer vol, Integer num, String ser, String pag,
 			String addr, String mon, String org, String pub, String no, String _key) {
+		citationKey = ck;
 		author = au;
 		title = ti;
 		booktitle = bt;

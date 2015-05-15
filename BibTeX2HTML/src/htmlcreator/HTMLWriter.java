@@ -192,7 +192,7 @@ public class HTMLWriter {
 		
 		input.put("BookList", BookList);
 		
-		input.put("Booklet", BookletList);
+		input.put("BookletList", BookletList);
 		
 		input.put("ConferenceList", ConferenceList);
 		

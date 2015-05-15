@@ -7,7 +7,8 @@ public class TechreportData extends BibData {
 	}
 	
 	//required data constructor
-	public TechreportData(String _author, String _title, String _institution, String _year){
+	public TechreportData(String ck, String _author, String _title, String _institution, String _year){
+		citationKey = ck;
 		author = _author;
 		title = _title;
 		institution = _institution;
@@ -21,8 +22,9 @@ public class TechreportData extends BibData {
 	}
 	
 	//optional data constructor
-	public TechreportData(String _author, String _title, String _institution, String _year,
+	public TechreportData(String ck, String _author, String _title, String _institution, String _year,
 						  String _type, Integer _number, String _address, String _month, String _note, String _key){
+		citationKey = ck;
 		author = _author;
 		title = _title;
 		institution = _institution;

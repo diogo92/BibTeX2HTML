@@ -8,7 +8,8 @@ public class UnpublishedData extends BibData {
 	}
 	
 	//required data constructor
-	public UnpublishedData(String _author, String _title, String _note){
+	public UnpublishedData(String ck, String _author, String _title, String _note){
+		citationKey = ck;
 		author = _author;
 		title = _title;
 		note = _note;
@@ -18,7 +19,8 @@ public class UnpublishedData extends BibData {
 	}
 	
 	//optional data constructor
-	public UnpublishedData(String _author, String _title, String _note, String _month, String _year, String _key){
+	public UnpublishedData(String ck, String _author, String _title, String _note, String _month, String _year, String _key){
+		citationKey = ck;
 		author = _author;
 		title = _title;
 		note = _note;

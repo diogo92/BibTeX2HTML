@@ -51,7 +51,7 @@
 	
 	<h3>Masters Thesis</h3>
 	
-	<#include "mastherthesis.ftl">
+	<#include "mastersthesis.ftl">
 
 	<hr>
 	

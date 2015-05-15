@@ -7,7 +7,8 @@ public class ManualData extends BibData {
 	}
 
 	// Required data constructor
-	public ManualData(String _title) {
+	public ManualData(String ck, String _title) {
+		citationKey = ck;
 		title = _title;
 		author = null;
 		organization = null;
@@ -20,9 +21,10 @@ public class ManualData extends BibData {
 	}
 
 	// Optional data constructor
-	public ManualData(String _title, String _author, String _organization,
+	public ManualData(String ck, String _title, String _author, String _organization,
 			String _address, String _edition, String _month, String _year,
 			String _note, String _key) {
+		citationKey = ck;
 		title = _title;
 		author = _author;
 		organization = _organization;

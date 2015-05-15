@@ -8,8 +8,9 @@ public class PhdthesisData extends BibData {
 	}
 
 	// required data constructor
-	public PhdthesisData(String _author, String _title, String _school,
+	public PhdthesisData(String ck, String _author, String _title, String _school,
 			String _year) {
+		citationKey = ck;
 		author = _author;
 		title = _title;
 		school = _school;
@@ -22,9 +23,10 @@ public class PhdthesisData extends BibData {
 	}
 
 	// optional data constructor
-	public PhdthesisData(String _author, String _title, String _school,
+	public PhdthesisData(String ck, String _author, String _title, String _school,
 			String _year, String _type, String _address, String _month,
 			String _note, String _key) {
+		citationKey = ck;
 		author = _author;
 		title = _title;
 		school = _school;

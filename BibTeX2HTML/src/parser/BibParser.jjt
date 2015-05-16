@@ -302,8 +302,30 @@ import htmlcreator.*;public class BibParser{  public static Hashtable symbta
             err_data = true;            throw new SemanticException("Wrong value of ANNOTE at line " + values [ i ].beginLine + " column " + values [ i ].beginColumn + " in entry " + key.image);          }          break;          case BibParserConstants.AUTHOR : st = (SymbolTable) symbtab.get(values [ i ].image);          if (!(st.type == BibParserConstants.QUOTED_TEXT))          {
             err_data = true;            throw new SemanticException("Wrong value of AUTHOR at line " + values [ i ].beginLine + " column " + values [ i ].beginColumn + " in entry " + key.image);          }          break;          case BibParserConstants.BOOKTITLE : st = (SymbolTable) symbtab.get(values [ i ].image);          if (!(st.type == BibParserConstants.QUOTED_TEXT))          {
             err_data = true;            throw new SemanticException("Wrong value of BOOKTITLE at line " + values [ i ].beginLine + " column " + values [ i ].beginColumn + " in entry " + key.image);          }          break;          case BibParserConstants.CHAPTER : st = (SymbolTable) symbtab.get(values [ i ].image);          if (!(st.type == BibParserConstants.INTEGER))          {
-            err_data = true;            throw new SemanticException("Wrong value of CHAPTER at line " + values [ i ].beginLine + " column " + values [ i ].beginColumn + " in entry " + key.image);          }          break;          case BibParserConstants.CROSSREF : st = (SymbolTable) symbtab.get(values [ i ].image);          if (!(st.type == BibParserConstants.WORD))          {
-            err_data = true;            throw new SemanticException("Wrong value of CROSSREF at line " + values [ i ].beginLine + " column " + values [ i ].beginColumn + " in entry " + key.image);          }          break;          case BibParserConstants.EDITION : st = (SymbolTable) symbtab.get(values [ i ].image);          if (!(st.type == BibParserConstants.QUOTED_TEXT))          {
+            err_data = true;            throw new SemanticException("Wrong value of CHAPTER at line " + values [ i ].beginLine + " column " + values [ i ].beginColumn + " in entry " + key.image);          }          break;          case BibParserConstants.CROSSREF : st = (SymbolTable) symbtab.get(values [ i ].image);          if (!(st.type == BibParserConstants.QUOTED_TEXT))          {
+            err_data = true;	            throw new SemanticException("Wrong value of CROSSREF at line " + values [ i ].beginLine + " column " + values [ i ].beginColumn + " in entry " + key.image);          }
+          else          {			String temp = "";
+			temp = values[i].image.replace("\"","");
+			st = (SymbolTable) symbtab.get(temp);
+			if(st == null)			{			  err_data = true;
+			  throw new SemanticException("CROSSREF Error: Key " + temp + " does not exist in input file, at line " + values [ i ].beginLine + " column " + values [ i ].beginColumn + " in entry " + key.image);
+			}
+          }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    break;          case BibParserConstants.EDITION : st = (SymbolTable) symbtab.get(values [ i ].image);          if (!(st.type == BibParserConstants.QUOTED_TEXT))          {
             err_data = true;            throw new SemanticException("Wrong value of EDITION at line " + values [ i ].beginLine + " column " + values [ i ].beginColumn + " in entry " + key.image);          }          break;          case BibParserConstants.EDITOR : st = (SymbolTable) symbtab.get(values [ i ].image);          if (!(st.type == BibParserConstants.QUOTED_TEXT))          {
             err_data = true;            throw new SemanticException("Wrong value of EDITOR at line " + values [ i ].beginLine + " column " + values [ i ].beginColumn + " in entry " + key.image);          }          break;          case BibParserConstants.HOWPUBLISHED : st = (SymbolTable) symbtab.get(values [ i ].image);          if (!(st.type == BibParserConstants.QUOTED_TEXT))          {
             err_data = true;            throw new SemanticException("Wrong value of HOWPUBLISHED at line " + values [ i ].beginLine + " column " + values [ i ].beginColumn + " in entry " + key.image);          }          break;          case BibParserConstants.INSTITUTION : st = (SymbolTable) symbtab.get(values [ i ].image);          if (!(st.type == BibParserConstants.QUOTED_TEXT))          {

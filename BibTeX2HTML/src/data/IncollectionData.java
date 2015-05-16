@@ -2,13 +2,14 @@ package data;
 
 public class IncollectionData extends BibData {
 
-	//standard Construct
-		public IncollectionData(){
-			super();
-		}
-		
+	// standard Construct
+	public IncollectionData() {
+		super();
+	}
+
 	// Required Data Constructor (with chapter)
-	public IncollectionData(String ck, String _author, String _title, String _booktitle, String _publisher, String _year){
+	public IncollectionData(String ck, String _author, String _title,
+			String _booktitle, String _publisher, String _year) {
 		citationKey = ck;
 		author = _author;
 		title = _title;
@@ -27,12 +28,13 @@ public class IncollectionData extends BibData {
 		note = null;
 		key = null;
 	}
-	
-	
+
 	// Full Data Constructor
-	public IncollectionData(String ck, String _author, String _title, String _booktitle, String _publisher, String _year,
-							String _editor, Integer _volume, String _series, String _type, Integer _chapter, String _pages,
-							String _address, String _edition, String _month, String _note, String _key){
+	public IncollectionData(String ck, String _author, String _title,
+			String _booktitle, String _publisher, String _year, String _editor,
+			Integer _volume, String _series, String _type, Integer _chapter,
+			String _pages, String _address, String _edition, String _month,
+			String _note, String _key) {
 		citationKey = ck;
 		author = _author;
 		title = _title;
@@ -51,89 +53,77 @@ public class IncollectionData extends BibData {
 		note = _note;
 		key = _key;
 	}
-			
+
 	// Gets for FreeMarker HTML Parse
-	public String getAuthor(){
+	public String getAuthor() {
 		return author;
 	}
-	
-	public String getTitle(){
+
+	public String getTitle() {
 		return title;
 	}
-	
-	public String getBookTitle(){
+
+	public String getBooktitle() {
 		return booktitle;
 	}
-	
-	public String getPublisher(){
+
+	public String getPublisher() {
 		return publisher;
 	}
-	
-	public String getYear(){
+
+	public String getYear() {
 		return year;
 	}
-	
-	public String getEditor(){
+
+	public String getEditor() {
 		return editor;
 	}
-	
-	public Integer getVolume(){
+
+	public Integer getVolume() {
 		return volume;
 	}
-	
-	public String getSeries(){
+
+	public String getSeries() {
 		return series;
 	}
-	
-	public String getType(){
+
+	public String getType() {
 		return type;
 	}
-	
-	public Integer getChapter(){
+
+	public Integer getChapter() {
 		return chapter;
 	}
-	
-	public String getPages(){
+
+	public String getPages() {
 		return pages;
 	}
-	
-	public String getAddress(){
+
+	public String getAddress() {
 		return address;
 	}
-	
-	public String getEdition(){
+
+	public String getEdition() {
 		return edition;
 	}
-	
-	public String getMonth(){
+
+	public String getMonth() {
 		return month;
 	}
-	
-	public String getNote(){
+
+	public String getNote() {
 		return note;
 	}
-	
-	public String getKey(){
+
+	public String getKey() {
 		return key;
 	}
-	
-	public String toString(){
-		return super.toString() 
-				+ "," + author
-				+ "," + title
-				+ "," + booktitle
-				+ "," + publisher
-				+ "," + year
-				+ "," + editor
-				+ "," + volume
-				+ "," + series
-				+ "," + type
-				+ "," + chapter
-				+ "," + pages
-				+ "," + address
-				+ "," + edition
-				+ "," + month
-				+ "," + note
-				+ "," + key;
+
+	public String toString() {
+		return super.toString() + "," + author + "," + title + "," + booktitle
+				+ "," + publisher + "," + year + "," + editor + "," + volume
+				+ "," + series + "," + type + "," + chapter + "," + pages + ","
+				+ address + "," + edition + "," + month + "," + note + ","
+				+ key;
 	}
 }

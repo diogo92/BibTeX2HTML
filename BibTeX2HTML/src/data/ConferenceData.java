@@ -59,7 +59,7 @@ public class ConferenceData extends BibData {
 			return title;
 		}
 		
-		public String getBookTitle(){
+		public String getBooktitle(){
 			return booktitle;
 		}
 		

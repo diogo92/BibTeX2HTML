@@ -19,59 +19,87 @@ import htmlcreator.*;public class BibParser{  public static Hashtable symbta
   // Sets the correct type in the data vector
   public static void setTypeData(String type)  {
     if(type.equals("article"))    {
-      HTMLout.ArticleList.add(new ArticleData(tmp_data.getCitationKey(), tmp_data.author, tmp_data.title, tmp_data.journal, tmp_data.year, tmp_data.volume, tmp_data.number, tmp_data.pages, tmp_data.month, tmp_data.note, tmp_data.key));
+      ArticleData in = new ArticleData(tmp_data.getCitationKey(), tmp_data.author, tmp_data.title, tmp_data.journal, tmp_data.year, tmp_data.volume, tmp_data.number, tmp_data.pages, tmp_data.month, tmp_data.note, tmp_data.key);
+      // -- DEBUG -- //System.out.println(in.toString());
+      HTMLout.ArticleList.add(in);
       return;
     }
     if(type.equals("book"))
     {
-      HTMLout.BookList.add(new BookData(tmp_data.getCitationKey(), tmp_data.author, tmp_data.title, tmp_data.publisher, tmp_data.year, tmp_data.volume, tmp_data.number, tmp_data.edition, tmp_data.series, tmp_data.address, tmp_data.month, tmp_data.note, tmp_data.key));
+      BookData in = new BookData(tmp_data.getCitationKey(), tmp_data.author, tmp_data.title, tmp_data.publisher, tmp_data.year, tmp_data.volume, tmp_data.number, tmp_data.edition, tmp_data.series, tmp_data.address, tmp_data.month, tmp_data.note, tmp_data.key);
+      // -- DEBUG -- //System.out.println(in.toString());
+      HTMLout.BookList.add(in);
       return;    }
     if(type.equals("booklet"))
     {
-      HTMLout.BookletList.add(new BookletData(tmp_data.getCitationKey(), tmp_data.author, tmp_data.title, tmp_data.howpublished, tmp_data.year, tmp_data.address, tmp_data.month, tmp_data.note, tmp_data.key));
+      BookletData in = new BookletData(tmp_data.getCitationKey(), tmp_data.author, tmp_data.title, tmp_data.howpublished, tmp_data.year, tmp_data.address, tmp_data.month, tmp_data.note, tmp_data.key);
+      // -- DEBUG -- //System.out.println(in.toString());
+      HTMLout.BookletList.add(in);
       return;
     }
     if(type.equals("conference"))
     {
-      HTMLout.ConferenceList.add(new ConferenceData(tmp_data.getCitationKey(), tmp_data.author, tmp_data.title, tmp_data.booktitle, tmp_data.year, tmp_data.editor, tmp_data.volume, tmp_data.number, tmp_data.series, tmp_data.pages, tmp_data.address, tmp_data.month, tmp_data.organization, tmp_data.publisher, tmp_data.note, tmp_data.key));
+      ConferenceData in = new ConferenceData(tmp_data.getCitationKey(), tmp_data.author, tmp_data.title, tmp_data.booktitle, tmp_data.year, tmp_data.editor, tmp_data.volume, tmp_data.number, tmp_data.series, tmp_data.pages, tmp_data.address, tmp_data.month, tmp_data.organization, tmp_data.publisher, tmp_data.note, tmp_data.key);
+      // -- DEBUG -- //System.out.println(in.toString());
+      HTMLout.ConferenceList.add(in);
       return;    }
     if(type.equals("inbook"))    {
-      HTMLout.InbookList.add(new InbookData(tmp_data.getCitationKey(), tmp_data.author, tmp_data.title, tmp_data.chapter, tmp_data.pages, tmp_data.publisher, tmp_data.year, tmp_data.volume, tmp_data.series, tmp_data.type, tmp_data.address, tmp_data.edition, tmp_data.month, tmp_data.note, tmp_data.key));
+      InbookData in = new InbookData(tmp_data.getCitationKey(), tmp_data.author, tmp_data.title, tmp_data.chapter, tmp_data.pages, tmp_data.publisher, tmp_data.year, tmp_data.volume, tmp_data.series, tmp_data.type, tmp_data.address, tmp_data.edition, tmp_data.month, tmp_data.note, tmp_data.key);
+      // -- DEBUG -- //System.out.println(in.toString());
+      HTMLout.InbookList.add(in);
       return;    }
     if(type.equals("incollection"))
     {
-      HTMLout.IncollectionList.add(new IncollectionData(tmp_data.getCitationKey(), tmp_data.author, tmp_data.title, tmp_data.booktitle, tmp_data.publisher, tmp_data.year, tmp_data.editor, tmp_data.volume, tmp_data.series, tmp_data.type, tmp_data.chapter, tmp_data.pages, tmp_data.address, tmp_data.edition, tmp_data.month, tmp_data.note, tmp_data.key));
+      IncollectionData in = new IncollectionData(tmp_data.getCitationKey(), tmp_data.author, tmp_data.title, tmp_data.booktitle, tmp_data.publisher, tmp_data.year, tmp_data.editor, tmp_data.volume, tmp_data.series, tmp_data.type, tmp_data.chapter, tmp_data.pages, tmp_data.address, tmp_data.edition, tmp_data.month, tmp_data.note, tmp_data.key);
+      // -- DEBUG -- //System.out.println(in.toString());
+      HTMLout.IncollectionList.add(in);
       return;    }
     if(type.equals("inproceedings"))    {
-      HTMLout.InproceedingsList.add(new InproceedingsData(tmp_data.getCitationKey(), tmp_data.author, tmp_data.title, tmp_data.booktitle, tmp_data.year, tmp_data.editor, tmp_data.volume, tmp_data.number, tmp_data.series, tmp_data.pages, tmp_data.address, tmp_data.month, tmp_data.organization, tmp_data.publisher, tmp_data.note, tmp_data.key));
+      InproceedingsData in = new InproceedingsData(tmp_data.getCitationKey(), tmp_data.author, tmp_data.title, tmp_data.booktitle, tmp_data.year, tmp_data.editor, tmp_data.volume, tmp_data.number, tmp_data.series, tmp_data.pages, tmp_data.address, tmp_data.month, tmp_data.organization, tmp_data.publisher, tmp_data.note, tmp_data.key);
+      // -- DEBUG -- //System.out.println(in.toString());
+      HTMLout.InproceedingsList.add(in);
       return;
     }
     if(type.equals("manual"))    {
-      HTMLout.ManualList.add(new ManualData(tmp_data.getCitationKey(), tmp_data.title, tmp_data.author, tmp_data.organization, tmp_data.address, tmp_data.edition, tmp_data.month, tmp_data.year, tmp_data.note, tmp_data.key));      return;
+      ManualData in = new ManualData(tmp_data.getCitationKey(), tmp_data.title, tmp_data.author, tmp_data.organization, tmp_data.address, tmp_data.edition, tmp_data.month, tmp_data.year, tmp_data.note, tmp_data.key);
+      // -- DEBUG -- //System.out.println(in.toString());
+      HTMLout.ManualList.add(in);      return;
     }
     if(type.equals("mastersthesis"))
     {
-      HTMLout.MastersthesisList.add(new MastersthesisData(tmp_data.getCitationKey(), tmp_data.author, tmp_data.title, tmp_data.school, tmp_data.year, tmp_data.type, tmp_data.address, tmp_data.month, tmp_data.note, tmp_data.key));
+      MastersthesisData in = new MastersthesisData(tmp_data.getCitationKey(), tmp_data.author, tmp_data.title, tmp_data.school, tmp_data.year, tmp_data.type, tmp_data.address, tmp_data.month, tmp_data.note, tmp_data.key);
+      // -- DEBUG -- //System.out.println(in.toString());
+      HTMLout.MastersthesisList.add(in);
       return;    }
     if(type.equals("misc"))
     {
-      HTMLout.MiscList.add(new MiscData(tmp_data.getCitationKey(), tmp_data.author, tmp_data.title, tmp_data.howpublished, tmp_data.month, tmp_data.year, tmp_data.note, tmp_data.key));
+      MiscData in = new MiscData(tmp_data.getCitationKey(), tmp_data.author, tmp_data.title, tmp_data.howpublished, tmp_data.month, tmp_data.year, tmp_data.note, tmp_data.key);
+      // -- DEBUG -- //System.out.println(in.toString());
+      HTMLout.MiscList.add(in);
       return;    }
     if(type.equals("phdthesis"))
     {
-      HTMLout.PhdthesisList.add(new PhdthesisData(tmp_data.getCitationKey(), tmp_data.author, tmp_data.title, tmp_data.school, tmp_data.year, tmp_data.type, tmp_data.address, tmp_data.month, tmp_data.note, tmp_data.key));
+      PhdthesisData in = new PhdthesisData(tmp_data.getCitationKey(), tmp_data.author, tmp_data.title, tmp_data.school, tmp_data.year, tmp_data.type, tmp_data.address, tmp_data.month, tmp_data.note, tmp_data.key);
+      // -- DEBUG -- //System.out.println(in.toString());
+      HTMLout.PhdthesisList.add(in);
       return;    }
     if(type.equals("proceedings"))
     {
-      HTMLout.ProceedingsList.add(new ProceedingsData(tmp_data.getCitationKey(), tmp_data.title, tmp_data.year, tmp_data.editor, tmp_data.volume, tmp_data.series, tmp_data.address, tmp_data.month, tmp_data.organization, tmp_data.publisher, tmp_data.note, tmp_data.key));
+      ProceedingsData in = new ProceedingsData(tmp_data.getCitationKey(), tmp_data.title, tmp_data.year, tmp_data.editor, tmp_data.volume, tmp_data.series, tmp_data.address, tmp_data.month, tmp_data.organization, tmp_data.publisher, tmp_data.note, tmp_data.key);
+      // -- DEBUG -- //System.out.println(in.toString());
+      HTMLout.ProceedingsList.add(in);
       return;    }
     if(type.equals("techreport"))
     {
-      HTMLout.TechreportList.add(new TechreportData(tmp_data.getCitationKey(), tmp_data.author, tmp_data.title, tmp_data.institution, tmp_data.year, tmp_data.type, tmp_data.number, tmp_data.address, tmp_data.month, tmp_data.note, tmp_data.key));
+      TechreportData in = new TechreportData(tmp_data.getCitationKey(), tmp_data.author, tmp_data.title, tmp_data.institution, tmp_data.year, tmp_data.type, tmp_data.number, tmp_data.address, tmp_data.month, tmp_data.note, tmp_data.key);
+      // -- DEBUG -- //System.out.println(in.toString());
+      HTMLout.TechreportList.add(in);
       return;    }
     if(type.equals("unpublished"))
     {
-      HTMLout.UnpublishedList.add(new UnpublishedData(tmp_data.getCitationKey(), tmp_data.author, tmp_data.title, tmp_data.note, tmp_data.month, tmp_data.year, tmp_data.key));
+      UnpublishedData in = new UnpublishedData(tmp_data.getCitationKey(), tmp_data.author, tmp_data.title, tmp_data.note, tmp_data.month, tmp_data.year, tmp_data.key);
+      // -- DEBUG -- //System.out.println(in.toString());
+      HTMLout.UnpublishedList.add(in);
       return;    }  }
 
   // Includes the values in the correct field in the temporary structure
@@ -213,8 +241,7 @@ import htmlcreator.*;public class BibParser{  public static Hashtable symbta
     Token t;    do    {      t = getNextToken();    }    while (t.kind != kind);  }}SimpleNode Start() :{}{  try  {    (Statement()) *    {      return jjtThis;    }  }  catch (ParseException e)  {
     err_data = true;    error_skipto(BibParserConstants.BRACKET_END);  }}void Statement() :{
   // Insert previous read into intermediate structure only if it has no errors (in-case parser/syntax/semantic error skips)
-  if(count_data != 0 && err_data)  {
-    System.out.println(tmp_data.author);
+  if(count_data != 0 && !err_data)  {
     setTypeData(tmp_data.getDataType());  }
   err_data = false;
   tmp_data = new BibData();
@@ -246,7 +273,6 @@ import htmlcreator.*;public class BibParser{  public static Hashtable symbta
 }{  try  {    (< COMMA > field = Field() Equal() value = Value())
     {
       // Place in the intermediate structure 
-      System.out.println(field + " " + value);
       setFieldData(field, value);    }  }  catch (ParseException e)  {
     err_data = true;    error_skipto(BibParserConstants.BRACKET_END);  }}void CheckTree(SimpleNode n) #void :{}{  {    if (n.id == BibParserTreeConstants.JJTSTATEMENT) checkStatement(n);    if (n.jjtGetNumChildren() > 0)    {      for (int i = 0; i < n.jjtGetNumChildren(); ++i)      {        SimpleNode auxn = (SimpleNode) n.jjtGetChild(i);        if (auxn != null)        {          CheckTree(auxn);        }      }    }  }}void checkAttribute(SimpleNode n) #void :{}{  {    if (n.jjtGetNumChildren() > 0)    {      for (int i = 0; i < n.jjtGetNumChildren(); ++i)      {        SimpleNode auxn = (SimpleNode) n.jjtGetChild(i);        if (auxn.id == BibParserTreeConstants.JJTFIELD || auxn.id == BibParserTreeConstants.JJTVALUE)        {          stack.push(auxn.jjtGetValue());        }      }    }  }}void checkData(SimpleNode n) #void :{}{  {    if (n.jjtGetNumChildren() > 0)    {      for (int i = 0; i < n.jjtGetNumChildren(); ++i)      {        SimpleNode auxn = (SimpleNode) n.jjtGetChild(i);        if (auxn.id == BibParserTreeConstants.JJTKEY)        {          stack.push(auxn.jjtGetValue());        }        if (auxn.id == BibParserTreeConstants.JJTATTRIBUTE)        {          checkAttribute(auxn);        }      }      analyzeStack();    }  }}void checkType(SimpleNode n) #void :{}{  {    if (!(((Token) n.jjtGetValue()).kind == BibParserConstants.ARTICLE || ((Token) n.jjtGetValue()).kind == BibParserConstants.BOOK || ((Token) n.jjtGetValue()).kind == BibParserConstants.BOOKLET || ((Token) n.jjtGetValue()).kind == BibParserConstants.CONFERENCE || ((Token) n.jjtGetValue()).kind == BibParserConstants.INBOOK || ((Token) n.jjtGetValue()).kind == BibParserConstants.INCOLLECTION || ((Token) n.jjtGetValue()).kind == BibParserConstants.INPROCEEDINGS || ((Token) n.jjtGetValue()).kind == BibParserConstants.MANUAL || ((Token) n.jjtGetValue()).kind == BibParserConstants.MASTERSTHESIS || ((Token) n.jjtGetValue()).kind == BibParserConstants.MISC || ((Token) n.jjtGetValue()).kind == BibParserConstants.PHDTHESIS || ((Token) n.jjtGetValue()).kind == BibParserConstants.PROCEEDINGS || ((Token) n.jjtGetValue()).kind == BibParserConstants.TECHREPORT || ((Token) n.jjtGetValue()).kind == BibParserConstants.UNPUBLISHED))    {      System.err.println("No such type");    }    else    {      stack.push((Token) n.jjtGetValue());    }  }}void checkStatement(SimpleNode n) #void :{}{  {    if (n.jjtGetNumChildren() > 0)    {      for (int i = 0; i < n.jjtGetNumChildren(); ++i)      {        SimpleNode auxn = (SimpleNode) n.jjtGetChild(i);        if (auxn.id == BibParserTreeConstants.JJTTYPE)        {          checkType(auxn);        }        if (auxn.id == BibParserTreeConstants.JJTDATA)        {          checkData(auxn);        }      }    }  }}void analyzeStack() #void :{}{  {    Vector < Object > stackelems = new Vector < Object > ();    while (!stack.empty())    {      stackelems.addElement(stack.peek());      stack.pop();    }    Collections.reverse(stackelems);    switch (((Token) stackelems.elementAt(0)).kind)    {      case BibParserConstants.ARTICLE : case BibParserConstants.BOOK : case BibParserConstants.BOOKLET : case BibParserConstants.CONFERENCE : case BibParserConstants.INBOOK : case BibParserConstants.INCOLLECTION : case BibParserConstants.INPROCEEDINGS : case BibParserConstants.MANUAL : case BibParserConstants.MASTERSTHESIS : case BibParserConstants.MISC : case BibParserConstants.PHDTHESIS : case BibParserConstants.PROCEEDINGS : case BibParserConstants.TECHREPORT : case BibParserConstants.UNPUBLISHED : analyzeType(stackelems, ((Token) stackelems.elementAt(0)).kind);      break;    }  }}void analyzeType(Vector < Object > elems, int type) #void :{}{  {    int currPairInd = 0;    int numPair = (elems.size() - 1) / 2;    Token key = (Token) elems.elementAt(1);
     keys.add(key.image);    elems.remove(1);    int [ ] types = new int [ numPair ];    Token [ ] values = new Token [ numPair ];    for (int i = 0; i < numPair; i++)    {      values [ i ] = new Token();    }    for (int i = 1; i < elems.size(); i += 2)    {      types [ currPairInd ] = ((Token) elems.elementAt(i)).kind;      values [ currPairInd ] = (Token) elems.elementAt(i + 1);      currPairInd++;    }    try    {

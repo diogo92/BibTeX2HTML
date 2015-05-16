@@ -4,7 +4,7 @@ public class BibData {
 	protected static String data_type;
 
 	public String citationKey;
-	
+
 	public String address;
 	public String author;
 	public String annote;

@@ -1,14 +1,15 @@
 package data;
 
 public class InproceedingsData extends BibData {
-	
-	//standard constructor
-	public InproceedingsData(){
+
+	// standard constructor
+	public InproceedingsData() {
 		super();
 	}
-	
+
 	// Required data constructor
-	public InproceedingsData(String ck, String au, String ti, String bt, String ye) {
+	public InproceedingsData(String ck, String au, String ti, String bt,
+			String ye) {
 		citationKey = ck;
 		author = au;
 		title = ti;
@@ -29,9 +30,10 @@ public class InproceedingsData extends BibData {
 
 	// Optional data constructor
 
-	public InproceedingsData(String ck, String au, String ti, String bt, String ye,
-			String ed, Integer vol, Integer num, String ser, String pag,
-			String addr, String mon, String org, String pub, String no, String k) {
+	public InproceedingsData(String ck, String au, String ti, String bt,
+			String ye, String ed, Integer vol, Integer num, String ser,
+			String pag, String addr, String mon, String org, String pub,
+			String no, String k) {
 		citationKey = ck;
 		author = au;
 		title = ti;
@@ -49,85 +51,73 @@ public class InproceedingsData extends BibData {
 		note = no;
 		key = k;
 	}
-	
+
 	// Gets for FreeMarker HTML Parse
-	public String getAuthor(){
+	public String getAuthor() {
 		return author;
 	}
-	
-	public String getTitle(){
+
+	public String getTitle() {
 		return title;
 	}
-	
-	public String getBookTitle(){
+
+	public String getBooktitle() {
 		return booktitle;
 	}
-	
-	public String getYear(){
+
+	public String getYear() {
 		return year;
 	}
-	
-	public String getEditor(){
+
+	public String getEditor() {
 		return editor;
 	}
-	
-	public Integer getVolume(){
+
+	public Integer getVolume() {
 		return volume;
 	}
-	
-	public Integer getNumber(){
+
+	public Integer getNumber() {
 		return number;
 	}
-	
-	public String getSeries(){
+
+	public String getSeries() {
 		return series;
 	}
-	
-	public String getPages(){
+
+	public String getPages() {
 		return pages;
 	}
-	
-	public String getAddress(){
+
+	public String getAddress() {
 		return address;
 	}
-	
-	public String getMonth(){
+
+	public String getMonth() {
 		return month;
 	}
-	
-	public String getOrganization(){
+
+	public String getOrganization() {
 		return organization;
 	}
-	
-	public String getPublisher(){
+
+	public String getPublisher() {
 		return publisher;
 	}
-	
-	public String getNote(){
+
+	public String getNote() {
 		return note;
 	}
-	
-	public String getKey(){
+
+	public String getKey() {
 		return key;
 	}
-	
-	public String toString(){
-		return super.toString() 
-				+ "," + author
-				+ "," + title
-				+ "," + booktitle
-				+ "," + year
-				+ "," + editor
-				+ "," + volume
-				+ "," + number
-				+ "," + series
-				+ "," + pages
-				+ "," + address
-				+ "," + month
-				+ "," + organization
-				+ "," + publisher
-				+ "," + note
-				+ "," + key;
+
+	public String toString() {
+		return super.toString() + "," + author + "," + title + "," + booktitle
+				+ "," + year + "," + editor + "," + volume + "," + number + ","
+				+ series + "," + pages + "," + address + "," + month + ","
+				+ organization + "," + publisher + "," + note + "," + key;
 	}
-	
+
 }

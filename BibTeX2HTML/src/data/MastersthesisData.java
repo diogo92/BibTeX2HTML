@@ -7,8 +7,8 @@ public class MastersthesisData extends BibData {
 	}
 
 	// required data constructor
-	public MastersthesisData(String ck, String _author, String _title, String _school,
-			String _year) {
+	public MastersthesisData(String ck, String _author, String _title,
+			String _school, String _year) {
 		citationKey = ck;
 		author = _author;
 		title = _title;
@@ -23,9 +23,9 @@ public class MastersthesisData extends BibData {
 	}
 
 	// optional data constructor
-	public MastersthesisData(String ck, String _author, String _title, String _school,
-			String _year, String _type, String _address, String _month,
-			String _note, String _key) {
+	public MastersthesisData(String ck, String _author, String _title,
+			String _school, String _year, String _type, String _address,
+			String _month, String _note, String _key) {
 		citationKey = ck;
 		author = _author;
 		title = _title;

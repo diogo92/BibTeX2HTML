@@ -7,8 +7,9 @@ public class MiscData extends BibData {
 	}
 
 	// Optional data constructor
-	public MiscData(String ck, String _author, String _title, String _howpublished,
-			String _month, String _year, String _note, String _key) {
+	public MiscData(String ck, String _author, String _title,
+			String _howpublished, String _month, String _year, String _note,
+			String _key) {
 		citationKey = ck;
 		author = _author;
 		title = _title;

@@ -21,9 +21,9 @@ public class ManualData extends BibData {
 	}
 
 	// Optional data constructor
-	public ManualData(String ck, String _title, String _author, String _organization,
-			String _address, String _edition, String _month, String _year,
-			String _note, String _key) {
+	public ManualData(String ck, String _title, String _author,
+			String _organization, String _address, String _edition,
+			String _month, String _year, String _note, String _key) {
 		citationKey = ck;
 		title = _title;
 		author = _author;

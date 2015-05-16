@@ -1,14 +1,14 @@
 package data;
 
 public class BookletData extends BibData {
-	
+
 	// Standard Constructor
-	public BookletData(){
+	public BookletData() {
 		super();
 	}
-	
+
 	// Required Data Constructor
-	public BookletData(String ck, String t){
+	public BookletData(String ck, String t) {
 		citationKey = ck;
 		author = null;
 		title = t;
@@ -19,11 +19,10 @@ public class BookletData extends BibData {
 		note = null;
 		key = null;
 	}
-	
+
 	// Full Data Constructor
-	public BookletData(String ck, String a, String t, String hp, 
-			String y,
-			String ad, String mo, String no, String k){
+	public BookletData(String ck, String a, String t, String hp, String y,
+			String ad, String mo, String no, String k) {
 		citationKey = ck;
 		author = a;
 		title = t;
@@ -34,50 +33,43 @@ public class BookletData extends BibData {
 		note = no;
 		key = k;
 	}
-	
+
 	// Gets for FreeMarker HTML Parse
-	public String getAuthor(){
+	public String getAuthor() {
 		return author;
 	}
-	
-	public String getTitle(){
+
+	public String getTitle() {
 		return title;
 	}
-	
-	public String getHowpublished(){
+
+	public String getHowpublished() {
 		return howpublished;
 	}
-	
-	public String getYear(){
+
+	public String getYear() {
 		return year;
 	}
-	
-	
-	public String getAddress(){
+
+	public String getAddress() {
 		return address;
 	}
-	
-	public String getMonth(){
+
+	public String getMonth() {
 		return month;
 	}
-	
-	public String getNote(){
+
+	public String getNote() {
 		return note;
 	}
-	
-	public String getKey(){
+
+	public String getKey() {
 		return key;
 	}
-	
-	public String toString(){
-		return super.toString() 
-				+ "," + author
-				+ "," + title
-				+ "," + howpublished
-				+ "," + year
-				+ "," + address
-				+ "," + month
-				+ "," + note
-				+ "," + key;
+
+	public String toString() {
+		return super.toString() + "," + author + "," + title + ","
+				+ howpublished + "," + year + "," + address + "," + month + ","
+				+ note + "," + key;
 	}
 }

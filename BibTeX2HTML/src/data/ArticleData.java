@@ -1,16 +1,14 @@
 package data;
 
 public class ArticleData extends BibData {
-	
-	
+
 	// Standard Constructor
-	public ArticleData(){
+	public ArticleData() {
 		super();
 	}
-	
+
 	// Required Data Constructor
-	public ArticleData(String ck, String a, String t, String j, 
-			String y){
+	public ArticleData(String ck, String a, String t, String j, String y) {
 		citationKey = ck;
 		author = a;
 		title = t;
@@ -23,11 +21,10 @@ public class ArticleData extends BibData {
 		note = null;
 		key = null;
 	}
-	
+
 	// Full Data Constructor
-	public ArticleData(String ck, String a, String t, String j, 
-			String y, Integer v, Integer n,
-			String pa, String mo, String no, String k){
+	public ArticleData(String ck, String a, String t, String j, String y,
+			Integer v, Integer n, String pa, String mo, String no, String k) {
 		citationKey = ck;
 		author = a;
 		title = t;
@@ -40,59 +37,51 @@ public class ArticleData extends BibData {
 		note = no;
 		key = k;
 	}
-	
+
 	// Gets for FreeMarker HTML Parse
-	public String getAuthor(){
+	public String getAuthor() {
 		return author;
 	}
-	
-	public String getTitle(){
+
+	public String getTitle() {
 		return title;
 	}
-	
-	public String getJournal(){
+
+	public String getJournal() {
 		return journal;
 	}
-	
-	public String getYear(){
+
+	public String getYear() {
 		return year;
 	}
-	
-	public Integer getVolume(){
+
+	public Integer getVolume() {
 		return volume;
 	}
-	
-	public Integer getNumber(){
+
+	public Integer getNumber() {
 		return number;
 	}
-	
-	public String getPages(){
+
+	public String getPages() {
 		return pages;
 	}
-	
-	public String getMonth(){
+
+	public String getMonth() {
 		return month;
 	}
-	
-	public String getNote(){
+
+	public String getNote() {
 		return note;
 	}
-	
-	public String getKey(){
+
+	public String getKey() {
 		return key;
 	}
-	
-	public String toString(){
-		return super.toString() 
-				+ "," + author
-				+ "," + title
-				+ "," + journal
-				+ "," + year
-				+ "," + volume
-				+ "," + number
-				+ "," + pages
-				+ "," + month
-				+ "," + note
-				+ "," + key;
+
+	public String toString() {
+		return super.toString() + "," + author + "," + title + "," + journal
+				+ "," + year + "," + volume + "," + number + "," + pages + ","
+				+ month + "," + note + "," + key;
 	}
 }

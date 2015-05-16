@@ -76,11 +76,11 @@ public class HTMLWriter {
 		UnpublishedList = new ArrayList<UnpublishedData>();
 
 	}
-	
+
 	// Creates HTML file output to file and console
 	public static void createHTML() throws Exception {
-	// public static void main(String args[]) throws Exception { -- DEBUG --
-		
+		// public static void main(String args[]) throws Exception { -- DEBUG --
+
 		// Set FreeMarker configuration -- Current Version: 2.3.22
 		Configuration cfg = new Configuration(new Version(2, 3, 22));
 
@@ -97,61 +97,61 @@ public class HTMLWriter {
 
 		// Set what to write on $title tags
 		input.put("title", "Bibliographic References");
-		
-		
+
 		// TODO: Multi-template User Input Options
-		
+
 		// Chosen Template
 		Template currentTemplate = cfg.getTemplate("Listing.ftl");
 
-		
 		// -- DEBUG --
-		
+
 		/*
-		ArticleList = new ArrayList<ArticleData>();
-		
-		ArticleList.add(new ArticleData("chave", "Joao", "Titulo Com Espacos",
-				"Journal Com Espacos", 1993));
-		ArticleList.add(new ArticleData("chave", "Joao", "Titulo Com Espacos",
-				"Journal Com Espacos", 1993));
-		ArticleList.add(new ArticleData("chave", "Joao", "Titulo Com Espacos",
-				"Journal Com Espacos", 1993));
-		ArticleList.add(new ArticleData("chave", "Joao", "Titulo Com Espacos",
-				"Journal Com Espacos", 1993));
-		*/
-		
+		 * ArticleList = new ArrayList<ArticleData>();
+		 * 
+		 * ArticleList.add(new ArticleData("chave", "Joao",
+		 * "Titulo Com Espacos", "Journal Com Espacos", 1993));
+		 * ArticleList.add(new ArticleData("chave", "Joao",
+		 * "Titulo Com Espacos", "Journal Com Espacos", 1993));
+		 * ArticleList.add(new ArticleData("chave", "Joao",
+		 * "Titulo Com Espacos", "Journal Com Espacos", 1993));
+		 * ArticleList.add(new ArticleData("chave", "Joao",
+		 * "Titulo Com Espacos", "Journal Com Espacos", 1993));
+		 */
+
 		// Insert Data into HTML Tree
 		input.put("ArticleList", ArticleList);
-		
+
 		input.put("BookList", BookList);
-		
+
 		input.put("BookletList", BookletList);
-		
+
 		input.put("ConferenceList", ConferenceList);
-		
+
 		input.put("InbookList", InbookList);
-		
+
 		input.put("IncollectionList", IncollectionList);
-		
+
 		input.put("InproceedingsList", InproceedingsList);
-		
+
 		input.put("ManualList", ManualList);
-		
+
 		input.put("MastersthesisList", MastersthesisList);
-		
+
 		input.put("MiscList", MiscList);
-		
+
 		input.put("PhdthesisList", PhdthesisList);
-		
+
 		input.put("ProceedingsList", ProceedingsList);
-		
+
 		input.put("TechreportList", TechreportList);
-		
+
 		input.put("UnpublishedList", UnpublishedList);
 
-		// Write output to Console
-		Writer consoleWriter = new OutputStreamWriter(System.out);
-		currentTemplate.process(input, consoleWriter);
+		// Write output to Console -- DEBUG --
+		/*
+		 * Writer consoleWriter = new OutputStreamWriter(System.out);
+		 * currentTemplate.process(input, consoleWriter);
+		 */
 
 		// Write output to File
 		Writer fileWriter = new FileWriter(new File("output.html"));

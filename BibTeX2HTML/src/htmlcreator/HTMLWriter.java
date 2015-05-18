@@ -162,5 +162,51 @@ public class HTMLWriter {
 		}
 
 	}
+	
+	public void removeQuotes(){
+		for (int i = 0; i <ArticleList.size(); i++){
+			ArticleList.get(i).removeQuotes();
+		}
+		for (int i = 0; i <BookList.size(); i++){
+			BookList.get(i).removeQuotes();
+		}
+		for (int i = 0; i <BookletList.size(); i++){
+			BookletList.get(i).removeQuotes();
+		}
+		for (int i = 0; i <ConferenceList.size(); i++){
+			ConferenceList.get(i).removeQuotes();
+		}
+		for (int i = 0; i <InbookList.size(); i++){
+			InbookList.get(i).removeQuotes();
+		}
+		for (int i = 0; i <IncollectionList.size(); i++){
+			IncollectionList.get(i).removeQuotes();
+		}
+		for (int i = 0; i <InproceedingsList.size(); i++){
+			InproceedingsList.get(i).removeQuotes();
+		}
+		for (int i = 0; i <ManualList.size(); i++){
+			ManualList.get(i).removeQuotes();
+		}
+		for (int i = 0; i <MastersthesisList.size(); i++){
+			MastersthesisList.get(i).removeQuotes();
+		}
+		for (int i = 0; i <MiscList.size(); i++){
+			MiscList.get(i).removeQuotes();
+		}
+		for (int i = 0; i <PhdthesisList.size(); i++){
+			PhdthesisList.get(i).removeQuotes();
+		}
+		for (int i = 0; i <ProceedingsList.size(); i++){
+			ProceedingsList.get(i).removeQuotes();
+		}
+		for (int i = 0; i <TechreportList.size(); i++){
+			TechreportList.get(i).removeQuotes();
+		}
+		for (int i = 0; i <UnpublishedList.size(); i++){
+			UnpublishedList.get(i).removeQuotes();
+		}
+	
+	}
 
 }

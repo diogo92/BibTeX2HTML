@@ -14,6 +14,9 @@
 			<#if UnpublishedData.key??>
 				<li><strong>Key:</strong> ${UnpublishedData.key}</li>
 			</#if>
+			<#if UnpublishedData.crossref??>
+				<li><strong>Crossref:</strong> ${UnpublishedData.crossref}</li>
+			</#if>
 		</ul>
 	</div>
 </#list>

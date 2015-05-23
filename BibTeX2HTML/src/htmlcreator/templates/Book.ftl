@@ -30,6 +30,9 @@
 			<#if BookData.key??>
 				<li><strong>Key:</strong> ${BookData.key}</li>
 			</#if>
+			<#if BookData.crossref??>
+				<li><strong>Crossref:</strong> ${BookData.crossref}</li>
+			</#if>
 		</ul>
 	</div>
 </#list>

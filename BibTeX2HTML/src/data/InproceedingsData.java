@@ -26,6 +26,7 @@ public class InproceedingsData extends BibData {
 		publisher = null;
 		note = null;
 		key = null;
+		crossref = null;
 	}
 
 	// Optional data constructor
@@ -33,7 +34,7 @@ public class InproceedingsData extends BibData {
 	public InproceedingsData(String ck, String au, String ti, String bt,
 			String ye, String ed, Integer vol, Integer num, String ser,
 			String pag, String addr, String mon, String org, String pub,
-			String no, String k) {
+			String no, String k, String _crossref) {
 		citationKey = ck;
 		author = au;
 		title = ti;
@@ -50,6 +51,7 @@ public class InproceedingsData extends BibData {
 		publisher = pub;
 		note = no;
 		key = k;
+		crossref = _crossref;
 	}
 
 	// Gets for FreeMarker HTML Parse
@@ -112,12 +114,17 @@ public class InproceedingsData extends BibData {
 	public String getKey() {
 		return key;
 	}
+	
+
+	public String getCrossRef(){
+		return crossref;
+	}
 
 	public String toString() {
 		return super.toString() + "," + author + "," + title + "," + booktitle
 				+ "," + year + "," + editor + "," + volume + "," + number + ","
 				+ series + "," + pages + "," + address + "," + month + ","
-				+ organization + "," + publisher + "," + note + "," + key;
+				+ organization + "," + publisher + "," + note + "," + key + "," + crossref;
 	}
 
 }

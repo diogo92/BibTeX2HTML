@@ -20,11 +20,12 @@ public class ArticleData extends BibData {
 		month = null;
 		note = null;
 		key = null;
+		crossref = null;
 	}
 
 	// Full Data Constructor
 	public ArticleData(String ck, String a, String t, String j, String y,
-			Integer v, Integer n, String pa, String mo, String no, String k) {
+			Integer v, Integer n, String pa, String mo, String no, String k, String _crossref) {
 		citationKey = ck;
 		author = a;
 		title = t;
@@ -36,6 +37,7 @@ public class ArticleData extends BibData {
 		month = mo;
 		note = no;
 		key = k;
+		crossref = _crossref;
 	}
 
 	// Gets for FreeMarker HTML Parse
@@ -78,10 +80,14 @@ public class ArticleData extends BibData {
 	public String getKey() {
 		return key;
 	}
+	
+	public String getCrossRef(){
+		return crossref;
+	}
 
 	public String toString() {
 		return super.toString() + "," + author + "," + title + "," + journal
 				+ "," + year + "," + volume + "," + number + "," + pages + ","
-				+ month + "," + note + "," + key;
+				+ month + "," + note + "," + key + "," + crossref;
 	}
 }

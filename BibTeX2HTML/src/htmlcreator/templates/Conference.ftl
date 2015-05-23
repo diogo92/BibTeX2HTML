@@ -39,6 +39,9 @@
 			<#if ConferenceData.key??>
 				<li><strong>Key:</strong> ${ConferenceData.key}</li>
 			</#if>
+			<#if ConferenceData.crossref??>
+				<li><strong>Crossref:</strong> ${ConferenceData.crossref}</li>
+			</#if>
 		</ul>
 	</div>
 </#list>

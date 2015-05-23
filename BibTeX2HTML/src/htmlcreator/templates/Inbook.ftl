@@ -35,6 +35,9 @@
 			<#if InbookData.key??>
 				<li><strong>Key:</strong> ${InbookData.key}</li>
 			</#if>
+			<#if InbookData.crossref??>
+				<li><strong>crossref:</strong> ${InbookData.crossref}</li>
+			</#if>
 		</ul>
 	</div>
 </#list>

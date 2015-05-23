@@ -31,6 +31,9 @@
 			<#if ProceedingsData.key??>
 				<li><strong>Key:</strong> ${ProceedingsData.key}</li>
 			</#if>
+			<#if ProceedingsData.crossref??>
+				<li><strong>Crossref:</strong> ${ProceedingsData.crossref}</li>
+			</#if>
 		</ul>
 	</div>
 </#list>

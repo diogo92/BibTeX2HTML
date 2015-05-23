@@ -18,12 +18,13 @@ public class ManualData extends BibData {
 		year = null;
 		note = null;
 		key = null;
+		crossref = null;
 	}
 
 	// Optional data constructor
 	public ManualData(String ck, String _title, String _author,
 			String _organization, String _address, String _edition,
-			String _month, String _year, String _note, String _key) {
+			String _month, String _year, String _note, String _key, String _crossref) {
 		citationKey = ck;
 		title = _title;
 		author = _author;
@@ -34,6 +35,7 @@ public class ManualData extends BibData {
 		year = _year;
 		note = _note;
 		key = _key;
+		crossref = _crossref;
 	}
 
 	// Gets for FreeMarker HTML Parse
@@ -72,10 +74,14 @@ public class ManualData extends BibData {
 	public String getKey() {
 		return key;
 	}
+	
+	public String getCrossRef(){
+		return crossref;
+	}
 
 	public String toString() {
 		return super.toString() + "," + title + "," + author + ","
 				+ organization + "," + address + "," + edition + "," + month
-				+ "," + year + "," + note + "," + key;
+				+ "," + year + "," + note + "," + key + "," + crossref;
 	}
 }

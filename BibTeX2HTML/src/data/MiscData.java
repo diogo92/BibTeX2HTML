@@ -9,7 +9,7 @@ public class MiscData extends BibData {
 	// Optional data constructor
 	public MiscData(String ck, String _author, String _title,
 			String _howpublished, String _month, String _year, String _note,
-			String _key) {
+			String _key, String _crossref) {
 		citationKey = ck;
 		author = _author;
 		title = _title;
@@ -18,6 +18,7 @@ public class MiscData extends BibData {
 		year = _year;
 		note = _note;
 		key = _key;
+		crossref = _crossref;
 	}
 
 	// Gets for FreeMarker HTML Parse
@@ -48,10 +49,14 @@ public class MiscData extends BibData {
 	public String getKey() {
 		return key;
 	}
+	
+	public String getCrossRef(){
+		return crossref;
+	}
 
 	public String toString() {
 		return super.toString() + "," + author + "," + title + ","
 				+ howpublished + "," + month + "," + year + "," + note + ","
-				+ key;
+				+ key + "," + crossref;
 	}
 }

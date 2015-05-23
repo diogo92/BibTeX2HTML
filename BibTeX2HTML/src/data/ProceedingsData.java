@@ -21,13 +21,14 @@ public class ProceedingsData extends BibData {
 		publisher = null;
 		note = null;
 		key = null;
+		crossref = null;
 	}
 
 	// optional data constructor
 	public ProceedingsData(String ck, String _title, String _year,
 			String _editor, Integer _volume, String _series, String _address,
 			String _month, String _organization, String _publisher,
-			String _note, String _key) {
+			String _note, String _key, String _crossref) {
 		citationKey = ck;
 		title = _title;
 		year = _year;
@@ -40,6 +41,7 @@ public class ProceedingsData extends BibData {
 		publisher = _publisher;
 		note = _note;
 		key = _key;
+		crossref = _crossref;
 	}
 
 	// Gets for FreeMarker HTML Parse
@@ -87,10 +89,14 @@ public class ProceedingsData extends BibData {
 	public String getKey() {
 		return key;
 	}
+	
+	public String getCrossRef(){
+		return crossref;
+	}
 
 	public String toString() {
 		return super.toString() + "," + title + "," + year + "," + editor + ","
 				+ volume + "," + series + "," + address + "," + month + ","
-				+ organization + "," + publisher + "," + note + "," + key;
+				+ organization + "," + publisher + "," + note + "," + key + "," + crossref;
 	}
 }

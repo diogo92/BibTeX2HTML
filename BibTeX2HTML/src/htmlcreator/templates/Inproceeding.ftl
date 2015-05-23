@@ -36,6 +36,9 @@
 			<#if InproceedingsData.key??>
 				<li><strong>Key:</strong> ${InproceedingsData.key}</li>
 			</#if>
+			<#if InproceedingsData.crossref??>
+				<li><strong>Crossref:</strong> ${InproceedingsData.crossref}</li>
+			</#if>
 		</ul>
 	</div>
 </#list>

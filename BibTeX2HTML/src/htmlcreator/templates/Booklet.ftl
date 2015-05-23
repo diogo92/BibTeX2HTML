@@ -24,6 +24,9 @@
 			<#if BookletData.key??>
 				<li><strong>Key:</strong> ${BookletData.key}</li>
 			</#if>
+			<#if BookletData.crossref??>
+				<li><strong>Crossref:</strong> ${BookletData.crossref}</li>
+			</#if>
 		</ul>
 	</div>
 </#list>

@@ -27,6 +27,9 @@
 			<#if ManualData.key??>
 				<li><strong>Key:</strong> ${ManualData.key}</li>
 			</#if>
+			<#if ManualData.crossref??>
+				<li><strong>Crossref:</strong> ${ManualData.crossref}</li>
+			</#if>
 		</ul>
 	</div>
 </#list>

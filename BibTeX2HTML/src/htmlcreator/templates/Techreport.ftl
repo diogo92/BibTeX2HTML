@@ -24,6 +24,9 @@
 			<#if TechreportData.key??>
 				<li><strong>Key:</strong> ${TechreportData.key}</li>
 			</#if>
+			<#if TechreportData.crossref??>
+				<li><strong>Crossref:</strong> ${TechreportData.crossref}</li>
+			</#if>
 		</ul>
 	</div>
 </#list>

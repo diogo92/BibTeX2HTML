@@ -21,6 +21,9 @@
 			<#if PhdthesisData.key??>
 				<li><strong>Key:</strong> ${PhdthesisData.key}</li>
 			</#if>
+			<#if PhdthesisData.crossref??>
+				<li><strong>Crossref:</strong> ${PhdthesisData.crossref}</li>
+			</#if>
 		</ul>
 	</div>
 </#list>

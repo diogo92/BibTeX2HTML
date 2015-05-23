@@ -24,6 +24,7 @@ public class ConferenceData extends BibData {
 		publisher = null;
 		note = null;
 		key = null;
+		crossref = null;
 		
 	}
 
@@ -31,7 +32,7 @@ public class ConferenceData extends BibData {
 
 	public ConferenceData(String ck, String au, String ti, String bt, String ye,
 			String ed, Integer vol, Integer num, String ser, String pag,
-			String addr, String mon, String org, String pub, String no, String _key) {
+			String addr, String mon, String org, String pub, String no, String _key, String _crossref) {
 		citationKey = ck;
 		author = au;
 		title = ti;
@@ -48,6 +49,7 @@ public class ConferenceData extends BibData {
 		publisher = pub;
 		note = no;
 		key = _key;
+		crossref = _crossref;
 	}
 	
 	// Gets for FreeMarker HTML Parse
@@ -111,7 +113,10 @@ public class ConferenceData extends BibData {
 			return key;
 		}
 		
-		
+		public String getCrossRef(){
+			return crossref;
+		}
+
 		public String toString(){
 			return super.toString() 
 					+ "," + author
@@ -128,6 +133,7 @@ public class ConferenceData extends BibData {
 					+ "," + organization
 					+ "," + publisher
 					+ "," + note
-					+ "," + key;
+					+ "," + key
+					+ "," + crossref;
 		}
 }

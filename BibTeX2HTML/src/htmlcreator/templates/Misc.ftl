@@ -23,6 +23,9 @@
 			<#if MiscData.key??>
 				<li><strong>Key:</strong> ${MiscData.key}</li>
 			</#if>
+			<#if MiscData.crossref??>
+				<li><strong>Crossref:</strong> ${MiscData.crossref}</li>
+			</#if>
 		</ul>
 	</div>
 </#list>

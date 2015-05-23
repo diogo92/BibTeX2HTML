@@ -20,12 +20,13 @@ public class PhdthesisData extends BibData {
 		month = null;
 		note = null;
 		key = null;
+		crossref = null;
 	}
 
 	// optional data constructor
 	public PhdthesisData(String ck, String _author, String _title,
 			String _school, String _year, String _type, String _address,
-			String _month, String _note, String _key) {
+			String _month, String _note, String _key, String _crossref) {
 		citationKey = ck;
 		author = _author;
 		title = _title;
@@ -36,6 +37,7 @@ public class PhdthesisData extends BibData {
 		month = _month;
 		note = _note;
 		key = _key;
+		crossref = _crossref;
 	}
 
 	// Gets for FreeMarker HTML Parse
@@ -74,10 +76,14 @@ public class PhdthesisData extends BibData {
 	public String getKey() {
 		return key;
 	}
+	
+	public String getCrossRef(){
+		return crossref;
+	}
 
 	public String toString() {
 		return super.toString() + "," + author + "," + title + "," + school
 				+ "," + year + "," + type + "," + address + "," + month + ","
-				+ note + "," + key;
+				+ note + "," + key + "," + crossref;
 	}
 }

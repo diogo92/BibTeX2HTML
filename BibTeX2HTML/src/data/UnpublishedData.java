@@ -17,11 +17,12 @@ public class UnpublishedData extends BibData {
 		month = null;
 		year = null;
 		key = null;
+		crossref = null;
 	}
 
 	// optional data constructor
 	public UnpublishedData(String ck, String _author, String _title,
-			String _note, String _month, String _year, String _key) {
+			String _note, String _month, String _year, String _key, String _crossref) {
 		citationKey = ck;
 		author = _author;
 		title = _title;
@@ -29,6 +30,7 @@ public class UnpublishedData extends BibData {
 		month = _month;
 		year = _year;
 		key = _key;
+		crossref = _crossref;
 	}
 
 	// Gets for FreeMarker HTML Parse
@@ -56,8 +58,12 @@ public class UnpublishedData extends BibData {
 		return key;
 	}
 
+	public String getCrossRef(){
+		return crossref;
+	}
+	
 	public String toString() {
 		return super.toString() + "," + author + "," + title + "," + note + ","
-				+ month + "," + year + "," + key;
+				+ month + "," + year + "," + key + "," + crossref;
 	}
 }

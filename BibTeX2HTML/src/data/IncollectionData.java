@@ -27,6 +27,7 @@ public class IncollectionData extends BibData {
 		month = null;
 		note = null;
 		key = null;
+		crossref = null;
 	}
 
 	// Full Data Constructor
@@ -34,7 +35,7 @@ public class IncollectionData extends BibData {
 			String _booktitle, String _publisher, String _year, String _editor,
 			Integer _volume, String _series, String _type, Integer _chapter,
 			String _pages, String _address, String _edition, String _month,
-			String _note, String _key) {
+			String _note, String _key, String _crossref) {
 		citationKey = ck;
 		author = _author;
 		title = _title;
@@ -52,6 +53,7 @@ public class IncollectionData extends BibData {
 		month = _month;
 		note = _note;
 		key = _key;
+		crossref = _crossref;
 	}
 
 	// Gets for FreeMarker HTML Parse
@@ -118,12 +120,16 @@ public class IncollectionData extends BibData {
 	public String getKey() {
 		return key;
 	}
+	
+	public String getCrossRef(){
+		return crossref;
+	}
 
 	public String toString() {
 		return super.toString() + "," + author + "," + title + "," + booktitle
 				+ "," + publisher + "," + year + "," + editor + "," + volume
 				+ "," + series + "," + type + "," + chapter + "," + pages + ","
 				+ address + "," + edition + "," + month + "," + note + ","
-				+ key;
+				+ key + "," + crossref;
 	}
 }

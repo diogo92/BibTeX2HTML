@@ -22,12 +22,13 @@ public class BookData extends BibData {
 		month = null;
 		note = null;
 		key = null;
+		crossref = null;
 	}
 
 	// Full Data Constructor
 	public BookData(String ck, String a, String t, String p, String y,
 			Integer v, Integer n, String ed, String ser, String ad, String mo,
-			String no, String k) {
+			String no, String k, String _crossref) {
 		citationKey = ck;
 		author = a;
 		title = t;
@@ -41,6 +42,7 @@ public class BookData extends BibData {
 		month = mo;
 		note = no;
 		key = k;
+		crossref = _crossref;
 	}
 
 	// Gets for FreeMarker HTML Parse
@@ -90,12 +92,16 @@ public class BookData extends BibData {
 
 	public String getKey() {
 		return key;
+	}	
+
+	public String getCrossRef(){
+		return crossref;
 	}
 
 	public String toString() {
 		return super.toString() + "," + author + "," + title + "," + publisher
 				+ "," + year + "," + volume + "," + number + "," + series + ","
 				+ edition + "," + address + "," + month + "," + note + ","
-				+ key;
+				+ key + "," + crossref;
 	}
 }

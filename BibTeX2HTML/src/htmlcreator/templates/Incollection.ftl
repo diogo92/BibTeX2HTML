@@ -40,6 +40,9 @@
 			<#if IncollectionData.key??>
 				<li><strong>Key:</strong> ${IncollectionData.key}</li>
 			</#if>
+			<#if IncollectionData.crossref??>
+				<li><strong>Crossref:</strong> ${IncollectionData.crossref}</li>
+			</#if>
 		</ul>
 	</div>
 </#list>

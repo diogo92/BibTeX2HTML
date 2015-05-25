@@ -7,6 +7,8 @@ public class BibData {
 
 	public String address;
 	public String author;
+	public String authorFirstName;
+	public String authorLastName;
 	public String annote;
 	public String booktitle;
 	public Integer chapter;
@@ -74,6 +76,22 @@ public class BibData {
 
 	public String toString() {
 		return citationKey;
+	}
+	
+	public boolean splitAuthorName(){
+		boolean res = false;
+		if(author.contains(",")){
+			String [] split = author.split(",");
+			if(split.length > 2){
+				throw new IllegalArgumentException("Author name \"" + author + " \" has more divisions than it should");
+			}
+			else {
+				authorLastName = split[0];
+				authorFirstName = split[1];
+				res = true;
+			}
+		}
+		return res;
 	}
 	
 	public void removeQuotes(){

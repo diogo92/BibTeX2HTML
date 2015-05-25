@@ -116,7 +116,7 @@ public class InproceedingsData extends BibData {
 	}
 	
 
-	public String getCrossRef(){
+	public String getCrossref(){
 		return crossref;
 	}
 

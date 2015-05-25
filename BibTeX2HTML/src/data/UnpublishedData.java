@@ -58,7 +58,7 @@ public class UnpublishedData extends BibData {
 		return key;
 	}
 
-	public String getCrossRef(){
+	public String getCrossref(){
 		return crossref;
 	}
 	

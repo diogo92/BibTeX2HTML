@@ -8,6 +8,6 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="BibTeX2HTML/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_25/lib/freemarker.jar"/>
+	<classpathentry kind="lib" path="freemarker.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

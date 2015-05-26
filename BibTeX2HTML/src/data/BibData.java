@@ -1,5 +1,6 @@
 package data;
 import utils.Utilities;
+import jabRef.BibtexPurify;
 public class BibData {
 	protected static String data_type;
 
@@ -182,6 +183,12 @@ public class BibData {
 		if(title != null){
 			title = Utilities.removeCharAt(title, 0);
 			title = Utilities.removeCharAt(title, title.length()-1);
+		}
+	}
+	
+	void specialCharacters(String s){
+		if(s!=null){
+			s=BibtexPurify.purify(s, null);
 		}
 	}
 }

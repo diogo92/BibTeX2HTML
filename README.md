@@ -13,3 +13,4 @@ A tool to parse bibtex files and output the bibliographical entries in HTML
    *  [Example 2](http://www.math.duke.edu/computing/tex/templates/database.bib)
 *  [FreeMarker](http://freemarker.org/)
 *  [FreeMarker Programmer's Guide ](http://freemarker.org/docs/pgui.html)
+*  [Citation Styles (APA, Chicago, MLA, AMA, Turabian)](http://www2.liu.edu/cwis/cwp/library/workshop/citation.htm)

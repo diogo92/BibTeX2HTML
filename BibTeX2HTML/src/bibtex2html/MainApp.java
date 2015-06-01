@@ -34,7 +34,7 @@ public class MainApp extends Application {
 		}
 		
 		((ImageView)layout.lookup("#logo")).setImage(new Image(MainApp.class.getResource("view/Logo.png").toExternalForm()));
-		System.out.println(MainApp.class.getResource("view/Logo.png").toExternalForm());
+
 		Scene scene = new Scene(layout);
 		primaryStage.setScene(scene);
 		primaryStage.show();

@@ -5,6 +5,8 @@ import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -31,6 +33,8 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 		
+		((ImageView)layout.lookup("#logo")).setImage(new Image(MainApp.class.getResource("view/Logo.png").toExternalForm()));
+		System.out.println(MainApp.class.getResource("view/Logo.png").toExternalForm());
 		Scene scene = new Scene(layout);
 		primaryStage.setScene(scene);
 		primaryStage.show();

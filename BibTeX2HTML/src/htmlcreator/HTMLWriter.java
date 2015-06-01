@@ -101,7 +101,7 @@ public class HTMLWriter {
 		// TODO: Multi-template User Input Options
 
 		// Chosen Template
-		Template currentTemplate = cfg.getTemplate("Listing.ftl");
+		Template currentTemplate = cfg.getTemplate("ListingStandard.ftl");
 
 		// -- DEBUG --
 

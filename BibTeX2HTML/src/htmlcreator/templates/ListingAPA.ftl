@@ -3,85 +3,85 @@
 <@Base.page>
 	<h3>Articles</h3>
 	
-	<#include "article.ftl">
+	<#include "APA/article.ftl">
 
 	<hr>
 	
 	<h3>Books</h3>
 	
-	<#include "book.ftl">
+	<#include "APA/book.ftl">
 
 	<hr>
 	
 	<h3>Booklets</h3>
 	
-	<#include "booklet.ftl">
+	<#include "APA/booklet.ftl">
 
 	<hr>
 	
 	<h3>Conferences</h3>
 	
-	<#include "conference.ftl">
+	<#include "APA/conference.ftl">
 
 	<hr>
 	
 	<h3>Inbooks</h3>
 	
-	<#include "inbook.ftl">
+	<#include "APA/inbook.ftl">
 
 	<hr>
 	
 	<h3>Incollections</h3>
 	
-	<#include "incollection.ftl">
+	<#include "APA/incollection.ftl">
 
 	<hr>
 	
 	<h3>Inproceedings</h3>
 		
-	<#include "inproceeding.ftl">
+	<#include "APA/inproceeding.ftl">
 
 	<hr>
 	
 	<h3>Manuals</h3>
 	
-	<#include "manual.ftl">
+	<#include "APA/manual.ftl">
 
 	<hr>
 	
 	<h3>Masters Thesis</h3>
 	
-	<#include "mastersthesis.ftl">
+	<#include "APA/mastersthesis.ftl">
 
 	<hr>
 	
 	<h3>Miscellaneous</h3>
 	
-	<#include "misc.ftl">
+	<#include "APA/misc.ftl">
 
 	<hr>
 	
 	<h3>Phd Thesis</h3>
 	
-	<#include "phdthesis.ftl">
+	<#include "APA/phdthesis.ftl">
 
 	<hr>
 	
 	<h3>Proceedings</h3>
 	
-	<#include "proceedings.ftl">
+	<#include "APA/proceedings.ftl">
 
 	<hr>
 	
 	<h3>Techreports</h3>
 	
-	<#include "techreport.ftl">
+	<#include "APA/techreport.ftl">
 
 	<hr>
 	
 	<h3>Unpublisheds</h3>
 	
-	<#include "unpublished.ftl">
+	<#include "APA/unpublished.ftl">
 
 	<hr>
 

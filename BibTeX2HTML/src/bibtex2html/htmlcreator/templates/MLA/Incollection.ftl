@@ -2,47 +2,50 @@
 	<div>
 		<ul>
 			<li><strong>Key:</strong> ${IncollectionData.citationKey}</li>
-			<li><strong>Author:</strong> ${IncollectionData.author}</li>
-			<li><strong>Title:</strong> ${IncollectionData.title}</li>
-			<li><strong>Book Title:</strong> ${IncollectionData.booktitle}</li>
-			<li><strong>Publisher:</strong> ${IncollectionData.publisher}</li>
-			<li><strong>Year:</strong> ${IncollectionData.year}</li>
+			<li>${IncollectionData.author}
+				
+				${IncollectionData.booktitle}
+				 "${IncollectionData.title}"
+				 <#if IncollectionData.volume??>
+				 <#if IncollectionData.chapter??>
+				(${IncollectionData.chapter})
+				</#if>
+				,vol. ${IncollectionData.volume}
+				</#if>
+				
+				<#if IncollectionData.address??>
+				,${IncollectionData.address}
+				</#if>
+				<i>,${IncollectionData.publisher}</i>
+				(${IncollectionData.year}
+				<#if IncollectionData.month??>
+				,${IncollectionData.month}
+				</#if>).
 			<#if IncollectionData.editor??>
-				<li><strong>Editor:</strong> ${IncollectionData.editor}</li>
-			</#if>
-			<#if IncollectionData.volume??>
-				<li><strong>Volume:</strong> ${IncollectionData.volume}</li>
+				,${IncollectionData.editor}
 			</#if>
 			<#if IncollectionData.series??>
-				<li><strong>Series:</strong> ${IncollectionData.series}</li>
+				,${IncollectionData.series} series
 			</#if>
 			<#if IncollectionData.type??>
-				<li><strong>Type:</strong> ${IncollectionData.type}</li>
+				<,${IncollectionData.type}
 			</#if>
-			<#if IncollectionData.chapter??>
-				<li><strong>Chapter:</strong> ${IncollectionData.chapter}</li>
-			</#if>
-			<#if IncollectionData.pages??>
-				<li><strong>Pages:</strong> ${IncollectionData.pages}</li>
-			</#if>
-			<#if IncollectionData.address??>
-				<li><strong>Address:</strong> ${IncollectionData.address}</li>
-			</#if>
+			
 			<#if IncollectionData.edition??>
-				<li><strong>Edition:</strong> ${IncollectionData.edition}</li>
-			</#if>
-			<#if IncollectionData.month??>
-				<li><strong>Month:</strong> ${IncollectionData.month}</li>
+				,${IncollectionData.edition} edition,
 			</#if>
 			<#if IncollectionData.note??>
-				<li><strong>Note:</strong> ${IncollectionData.note}</li>
+				,${IncollectionData.note}
 			</#if>
 			<#if IncollectionData.key??>
-				<li><strong>Key:</strong> ${IncollectionData.key}</li>
+				,${IncollectionData.key}
 			</#if>
 			<#if IncollectionData.crossref??>
-				<li><strong>Crossref:</strong> ${IncollectionData.crossref}</li>
+				,${IncollectionData.crossref}
 			</#if>
+			<#if IncollectionData.pages??>
+				,p. ${IncollectionData.pages}
+				</#if></li>
 		</ul>
 	</div>
 </#list>

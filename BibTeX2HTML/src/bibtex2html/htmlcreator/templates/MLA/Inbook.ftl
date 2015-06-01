@@ -2,42 +2,45 @@
 	<div>
 		<ul>
 			<li><strong>Key:</strong> ${InbookData.citationKey}</li>
-			<li><strong>Author:</strong> ${InbookData.author}</li>
-			<li><strong>Title:</strong> ${InbookData.title}</li>
-			<li><strong>Chapter:</strong> ${InbookData.chapter}</li>
-			<#if InbookData.pages??>
-				<li><strong>Pages:</strong> ${InbookData.pages}</li>
-			</#if>
-			<li><strong>Publisher:</strong> ${InbookData.publisher}</li>
-			<li><strong>Year:</strong> ${InbookData.year}</li>
+			<li>${InbookData.author} 
+			
+			"${InbookData.title}"
 			<#if InbookData.volume??>
-				<li><strong>Volume:</strong> ${InbookData.volume}</li>
+				,vol. ${InbookData.volume}
 			</#if>
+			
+			<#if InbookData.address??>
+				,${InbookData.address}
+			</#if>
+			 <i>,${InbookData.publisher}</i>
+			 (${InbookData.year}
+			<#if InbookData.month??>
+				,${InbookData.month}
+			</#if>). 
+			,chapter ${InbookData.chapter}
 			<#if InbookData.series??>
-				<li><strong>Series:</strong> ${InbookData.series}</li>
+				,${InbookData.series}
 			</#if>
 
 			<#if InbookData.type??>
-				<li><strong>Type:</strong> ${InbookData.type}</li>
+				,${InbookData.type}
 			</#if>
-			<#if InbookData.address??>
-				<li><strong>Address:</strong> ${InbookData.address}</li>
-			</#if>
+			
 			<#if InbookData.edition??>
-				<li><strong>Edition:</strong> ${InbookData.edition}</li>
-			</#if>
-			<#if InbookData.month??>
-				<li><strong>Month:</strong> ${InbookData.month}</li>
+				,${InbookData.edition} edition
 			</#if>
 			<#if InbookData.note??>
-				<li><strong>Note:</strong> ${InbookData.note}</li>
+				,${InbookData.note}
 			</#if>
 			<#if InbookData.key??>
-				<li><strong>Key:</strong> ${InbookData.key}</li>
+				,${InbookData.key}
 			</#if>
 			<#if InbookData.crossref??>
-				<li><strong>crossref:</strong> ${InbookData.crossref}</li>
+				,${InbookData.crossref}
 			</#if>
+			<#if InbookData.pages??>
+				,p. ${InbookData.pages}
+			</#if></li>
 		</ul>
 	</div>
 </#list>

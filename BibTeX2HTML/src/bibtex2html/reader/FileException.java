@@ -1,4 +1,4 @@
-package reader;
+package bibtex2html.reader;
 
 public class FileException extends Exception {
 

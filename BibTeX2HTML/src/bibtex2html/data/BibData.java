@@ -1,5 +1,5 @@
-package data;
-import utils.Utilities;
+package bibtex2html.data;
+import bibtex2html.utils.Utilities;
 import com.github.tomtung.latex2unicode.DefaultLatexToUnicodeConverter;
 public class BibData {
 	protected static String data_type;

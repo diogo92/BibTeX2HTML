@@ -1,4 +1,4 @@
-package utils;
+package bibtex2html.utils;
 
 // Controls the "PAGES_V" token to be at correct values
 public class PagesControl {

@@ -1,21 +1,21 @@
-package data;
+package bibtex2html.data;
 
-public class TechreportData extends BibData {
-	// standard constructor
-	public TechreportData() {
+public class PhdthesisData extends BibData {
+
+	// standard construct
+	public PhdthesisData() {
 		super();
 	}
 
 	// required data constructor
-	public TechreportData(String ck, String _author, String _title,
-			String _institution, String _year) {
+	public PhdthesisData(String ck, String _author, String _title,
+			String _school, String _year) {
 		citationKey = ck;
 		author = _author;
 		title = _title;
-		institution = _institution;
+		school = _school;
 		year = _year;
 		type = null;
-		number = null;
 		address = null;
 		month = null;
 		note = null;
@@ -24,16 +24,15 @@ public class TechreportData extends BibData {
 	}
 
 	// optional data constructor
-	public TechreportData(String ck, String _author, String _title,
-			String _institution, String _year, String _type, Integer _number,
-			String _address, String _month, String _note, String _key, String _crossref) {
+	public PhdthesisData(String ck, String _author, String _title,
+			String _school, String _year, String _type, String _address,
+			String _month, String _note, String _key, String _crossref) {
 		citationKey = ck;
 		author = _author;
 		title = _title;
-		institution = _institution;
+		school = _school;
 		year = _year;
 		type = _type;
-		number = _number;
 		address = _address;
 		month = _month;
 		note = _note;
@@ -50,8 +49,8 @@ public class TechreportData extends BibData {
 		return title;
 	}
 
-	public String getInstitution() {
-		return institution;
+	public String getSchool() {
+		return school;
 	}
 
 	public String getYear() {
@@ -60,10 +59,6 @@ public class TechreportData extends BibData {
 
 	public String getType() {
 		return type;
-	}
-
-	public Integer getNumber() {
-		return number;
 	}
 
 	public String getAddress() {
@@ -87,8 +82,8 @@ public class TechreportData extends BibData {
 	}
 
 	public String toString() {
-		return super.toString() + "," + author + "," + title + ","
-				+ institution + "," + year + "," + type + "," + number + ","
-				+ address + "," + month + "," + note + "," + key + "," + crossref;
+		return super.toString() + "," + author + "," + title + "," + school
+				+ "," + year + "," + type + "," + address + "," + month + ","
+				+ note + "," + key + "," + crossref;
 	}
 }

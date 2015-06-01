@@ -1,4 +1,4 @@
-package data;
+package bibtex2html.data;
 
 public class MiscData extends BibData {
 	// standard constructor

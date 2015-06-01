@@ -1,7 +1,7 @@
 /**
  * JJTree template file created by SF JavaCC plugin 1.5.28+ wizard for JavaCC 1.5.0+
- */options{  static = true;  IGNORE_CASE = true;  UNICODE_INPUT = true;  FORCE_LA_CHECK = true;  lookahead = 10;}PARSER_BEGIN(BibParser)package parser;import java.util.Vector;import java.util.Scanner;import java.util.Collections;import java.util.Enumeration;import java.util.Hashtable;import java.util.Stack;import data.*;import reader.FileReader;import utils.*;
-import htmlcreator.*;public class BibParser{  public static Hashtable symbtab = new Hashtable();
+ */options{  static = true;  IGNORE_CASE = true;  UNICODE_INPUT = true;  FORCE_LA_CHECK = true;  lookahead = 10;}PARSER_BEGIN(BibParser)package bibtex2html.parser;import java.util.Vector;import java.util.Scanner;import java.util.Collections;import java.util.Enumeration;import java.util.Hashtable;import java.util.Stack;import bibtex2html.data.*;import bibtex2html.reader.FileReader;import bibtex2html.utils.*;
+import bibtex2html.htmlcreator.*;public class BibParser{  public static Hashtable symbtab = new Hashtable();
 
   public static HTMLWriter HTMLout;
 

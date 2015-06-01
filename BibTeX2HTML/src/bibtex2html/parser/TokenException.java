@@ -1,4 +1,4 @@
-package parser;
+package bibtex2html.parser;
 
 public class TokenException extends Exception {
     /**

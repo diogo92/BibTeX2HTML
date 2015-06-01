@@ -1,4 +1,4 @@
-package data;
+package bibtex2html.data;
 
 public class UnpublishedData extends BibData {
 

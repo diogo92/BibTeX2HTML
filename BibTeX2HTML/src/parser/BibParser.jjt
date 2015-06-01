@@ -92,7 +92,7 @@ import htmlcreator.*;public class BibParser{  public static Hashtable symbta
     if(type.equals("techreport"))
     {
       TechreportData in = new TechreportData(tmp_data.getCitationKey(), tmp_data.author, tmp_data.title, tmp_data.institution, tmp_data.year, tmp_data.type, tmp_data.number, tmp_data.address, tmp_data.month, tmp_data.note, tmp_data.key, tmp_data.crossref);
-      // -- DEBUG -- //System.out.println(in.toString());
+      // -- DEBUG --System.out.println(in.toString());
       HTMLout.TechreportList.add(in);
       return;    }
     if(type.equals("unpublished"))
@@ -229,7 +229,8 @@ import htmlcreator.*;public class BibParser{  public static Hashtable symbta
     // Data control initialization
     count_data = 0;
     err_data = false;
-    // ---    String temp;    SymbolTable temp2;    System.out.println("File to be parsed:");    System.out.print(">> ");    Scanner sc = new Scanner(System.in);    String file = sc.nextLine();    try    {      new BibParser(FileReader.getFile(file));      SimpleNode n = BibParser.Start();      n.dump(">>  ");      BibParser.CheckTree(n);      Enumeration t = symbtab.keys();      while (t.hasMoreElements() == true)      {        temp = (String) t.nextElement();        temp2 = (SymbolTable) symbtab.get(temp);        //  System.out.println(temp);
+    // ---    String temp;    SymbolTable temp2;    System.out.println("File to be parsed:");    System.out.print(">> ");    Scanner sc = new Scanner(System.in);    String file = sc.nextLine();    try    {      new BibParser(FileReader.getFile(file));      SimpleNode n = BibParser.Start();      n.dump(">>  ");      BibParser.CheckTree(n);      Enumeration t = symbtab.keys();      while (t.hasMoreElements() == true)      {        temp = (String) t.nextElement();        temp2 = (SymbolTable) symbtab.get(temp);
+                //  System.out.println(temp);
         /*   if(temp2.type != null)
         	System.out.println(" type = " + temp2.type);
         if(temp2.value != null)
@@ -241,12 +242,10 @@ import htmlcreator.*;public class BibParser{  public static Hashtable symbta
     System.err.println(e.toString()); // print the error message
     Token t;    do    {      t = getNextToken();    }    while (t.kind != kind);  }}SimpleNode Start() :{}{  try  {    (Statement()) *    {      return jjtThis;    }  }  catch (ParseException e)  {
     err_data = true;    error_skipto(BibParserConstants.BRACKET_END);  }}void Statement() :{
-  // Insert previous read into intermediate structure only if it has no errors (in-case parser/syntax/semantic error skips)
-  if(count_data != 0 && !err_data)  {
-    setTypeData(tmp_data.getDataType());  }
+
   err_data = false;
-  tmp_data = new BibData();
   count_data++;
+  tmp_data = new BibData();
   String type;
 }{  try  {    Arroba() type = Type()
     {
@@ -254,6 +253,13 @@ import htmlcreator.*;public class BibParser{  public static Hashtable symbta
       tmp_data.setDataType(type);
     }
   	< BRACKET_START > Data() < BRACKET_END >
+  	{
+  	  // Insert previous read into intermediate structure only if it has no errors (in-case parser/syntax/semantic error skips)
+  		if(count_data != 0 && !err_data)
+  		{
+  		  setTypeData(tmp_data.getDataType());
+		}
+  	}
   }   catch (ParseException e)  {
     err_data = true;    error_skipto(BibParserConstants.BRACKET_END);  }}void Arroba() :{}{  try  {    < ARROBA >  }  catch (ParseException e)  {
     err_data = true;    error_skipto(BibParserConstants.BRACKET_END);  }}void Data() :{}{  try  {    Key() (Attribute() (Attribute()) *) ?  }  catch (ParseException e)  {

@@ -76,8 +76,7 @@ public class HTMLWriter {
 	}
 
 	// Creates HTML file output to file and console
-	public static void createHTML() throws Exception {
-		// public static void main(String args[]) throws Exception { -- DEBUG --
+	public static void createHTML(int OP) throws Exception {
 
 		// Set FreeMarker configuration -- Current Version: 2.3.22
 		Configuration cfg = new Configuration(new Version(2, 3, 22));
@@ -99,23 +98,29 @@ public class HTMLWriter {
 		// TODO: Multi-template User Input Options
 
 		// Chosen Template
-		Template currentTemplate = cfg.getTemplate("ListingStandard.ftl");
-
-		// -- DEBUG --
-
-		/*
-		 * ArticleList = new ArrayList<ArticleData>();
-		 * 
-		 * ArticleList.add(new ArticleData("chave", "Joao",
-		 * "Titulo Com Espacos", "Journal Com Espacos", 1993));
-		 * ArticleList.add(new ArticleData("chave", "Joao",
-		 * "Titulo Com Espacos", "Journal Com Espacos", 1993));
-		 * ArticleList.add(new ArticleData("chave", "Joao",
-		 * "Titulo Com Espacos", "Journal Com Espacos", 1993));
-		 * ArticleList.add(new ArticleData("chave", "Joao",
-		 * "Titulo Com Espacos", "Journal Com Espacos", 1993));
-		 */
-
+		Template currentTemplate;
+		
+		switch(OP){
+		case 1:
+			currentTemplate = cfg.getTemplate("ListingStandard.ftl");
+			break;
+		case 2:
+			currentTemplate = cfg.getTemplate("ListingAPA.ftl");
+			break;
+		case 3:
+			currentTemplate = cfg.getTemplate("ListingChicago.ftl");
+			break;
+		case 4:
+			currentTemplate = cfg.getTemplate("ListingMLA.ftl");
+			break;
+		case 5:
+			currentTemplate = cfg.getTemplate("ListingTurabian.ftl");
+			break;
+		default:
+			currentTemplate = cfg.getTemplate("ListingStandard.ftl");
+			break;
+		}
+		
 		// Insert Data into HTML Tree
 		input.put("ArticleList", ArticleList);
 

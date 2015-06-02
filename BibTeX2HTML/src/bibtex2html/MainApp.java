@@ -6,8 +6,7 @@ import bibtex2html.model.Options;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -20,9 +19,10 @@ public class MainApp extends Application {
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("BibText2HTML");
+		this.primaryStage.setResizable(false);
 		this.options = new Options();
-		
 		initLayout();
+		showMainView();
 	}
 	
 	public void initLayout(){
@@ -42,6 +42,20 @@ public class MainApp extends Application {
 		
 	}
 
+	public void showMainView() {
+        try {
+            // Load person overview.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/MainView.fxml"));
+            AnchorPane mainView = (AnchorPane) loader.load();
+            
+            layout.getChildren().add(mainView);
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+	
 	public static void main(String[] args) {
 		launch(args);
 	}

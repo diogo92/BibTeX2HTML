@@ -16,6 +16,8 @@ public class Options {
 	
 	public Options() {
 		this.template = Templates.Standard;
+		this.file = "";
+		this.outputFolder = "";
 	}
 
 }

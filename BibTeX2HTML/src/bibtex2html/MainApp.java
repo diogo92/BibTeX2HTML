@@ -2,10 +2,10 @@ package bibtex2html;
 
 import java.io.IOException;
 
-import bibtex2html.model.Options;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -13,14 +13,14 @@ import javafx.stage.Stage;
 public class MainApp extends Application {
 	private Stage primaryStage;
 	private VBox layout;
-	private Options options;
 	
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("BibText2HTML");
 		this.primaryStage.setResizable(false);
-		this.options = new Options();
+		this.primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("view/icon.png")));
+		
 		initLayout();
 		showMainView();
 	}

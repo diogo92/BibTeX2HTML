@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -8,34 +9,21 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bibtex2html.view.LayoutController">
   <children>
     <MenuBar prefHeight="0.0" prefWidth="640.0" VBox.vgrow="NEVER">
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
-            <MenuItem mnemonicParsing="false" text="Quit" />
+            <MenuItem mnemonicParsing="false" onAction="#onQuit" text="Quit" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
           <items>
-            <MenuItem mnemonicParsing="false" text="About BibTex2HTML" />
+            <MenuItem mnemonicParsing="false" onAction="#onAbout" text="About BibTex2HTML" />
           </items>
         </Menu>
       </menus>
     </MenuBar>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
-         <children>
-            <Button layoutX="295.0" layoutY="144.0" mnemonicParsing="false" text="Search" />
-            <TextField layoutX="80.0" layoutY="104.0" prefHeight="25.0" prefWidth="481.0" />
-            <TextField layoutX="80.0" layoutY="286.0" prefHeight="25.0" prefWidth="481.0" />
-            <Button layoutX="296.0" layoutY="317.0" mnemonicParsing="false" text="Search" />
-            <Text layoutX="264.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="File .bib to be parsed" wrappingWidth="113.90625" />
-            <Text layoutX="284.0" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Output folder" wrappingWidth="72.90625" />
-            <ChoiceBox layoutX="246.0" layoutY="214.0" prefWidth="150.0" />
-            <Text layoutX="274.0" layoutY="204.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Citation Template" wrappingWidth="93.90625" />
-            <ImageView id="logo" fitHeight="29.0" fitWidth="233.0" layoutX="204.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true" smooth="false" />
-         </children>
-    </AnchorPane>
   </children>
 </VBox>

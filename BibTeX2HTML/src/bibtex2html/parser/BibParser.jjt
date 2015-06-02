@@ -1,6 +1,7 @@
 /**
  * JJTree template file created by SF JavaCC plugin 1.5.28+ wizard for JavaCC 1.5.0+
- */options{  static = true;  IGNORE_CASE = true;  UNICODE_INPUT = true;  FORCE_LA_CHECK = true;  lookahead = 10;}PARSER_BEGIN(BibParser)package bibtex2html.parser;import java.util.Vector;import java.util.Scanner;import java.util.Collections;import java.util.Enumeration;import java.util.Hashtable;import java.util.Stack;import bibtex2html.data.*;import bibtex2html.reader.FileReader;import bibtex2html.utils.*;
+ */options{  static = true;  IGNORE_CASE = true;  UNICODE_INPUT = true;  FORCE_LA_CHECK = true;  lookahead = 10;}PARSER_BEGIN(BibParser)package bibtex2html.parser;import java.util.Vector;import java.util.Scanner;import java.util.Collections;import java.util.Enumeration;import java.util.Hashtable;import java.util.Stack;
+import java.io.InputStream;import bibtex2html.data.*;import bibtex2html.reader.FileReader;import bibtex2html.utils.*;
 import bibtex2html.htmlcreator.*;public class BibParser{  public static Hashtable symbtab = new Hashtable();
 
   public static HTMLWriter HTMLout;
@@ -15,6 +16,8 @@ import bibtex2html.htmlcreator.*;public class BibParser{  public static Hash
     public static Vector < Vector < Object >> tree;  public static Vector < String > keys;
 
   public static Stack < Object > stack;  public static boolean firstStack = true;  public static int currIndex = 0;
+
+  public static InputStream bibParser = null;
 
   // Sets the correct type in the data vector
   public static void setTypeData(String type)  {
@@ -230,7 +233,21 @@ import bibtex2html.htmlcreator.*;public class BibParser{  public static Hash
     count_data = 0;
     err_data = false;
     // ---
-    int template = 1; // template selector var    String temp;    SymbolTable temp2;    try    {      new BibParser(FileReader.getFile(file));      SimpleNode n = BibParser.Start();      n.dump(">>  ");      BibParser.CheckTree(n);      Enumeration t = symbtab.keys();      while (t.hasMoreElements() == true)      {        temp = (String) t.nextElement();        temp2 = (SymbolTable) symbtab.get(temp);
+    int template = 1; // template selector var    String temp;    SymbolTable temp2;    try    {      if(bibParser != null)      {
+        tree = new Vector < Vector < Object >> ();
+	    stack = new Stack < Object > ();
+	    keys = new Vector < String > ();
+	    HTMLout = new HTMLWriter(outputFolder);
+	    // Data control initialization
+	    count_data = 0;
+	    err_data = false;
+	    bibParser = FileReader.getFile(file);
+        BibParser.ReInit(bibParser);
+      }
+      else      {        bibParser = FileReader.getFile(file);
+        new BibParser(bibParser); 
+      }
+      SimpleNode n = BibParser.Start();      n.dump(">>  ");      BibParser.CheckTree(n);      Enumeration t = symbtab.keys();      while (t.hasMoreElements() == true)      {        temp = (String) t.nextElement();        temp2 = (SymbolTable) symbtab.get(temp);
                 //  System.out.println(temp);
         /*   if(temp2.type != null)
         	System.out.println(" type = " + temp2.type);

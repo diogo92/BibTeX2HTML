@@ -162,7 +162,6 @@ public class HTMLWriter {
 		 */
 
 		// Write output to File
-		System.out.println(HTMLWriter.OutputFolder);
 		Writer fileWriter = new FileWriter(new File(HTMLWriter.OutputFolder + "\\output.html"));
 		try {
 			currentTemplate.process(input, fileWriter);

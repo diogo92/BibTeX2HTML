@@ -1,6 +1,6 @@
 package bibtex2html.view;
 
-import javax.swing.plaf.metal.MetalIconFactory.FolderIcon16;
+import java.io.File;
 
 import bibtex2html.parser.BibParser;
 import javafx.fxml.FXML;
@@ -21,13 +21,19 @@ public class MainViewController extends AnchorPane {
     @FXML public void chooseFile() {
     	FileChooser fileChooser = new FileChooser();
     	fileChooser.setTitle("Choose .bib file to parse");
-    	file.setText(fileChooser.showOpenDialog(null).getAbsolutePath());
+    	File choosenFile = fileChooser.showOpenDialog(null);
+    	if(choosenFile != null){
+    		file.setText(choosenFile.getAbsolutePath());
+    	}
     }
     
     @FXML public void chooseOutputFolder(){
     	DirectoryChooser directoryChooser = new DirectoryChooser();
     	directoryChooser.setTitle("Choose the directory for the output");
-    	outputFolder.setText(directoryChooser.showDialog(null).getAbsolutePath());
+    	File choosenDir = directoryChooser.showDialog(null);
+    	if(choosenDir != null){
+    		outputFolder.setText(choosenDir.getAbsolutePath());
+    	}
     }
     
     @FXML public void run(){

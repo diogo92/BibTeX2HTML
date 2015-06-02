@@ -55,9 +55,15 @@ public class HTMLWriter {
 	// Set what to write on $UnpublishedData tags
 	public static List<UnpublishedData> UnpublishedList;
 
+	public static String OutputFolder;
+	
 	// Constructor
 	public HTMLWriter() {
-
+		this("");
+	}
+	
+	public HTMLWriter(String OutputFolder){
+		HTMLWriter.OutputFolder = OutputFolder;
 		ArticleList = new ArrayList<ArticleData>();
 		BookList = new ArrayList<BookData>();
 		BookletList = new ArrayList<BookletData>();
@@ -72,7 +78,6 @@ public class HTMLWriter {
 		ProceedingsList = new ArrayList<ProceedingsData>();
 		TechreportList = new ArrayList<TechreportData>();
 		UnpublishedList = new ArrayList<UnpublishedData>();
-
 	}
 
 	// Creates HTML file output to file and console
@@ -157,7 +162,8 @@ public class HTMLWriter {
 		 */
 
 		// Write output to File
-		Writer fileWriter = new FileWriter(new File("output.html"));
+		System.out.println(HTMLWriter.OutputFolder);
+		Writer fileWriter = new FileWriter(new File(HTMLWriter.OutputFolder + "\\output.html"));
 		try {
 			currentTemplate.process(input, fileWriter);
 		} finally {

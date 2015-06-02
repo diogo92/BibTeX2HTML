@@ -2,6 +2,7 @@ package bibtex2html.view;
 
 import javax.swing.plaf.metal.MetalIconFactory.FolderIcon16;
 
+import bibtex2html.parser.BibParser;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
@@ -27,6 +28,10 @@ public class MainViewController extends AnchorPane {
     	DirectoryChooser directoryChooser = new DirectoryChooser();
     	directoryChooser.setTitle("Choose the directory for the output");
     	outputFolder.setText(directoryChooser.showDialog(null).getAbsolutePath());
+    }
+    
+    @FXML public void run(){
+    	BibParser.start(this.file.getText(),this.outputFolder.getText());
     }
 
 }

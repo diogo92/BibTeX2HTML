@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.PrintStream;
 
 import bibtex2html.parser.BibParser;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
@@ -14,13 +15,15 @@ import javafx.stage.FileChooser;
 
 public class MainViewController extends AnchorPane {
 
-    @FXML ChoiceBox template;
+    @FXML ChoiceBox<String> template;
     @FXML TextField file;
     @FXML TextField outputFolder;
     @FXML TextArea log;
     
     
     public void initialize(){
+    	template.setItems(FXCollections.observableArrayList("Standard","APA", "Chicago", "MLA","Turabian"));
+    	template.getSelectionModel().select(0);
     	Console console = new Console(log);
         PrintStream printSt = new PrintStream(console, true);
         System.setOut(printSt);
@@ -46,7 +49,7 @@ public class MainViewController extends AnchorPane {
     }
     
     @FXML public void run(){
-    	BibParser.start(this.file.getText(),this.outputFolder.getText());
+    	BibParser.start(this.file.getText(),this.outputFolder.getText(),this.template.getSelectionModel().getSelectedIndex());
     }
 
 }

@@ -226,14 +226,14 @@ import bibtex2html.htmlcreator.*;public class BibParser{  public static Hash
     {
       tmp_data.year = value;
       return;
-    }  }  public static void start(String file,String outputFolder)  {    tree = new Vector < Vector < Object >> ();    stack = new Stack < Object > ();
+    }  }  public static void start(String file,String outputFolder,int templateToUse)  {    tree = new Vector < Vector < Object >> ();    stack = new Stack < Object > ();
     keys = new Vector < String > ();
     HTMLout = new HTMLWriter(outputFolder);
     // Data control initialization
     count_data = 0;
     err_data = false;
     // ---
-    int template = 1; // template selector var    String temp;    SymbolTable temp2;    try    {      if(bibParser != null)      {
+    int template = templateToUse; // template selector var    String temp;    SymbolTable temp2;    try    {      if(bibParser != null)      {
         tree = new Vector < Vector < Object >> ();
 	    stack = new Stack < Object > ();
 	    keys = new Vector < String > ();

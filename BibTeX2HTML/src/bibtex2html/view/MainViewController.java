@@ -1,6 +1,7 @@
 package bibtex2html.view;
 
 import java.io.File;
+import java.io.PrintStream;
 
 import bibtex2html.parser.BibParser;
 import javafx.fxml.FXML;
@@ -17,7 +18,15 @@ public class MainViewController extends AnchorPane {
     @FXML TextField file;
     @FXML TextField outputFolder;
     @FXML TextArea log;
-
+    
+    
+    public void initialize(){
+    	Console console = new Console(log);
+        PrintStream printSt = new PrintStream(console, true);
+        System.setOut(printSt);
+        System.setErr(printSt);
+    }
+    
     @FXML public void chooseFile() {
     	FileChooser fileChooser = new FileChooser();
     	fileChooser.setTitle("Choose .bib file to parse");

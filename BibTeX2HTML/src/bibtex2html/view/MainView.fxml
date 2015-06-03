@@ -64,7 +64,7 @@
             </HBox>
          </children>
       </VBox>
-      <Button layoutX="47.0" layoutY="228.0" mnemonicParsing="false" onAction="#run" prefHeight="30.0" prefWidth="52.0" text="Run" />
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="47.0" layoutY="228.0" mnemonicParsing="false" onAction="#run" prefHeight="30.0" prefWidth="52.0" text="Run" />
       <TextArea fx:id="log" editable="false" layoutX="156.0" layoutY="148.0" prefHeight="190.0" prefWidth="413.0" />
    </children>
 </AnchorPane>

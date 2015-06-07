@@ -2,21 +2,14 @@
 	<div>
 		<ul>
 			<li><strong>Key:</strong> ${UnpublishedData.citationKey}</li>
-			<li><strong>Author:</strong> ${UnpublishedData.author}</li>
-			<li><strong>Title:</strong> ${UnpublishedData.title}</li>
-			<li><strong>Note:</strong> ${UnpublishedData.note}</li>
-			<#if UnpublishedData.month??>
-				<li><strong>Month:</strong> ${UnpublishedData.month}</li>
-			</#if>
-			<#if UnpublishedData.year??>
-				<li><strong>Year:</strong> ${UnpublishedData.year}</li>
-			</#if>
-			<#if UnpublishedData.key??>
-				<li><strong>Key:</strong> ${UnpublishedData.key}</li>
-			</#if>
-			<#if UnpublishedData.crossref??>
-				<li><strong>Crossref:</strong> ${UnpublishedData.crossref}</li>
-			</#if>
+			<li>${UnpublishedData.author}
+				<#if UnpublishedData.year??> ${UnpublishedData.year}.</#if>
+				<#if UnpublishedData.month??>: ${UnpublishedData.month}.</#if>
+				${UnpublishedData.title}
+				${UnpublishedData.note}
+				<#if UnpublishedData.key??> ${UnpublishedData.key}.</#if>
+				<#if UnpublishedData.crossref??> ${UnpublishedData.crossref}.</#if>
+			</li>
 		</ul>
 	</div>
 </#list>
